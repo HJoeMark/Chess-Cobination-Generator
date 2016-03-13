@@ -8,5 +8,6 @@ namespace Common
 {
     public static class TableInformations
     {
+
     }
 }
