@@ -30,7 +30,11 @@ namespace Chess_Combination_Generator
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Init.BasicPosition();
+            board.SetBoard(BoardInformations.CurrentPosition);
             //TEST
+            var whiteEvaluate = Evaluator.Evaluate(BoardInformations.CurrentPosition);
+            var blackEvaluate = Evaluator.Evaluate(BoardInformations.CurrentPosition, false);
+
             var whiteK = PossibleSteps.WithKing(BoardInformations.CurrentPosition, BoardInformations.WhiteKingPosition, BoardInformations.BlackKingPosition);
             var bhiteK = PossibleSteps.WithKing(BoardInformations.CurrentPosition, BoardInformations.WhiteKingPosition, BoardInformations.BlackKingPosition, false);
             var whiteR = PossibleSteps.WithRock(BoardInformations.CurrentPosition);

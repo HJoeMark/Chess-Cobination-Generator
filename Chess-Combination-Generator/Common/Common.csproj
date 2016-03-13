@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardInformations.cs" />
+    <Compile Include="Evaluator.cs" />
     <Compile Include="PossibleSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
