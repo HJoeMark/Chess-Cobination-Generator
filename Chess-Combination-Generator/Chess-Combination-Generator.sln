@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess-Combination-Generator", "Chess-Combination-Generator\Chess-Combination-Generator.csproj", "{BF6E5FD2-F19E-487D-A9AE-9BF894F880A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{CC732B2A-296D-4DFD-B6AD-916CC644FB14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BF6E5FD2-F19E-487D-A9AE-9BF894F880A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF6E5FD2-F19E-487D-A9AE-9BF894F880A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF6E5FD2-F19E-487D-A9AE-9BF894F880A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC732B2A-296D-4DFD-B6AD-916CC644FB14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC732B2A-296D-4DFD-B6AD-916CC644FB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC732B2A-296D-4DFD-B6AD-916CC644FB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC732B2A-296D-4DFD-B6AD-916CC644FB14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
