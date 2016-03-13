@@ -30,13 +30,15 @@ namespace Chess_Combination_Generator.UI
         private void Board_Loaded(object sender, RoutedEventArgs e)
         {
             //LOAD RESOURCES
-            this.Resources["White"] = new SolidColorBrush(Colors.White);
-            this.Resources["Black"] = new SolidColorBrush(Colors.Red);
+            this.Resources["White"] = Settings.WhiteField;
+            this.Resources["Black"] = Settings.BlackField;
+
 
         }
 
-        public void SetBoard(FieldType[] board)
+        public void SetBoard(FieldType[] board, byte[] possibleSteps = null)
         {
+            ClearBoard();
             //RESOURCES
             //https://en.wikipedia.org/wiki/Chess_symbols_in_Unicode
             var a = main.FindName("f1");
@@ -92,6 +94,31 @@ namespace Chess_Combination_Generator.UI
                         }
                     }
                 }
+                else
+                {
+                    if (possibleSteps != null && possibleSteps.Contains(item))
+                    {
+                        var field = main.FindName("f" + index);
+                        ((Label)field).Background = new SolidColorBrush(Colors.LightGreen);
+                    }
+                }
+
+            }
+        }
+
+        private void ClearBoard()
+        {
+            var index = -1;
+            foreach (var item in BoardInformations.InsideBoard)
+            {
+                index++;
+                var field = main.FindName("f" + index);
+                ((Label)field).Content = "";
+                if (BoardInformations.WhiteFields.Contains(item))
+                    ((Label)field).Background = Settings.WhiteField;
+
+                else
+                    ((Label)field).Background = Settings.BlackField;
 
             }
         }
