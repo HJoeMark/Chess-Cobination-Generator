@@ -28,7 +28,10 @@ namespace Common
     {
         public static FieldType[] CurrentPosition;
 
-        public static int[] InsideBoard = new int[] {
+        public static byte WhiteKingPosition;
+        public static byte BlackKingPosition;
+
+        public static byte[] InsideBoard = new byte[] {
             26,27,28,29,30,31,32,33,
             38,39,40,41,42,43,44,45,
             50,51,52,53,54,55,56,57,
@@ -39,7 +42,7 @@ namespace Common
             110,111,112,113,114,115,116,117
         };
 
-        public static int[] Frame = new int[] {
+        public static byte[] Frame = new byte[] {
             0,1,2,3,4,5,6,7,8,9,10,11,
             12,13,14,15,16,17,18,19,20,21,22,23,
             24,25,34,35,
