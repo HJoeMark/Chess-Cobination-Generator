@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,15 @@ namespace Chess_Combination_Generator
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Init.BasicPosition();
+            //TEST
+            var whiteK = PossibleSteps.WithKing(BoardInformations.CurrentPosition, BoardInformations.WhiteKingPosition, BoardInformations.BlackKingPosition);
+            var bhiteK = PossibleSteps.WithKing(BoardInformations.CurrentPosition, BoardInformations.WhiteKingPosition, BoardInformations.BlackKingPosition, false);
+            var whiteR = PossibleSteps.WithRock(BoardInformations.CurrentPosition);
+            var blackR = PossibleSteps.WithRock(BoardInformations.CurrentPosition, false);
+
+            var allW = PossibleSteps.AllPiece(BoardInformations.CurrentPosition);
+            var allB = PossibleSteps.AllPiece(BoardInformations.CurrentPosition, false);
+
         }
     }
 }
