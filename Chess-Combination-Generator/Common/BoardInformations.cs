@@ -68,5 +68,9 @@ namespace Common
             111,113,115,117
         };
 
+        public static FieldType[] WhitePieces = new FieldType[] { FieldType.WhiteKing, FieldType.WhiteQueen, FieldType.WhiteRock, FieldType.WhiteKnight, FieldType.WhiteBishop, FieldType.WhitePawn };
+        public static FieldType[] BlackPieces = new FieldType[] { FieldType.BlackKing, FieldType.BlackQueen, FieldType.BlackRock, FieldType.BlackKnight, FieldType.BlackBishop, FieldType.BlackPawn };
+
+
     }
 }

@@ -44,10 +44,10 @@ namespace Chess_Combination_Generator
             var allW = PossibleSteps.AllPiece(BoardInformations.CurrentPosition);
             var allB = PossibleSteps.AllPiece(BoardInformations.CurrentPosition, false);
 
-            whiteK = PossibleSteps.WithKing(BoardInformations.CurrentPosition, BoardInformations.WhiteKingPosition, BoardInformations.BlackKingPosition)/*.Where(x => !allB.Contains(x)).ToArray()*/;
-            blackK = PossibleSteps.WithKing(BoardInformations.CurrentPosition, BoardInformations.WhiteKingPosition, BoardInformations.BlackKingPosition, false)/*.Where(x => !allW.Contains(x)).ToArray()*/;
-            whiteR = PossibleSteps.WithRock(BoardInformations.CurrentPosition);
-            blackR = PossibleSteps.WithRock(BoardInformations.CurrentPosition, false);
+            //whiteK = PossibleSteps.WithKing(BoardInformations.CurrentPosition, BoardInformations.WhiteKingPosition, BoardInformations.BlackKingPosition)/*.Where(x => !allB.Contains(x)).ToArray()*/;
+            //blackK = PossibleSteps.WithKing(BoardInformations.CurrentPosition, BoardInformations.WhiteKingPosition, BoardInformations.BlackKingPosition, false)/*.Where(x => !allW.Contains(x)).ToArray()*/;
+            //whiteR = PossibleSteps.WithRock(BoardInformations.CurrentPosition);
+            //blackR = PossibleSteps.WithRock(BoardInformations.CurrentPosition, false);
 
 
             // board.SetBoard(BoardInformations.CurrentPosition, blackR);
@@ -57,6 +57,15 @@ namespace Chess_Combination_Generator
             pSteps_lbox.Items.Add(FType.WhiteKing);
             pSteps_lbox.Items.Add(FType.BlackRocks);
             pSteps_lbox.Items.Add(FType.WhiteRocks);
+
+
+            var whiteSteps = PossibleSteps.StepsForAllPiece(BoardInformations.CurrentPosition);
+            var blackSteps = PossibleSteps.StepsForAllPiece(BoardInformations.CurrentPosition, false);
+
+            blackR = blackSteps.Where(x => x.Value.FieldType == FieldType.BlackRock).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
+            whiteR = whiteSteps.Where(x => x.Value.FieldType == FieldType.WhiteRock).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
+            blackK = blackSteps.Where(x => x.Value.FieldType == FieldType.BlackKing).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
+            whiteK = whiteSteps.Where(x => x.Value.FieldType == FieldType.WhiteKnight).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
         }
 
 

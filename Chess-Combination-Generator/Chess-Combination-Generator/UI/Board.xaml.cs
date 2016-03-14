@@ -94,13 +94,11 @@ namespace Chess_Combination_Generator.UI
                         }
                     }
                 }
-                else
+
+                if (possibleSteps != null && possibleSteps.Contains(item))
                 {
-                    if (possibleSteps != null && possibleSteps.Contains(item))
-                    {
-                        var field = main.FindName("f" + index);
-                        ((Label)field).Background = new SolidColorBrush(Colors.LightGreen);
-                    }
+                    var field = main.FindName("f" + index);
+                    ((Label)field).Background = new SolidColorBrush(Colors.LightGreen);
                 }
 
             }
