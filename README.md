@@ -22,13 +22,14 @@ Check List:
 
 --Alpha-Betha cutting
 
---Board Evaluation
+--Board Evaluation-processing
 
--UI
+-UI-processing
 
---Board
+--Board-Ok (I think It is fine)
 
---Figures
+--Figures-Ok (string characters (Thanks to uicode))
+--The player can move
 
 --Menu
 
