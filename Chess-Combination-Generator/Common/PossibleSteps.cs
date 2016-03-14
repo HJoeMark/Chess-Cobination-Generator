@@ -91,6 +91,8 @@ namespace Common
                                         result.Add((byte)newPos);
                                         break;
                                     }
+                                    else
+                                        break;
                                 }
                             }
                         }
@@ -119,6 +121,8 @@ namespace Common
                                         result.Add((byte)newPos);
                                         break;
                                     }
+                                    else
+                                        break;
                                 }
                             }
                         }
@@ -154,6 +158,8 @@ namespace Common
                                 result.Add((byte)newPos);
                                 break;
                             }
+                            else
+                                break;
                         }
                     }
                 }
@@ -177,6 +183,8 @@ namespace Common
                                 result.Add((byte)newPos);
                                 break;
                             }
+                            else
+                                break;
                         }
                     }
                 }
@@ -249,15 +257,14 @@ namespace Common
         }
 
 
-
-
         public static byte[] AllPiece(FieldType[] board, bool isWhite = true)
         {
             //TODO bishop, knight, queen, pawn
-            var wKingPos = SearchKing(board);
-            var bKingPos = SearchKing(board, false);
-            if (wKingPos == null || bKingPos == null)
-                throw new Exception(String.Format("No {0} king", wKingPos == null ? (bKingPos == null ? "both" : "white") : "black"));
+            var wKingPos = WhereIsTheKing(board);
+            var bKingPos = WhereIsTheKing(board, false);
+            //Smash the king
+            if (bKingPos > 144 || wKingPos > 144)
+                return new List<byte>().ToArray();
             List<byte> result = new List<byte>();
             result.AddRange(WithKing(board, wKingPos, bKingPos, isWhite));
             result.AddRange(WithRock(board, isWhite));
@@ -321,40 +328,6 @@ namespace Common
                 }
             return false;
         }
-
-        static byte? SearchKing(FieldType[] board, bool isWhite = true)
-        {
-            if (isWhite)
-            {
-                for (byte i = 0; i < BoardInformations.InsideBoard.Count(); i++)
-                    if (board[BoardInformations.InsideBoard[i]] == FieldType.WhiteKing)
-                        return BoardInformations.InsideBoard[i];
-            }
-            else
-                for (byte i = 0; i < BoardInformations.InsideBoard.Count(); i++)
-                    if (board[BoardInformations.InsideBoard[i]] == FieldType.BlackKing)
-                        return BoardInformations.InsideBoard[i];
-            return null;
-        }
-
-        //static bool IsCheck(FieldType[] board, byte kingPos, bool isWhite = true)
-        //{
-        //    //TODO Bishop, Knight, Queeen, Pawn
-
-        //    if (isWhite)
-        //    {
-        //        if (WithRock(board, false).Contains(kingPos))
-        //            return true;
-        //    }
-        //    else
-        //    {
-        //        if (WithRock(board).Contains(kingPos))
-        //            return true;
-        //    }
-
-        //    return false;
-        //}
-
 
         public static int[] KingSteps = new int[] { -13, -12, -11, -1, 1, 11, 12, 13 };
         public static int[] RockSteps = new int[] { -12, -1, 1, 12 };

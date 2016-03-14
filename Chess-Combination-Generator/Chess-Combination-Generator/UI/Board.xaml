@@ -36,84 +36,84 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <!--0 Row-->
-        <Label x:Name="f0" Grid.Row="0" Grid.Column="0" Background="{DynamicResource White}"/>
-        <Label x:Name="f1" Grid.Row="0" Grid.Column="1" Background="{DynamicResource Black}"/>
-        <Label x:Name="f2" Grid.Row="0" Grid.Column="2" Background="{DynamicResource White}"/>
-        <Label x:Name="f3" Grid.Row="0" Grid.Column="3" Background="{DynamicResource Black}"/>
-        <Label x:Name="f4" Grid.Row="0" Grid.Column="4" Background="{DynamicResource White}"/>
-        <Label x:Name="f5" Grid.Row="0" Grid.Column="5" Background="{DynamicResource Black}"/>
-        <Label x:Name="f6" Grid.Row="0" Grid.Column="6" Background="{DynamicResource White}"/>
-        <Label x:Name="f7" Grid.Row="0" Grid.Column="7" Background="{DynamicResource Black}"/>
+        <Label x:Name="f0" Grid.Row="0" Grid.Column="0" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f1" Grid.Row="0" Grid.Column="1" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f2" Grid.Row="0" Grid.Column="2" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f3" Grid.Row="0" Grid.Column="3" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f4" Grid.Row="0" Grid.Column="4" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f5" Grid.Row="0" Grid.Column="5" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f6" Grid.Row="0" Grid.Column="6" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f7" Grid.Row="0" Grid.Column="7" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
         <!--0 Row end-->
         <!--1 Row-->
-        <Label x:Name="f8" Grid.Row="1" Grid.Column="0" Background="{DynamicResource Black}"/>
-        <Label x:Name="f9" Grid.Row="1" Grid.Column="1" Background="{DynamicResource White}"/>
-        <Label x:Name="f10" Grid.Row="1" Grid.Column="2" Background="{DynamicResource Black}"/>
-        <Label x:Name="f11" Grid.Row="1" Grid.Column="3" Background="{DynamicResource White}"/>
-        <Label x:Name="f12" Grid.Row="1" Grid.Column="4" Background="{DynamicResource Black}"/>
-        <Label x:Name="f13" Grid.Row="1" Grid.Column="5" Background="{DynamicResource White}"/>
-        <Label x:Name="f14" Grid.Row="1" Grid.Column="6" Background="{DynamicResource Black}"/>
-        <Label x:Name="f15" Grid.Row="1" Grid.Column="7" Background="{DynamicResource White}"/>
+        <Label x:Name="f8" Grid.Row="1" Grid.Column="0" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f9" Grid.Row="1" Grid.Column="1" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f10" Grid.Row="1" Grid.Column="2" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f11" Grid.Row="1" Grid.Column="3" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f12" Grid.Row="1" Grid.Column="4" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f13" Grid.Row="1" Grid.Column="5" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f14" Grid.Row="1" Grid.Column="6" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f15" Grid.Row="1" Grid.Column="7" Background="{DynamicResource White}" MouseDown="FieldClick"/>
         <!--1 Row end-->
         <!--2 Row-->
-        <Label x:Name="f16" Grid.Row="2" Grid.Column="0" Background="{DynamicResource White}"/>
-        <Label x:Name="f17" Grid.Row="2" Grid.Column="1" Background="{DynamicResource Black}"/>
-        <Label x:Name="f18" Grid.Row="2" Grid.Column="2" Background="{DynamicResource White}"/>
-        <Label x:Name="f19" Grid.Row="2" Grid.Column="3" Background="{DynamicResource Black}"/>
-        <Label x:Name="f20" Grid.Row="2" Grid.Column="4" Background="{DynamicResource White}"/>
-        <Label x:Name="f21" Grid.Row="2" Grid.Column="5" Background="{DynamicResource Black}"/>
-        <Label x:Name="f22" Grid.Row="2" Grid.Column="6" Background="{DynamicResource White}"/>
-        <Label x:Name="f23" Grid.Row="2" Grid.Column="7" Background="{DynamicResource Black}"/>
+        <Label x:Name="f16" Grid.Row="2" Grid.Column="0" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f17" Grid.Row="2" Grid.Column="1" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f18" Grid.Row="2" Grid.Column="2" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f19" Grid.Row="2" Grid.Column="3" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f20" Grid.Row="2" Grid.Column="4" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f21" Grid.Row="2" Grid.Column="5" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f22" Grid.Row="2" Grid.Column="6" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f23" Grid.Row="2" Grid.Column="7" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
         <!--2 Row end-->
         <!--3 Row-->
-        <Label x:Name="f24" Grid.Row="3" Grid.Column="0" Background="{DynamicResource Black}"/>
-        <Label x:Name="f25" Grid.Row="3" Grid.Column="1" Background="{DynamicResource White}"/>
-        <Label x:Name="f26" Grid.Row="3" Grid.Column="2" Background="{DynamicResource Black}"/>
-        <Label x:Name="f27" Grid.Row="3" Grid.Column="3" Background="{DynamicResource White}"/>
-        <Label x:Name="f28" Grid.Row="3" Grid.Column="4" Background="{DynamicResource Black}"/>
-        <Label x:Name="f29" Grid.Row="3" Grid.Column="5" Background="{DynamicResource White}"/>
-        <Label x:Name="f30" Grid.Row="3" Grid.Column="6" Background="{DynamicResource Black}"/>
-        <Label x:Name="f31" Grid.Row="3" Grid.Column="7" Background="{DynamicResource White}"/>
+        <Label x:Name="f24" Grid.Row="3" Grid.Column="0" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f25" Grid.Row="3" Grid.Column="1" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f26" Grid.Row="3" Grid.Column="2" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f27" Grid.Row="3" Grid.Column="3" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f28" Grid.Row="3" Grid.Column="4" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f29" Grid.Row="3" Grid.Column="5" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f30" Grid.Row="3" Grid.Column="6" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f31" Grid.Row="3" Grid.Column="7" Background="{DynamicResource White}" MouseDown="FieldClick"/>
         <!--3 Row end-->
         <!--4 Row-->
-        <Label x:Name="f32" Grid.Row="4" Grid.Column="0" Background="{DynamicResource White}"/>
-        <Label x:Name="f33" Grid.Row="4" Grid.Column="1" Background="{DynamicResource Black}"/>
-        <Label x:Name="f34" Grid.Row="4" Grid.Column="2" Background="{DynamicResource White}"/>
-        <Label x:Name="f35" Grid.Row="4" Grid.Column="3" Background="{DynamicResource Black}"/>
-        <Label x:Name="f36" Grid.Row="4" Grid.Column="4" Background="{DynamicResource White}"/>
-        <Label x:Name="f37" Grid.Row="4" Grid.Column="5" Background="{DynamicResource Black}"/>
-        <Label x:Name="f38" Grid.Row="4" Grid.Column="6" Background="{DynamicResource White}"/>
-        <Label x:Name="f39" Grid.Row="4" Grid.Column="7" Background="{DynamicResource Black}"/>
+        <Label x:Name="f32" Grid.Row="4" Grid.Column="0" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f33" Grid.Row="4" Grid.Column="1" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f34" Grid.Row="4" Grid.Column="2" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f35" Grid.Row="4" Grid.Column="3" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f36" Grid.Row="4" Grid.Column="4" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f37" Grid.Row="4" Grid.Column="5" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f38" Grid.Row="4" Grid.Column="6" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f39" Grid.Row="4" Grid.Column="7" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
         <!--4 Row end-->
         <!--5 Row-->
-        <Label x:Name="f40" Grid.Row="5" Grid.Column="0" Background="{DynamicResource Black}"/>
-        <Label x:Name="f41" Grid.Row="5" Grid.Column="1" Background="{DynamicResource White}"/>
-        <Label x:Name="f42" Grid.Row="5" Grid.Column="2" Background="{DynamicResource Black}"/>
-        <Label x:Name="f43" Grid.Row="5" Grid.Column="3" Background="{DynamicResource White}"/>
-        <Label x:Name="f44" Grid.Row="5" Grid.Column="4" Background="{DynamicResource Black}"/>
-        <Label x:Name="f45" Grid.Row="5" Grid.Column="5" Background="{DynamicResource White}"/>
-        <Label x:Name="f46" Grid.Row="5" Grid.Column="6" Background="{DynamicResource Black}"/>
-        <Label x:Name="f47" Grid.Row="5" Grid.Column="7" Background="{DynamicResource White}"/>
+        <Label x:Name="f40" Grid.Row="5" Grid.Column="0" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f41" Grid.Row="5" Grid.Column="1" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f42" Grid.Row="5" Grid.Column="2" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f43" Grid.Row="5" Grid.Column="3" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f44" Grid.Row="5" Grid.Column="4" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f45" Grid.Row="5" Grid.Column="5" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f46" Grid.Row="5" Grid.Column="6" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f47" Grid.Row="5" Grid.Column="7" Background="{DynamicResource White}" MouseDown="FieldClick"/>
         <!--5 Row end-->
         <!--6 Row-->
-        <Label x:Name="f48" Grid.Row="6" Grid.Column="0" Background="{DynamicResource White}"/>
-        <Label x:Name="f49" Grid.Row="6" Grid.Column="1" Background="{DynamicResource Black}"/>
-        <Label x:Name="f50" Grid.Row="6" Grid.Column="2" Background="{DynamicResource White}"/>
-        <Label x:Name="f51" Grid.Row="6" Grid.Column="3" Background="{DynamicResource Black}"/>
-        <Label x:Name="f52" Grid.Row="6" Grid.Column="4" Background="{DynamicResource White}"/>
-        <Label x:Name="f53" Grid.Row="6" Grid.Column="5" Background="{DynamicResource Black}"/>
-        <Label x:Name="f54" Grid.Row="6" Grid.Column="6" Background="{DynamicResource White}"/>
-        <Label x:Name="f55" Grid.Row="6" Grid.Column="7" Background="{DynamicResource Black}"/>
+        <Label x:Name="f48" Grid.Row="6" Grid.Column="0" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f49" Grid.Row="6" Grid.Column="1" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f50" Grid.Row="6" Grid.Column="2" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f51" Grid.Row="6" Grid.Column="3" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f52" Grid.Row="6" Grid.Column="4" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f53" Grid.Row="6" Grid.Column="5" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f54" Grid.Row="6" Grid.Column="6" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f55" Grid.Row="6" Grid.Column="7" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
         <!--6 Row end-->
         <!--7 Row-->
-        <Label x:Name="f56" Grid.Row="7" Grid.Column="0" Background="{DynamicResource Black}"/>
-        <Label x:Name="f57" Grid.Row="7" Grid.Column="1" Background="{DynamicResource White}"/>
-        <Label x:Name="f58" Grid.Row="7" Grid.Column="2" Background="{DynamicResource Black}"/>
-        <Label x:Name="f59" Grid.Row="7" Grid.Column="3" Background="{DynamicResource White}"/>
-        <Label x:Name="f60" Grid.Row="7" Grid.Column="4" Background="{DynamicResource Black}"/>
-        <Label x:Name="f61" Grid.Row="7" Grid.Column="5" Background="{DynamicResource White}"/>
-        <Label x:Name="f62" Grid.Row="7" Grid.Column="6" Background="{DynamicResource Black}"/>
-        <Label x:Name="f63" Grid.Row="7" Grid.Column="7" Background="{DynamicResource White}"/>
+        <Label x:Name="f56" Grid.Row="7" Grid.Column="0" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f57" Grid.Row="7" Grid.Column="1" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f58" Grid.Row="7" Grid.Column="2" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f59" Grid.Row="7" Grid.Column="3" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f60" Grid.Row="7" Grid.Column="4" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f61" Grid.Row="7" Grid.Column="5" Background="{DynamicResource White}" MouseDown="FieldClick"/>
+        <Label x:Name="f62" Grid.Row="7" Grid.Column="6" Background="{DynamicResource Black}" MouseDown="FieldClick"/>
+        <Label x:Name="f63" Grid.Row="7" Grid.Column="7" Background="{DynamicResource White}" MouseDown="FieldClick"/>
         <!--7 Row end-->
     </Grid>
 </UserControl>

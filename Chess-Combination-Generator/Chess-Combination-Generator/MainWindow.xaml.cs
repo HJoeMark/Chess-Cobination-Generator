@@ -72,6 +72,15 @@ namespace Chess_Combination_Generator
         //Select a piece race
         private void pSteps_lbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+            var whiteSteps = PossibleSteps.StepsForAllPiece(BoardInformations.CurrentPosition);
+            var blackSteps = PossibleSteps.StepsForAllPiece(BoardInformations.CurrentPosition, false);
+
+            blackR = blackSteps.Where(x => x.Value.FieldType == FieldType.BlackRock).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
+            whiteR = whiteSteps.Where(x => x.Value.FieldType == FieldType.WhiteRock).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
+            blackK = blackSteps.Where(x => x.Value.FieldType == FieldType.BlackKing).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
+            whiteK = whiteSteps.Where(x => x.Value.FieldType == FieldType.WhiteKing).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
+
             switch ((FType)((ListBox)sender).SelectedItem)
             {
                 case FType.WhiteKing:
