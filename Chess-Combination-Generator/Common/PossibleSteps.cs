@@ -132,7 +132,6 @@ namespace Common
             return result.ToArray();
         }
 
-
         #region With Position
         public static byte[] WithRock(FieldType[] board, byte rockPos, bool isWhite = true)
         {
@@ -216,7 +215,6 @@ namespace Common
         }
         #endregion
 
-
         static byte[] Steps(FieldType[] board, byte figPos, bool isWhite = true)
         {
             byte[] result = null;
@@ -255,7 +253,6 @@ namespace Common
             }
             return result;
         }
-
 
         public static byte[] AllPiece(FieldType[] board, bool isWhite = true)
         {
@@ -332,7 +329,7 @@ namespace Common
         public static int[] KingSteps = new int[] { -13, -12, -11, -1, 1, 11, 12, 13 };
         public static int[] RockSteps = new int[] { -12, -1, 1, 12 };
 
-        static byte WhereIsTheKing(FieldType[] board, bool isWhite = true)
+        public static byte WhereIsTheKing(FieldType[] board, bool isWhite = true)
         {
             return (byte)Array.IndexOf(board, isWhite ? FieldType.WhiteKing : FieldType.BlackKing);
         }

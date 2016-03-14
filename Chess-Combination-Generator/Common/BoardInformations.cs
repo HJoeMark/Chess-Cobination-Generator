@@ -28,8 +28,8 @@ namespace Common
     {
         public static FieldType[] CurrentPosition;
 
-        public static byte WhiteKingPosition;
-        public static byte BlackKingPosition;
+        //public static byte WhiteKingPosition;
+        //public static byte BlackKingPosition;
 
         public static byte[] InsideBoard = new byte[] {
             26,27,28,29,30,31,32,33,

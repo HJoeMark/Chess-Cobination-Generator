@@ -6,13 +6,20 @@
         xmlns:local="clr-namespace:Chess_Combination_Generator"
         xmlns:board="clr-namespace:Chess_Combination_Generator.UI"
         mc:Ignorable="d"
-        Title="Chess Combination Generator" Height="500" Width="700">
+        Title="Chess Combination Generator" Height="600" Width="800">
     <Grid Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <board:Board x:Name="board" Width="400" Height="400"/>
-        <ListBox x:Name="pSteps_lbox" Grid.Column="1" SelectionChanged="pSteps_lbox_SelectionChanged" />
+        <board:Board x:Name="board" Width="500" Height="500"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ListBox x:Name="pSteps_lbox" Grid.Row="1"  SelectionChanged="pSteps_lbox_SelectionChanged" />
+            <Button x:Name="Test_btn" Content="TEST" Click="Test_btn_Click" />
+        </Grid>
     </Grid>
 </Window>
