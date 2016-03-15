@@ -18,9 +18,9 @@ Check List:
 
 --Pawn-
 
--AI
+-AI-processing
 
---Alpha-Betha cutting
+--Alpha-Betha cutting-processing
 
 --Board Evaluation-processing
 
@@ -36,6 +36,8 @@ Check List:
 ---Settings
 
 ---Others
+
+-Board Generator-processing
 
 
 
