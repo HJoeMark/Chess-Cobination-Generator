@@ -16,10 +16,12 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ListBox x:Name="pSteps_lbox" Grid.Row="1"  SelectionChanged="pSteps_lbox_SelectionChanged" />
             <Button x:Name="Test_btn" Content="TEST" Click="Test_btn_Click" />
+            <Button x:Name="Generate_btn" Grid.Row="1"  Content="Generate" Click="Generate_btn_Click"/>
+            <ListBox x:Name="pSteps_lbox" Grid.Row="2"  SelectionChanged="pSteps_lbox_SelectionChanged" />
         </Grid>
     </Grid>
 </Window>

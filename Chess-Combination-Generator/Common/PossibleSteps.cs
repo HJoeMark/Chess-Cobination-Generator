@@ -309,20 +309,13 @@ namespace Common
             return result;
         }
 
-        private static bool IsOtherKingNear(FieldType[] board, byte? wKingPos, byte? bKingPos, bool isWhite = true)
+        public static bool IsOtherKingNear(FieldType[] board, byte king1, byte king2)
         {
-            if (isWhite)
-                foreach (var item in KingSteps)
-                {
-                    if (wKingPos + item == bKingPos)
-                        return true;
-                }
-            else
-                foreach (var item in KingSteps)
-                {
-                    if (wKingPos == bKingPos + item)
-                        return true;
-                }
+            foreach (var item in KingSteps)
+            {
+                if (king1 + item == king2)
+                    return true;
+            }
             return false;
         }
 

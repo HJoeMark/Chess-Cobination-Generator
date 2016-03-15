@@ -44,14 +44,15 @@ namespace Common
         //18                  break (* α cut-off*)
         //19          return v
 
+
         public static int AlphaBeta(FieldType[] boardNode, int depth, int alpha, int beta, bool maximizinPlayer, StepAndValue sAv)
         {
-            if (IsCheckMate(boardNode, !maximizinPlayer))
-                return maximizinPlayer ? int.MaxValue : int.MinValue;
+            if (IsCheckMate(boardNode, maximizinPlayer))
+                return !maximizinPlayer ? int.MaxValue : int.MinValue;
 
-            if (depth == 0 || IsStalemate(boardNode, !maximizinPlayer))
+            if (depth == 0 || IsStalemate(boardNode, maximizinPlayer))
                 return Evaluator.Evaluate(boardNode, maximizinPlayer);
-           
+
             if (maximizinPlayer)
             {
                 var v = int.MinValue;
@@ -101,12 +102,6 @@ namespace Common
                 return v;
             }
         }
-
-        //public static bool IsTerminalNode(FieldType[] board, bool isWhite = true)
-        //{
-        //    return IsCheckMate(board, isWhite);
-        //}
-
 
         public static StepAndValue SAV;
     }

@@ -109,11 +109,18 @@ namespace Chess_Combination_Generator
             //MessageBox.Show(AI.IsCheckMate(BoardInformations.CurrentPosition, false) + "");
             #endregion
             //MessageBox.Show(AI.AlphaBeta(BoardInformations.CurrentPosition, 2, int.MinValue, int.MaxValue, false, new StepAndValue(BoardInformations.CurrentPosition, 0, new List<StepAndValue>())) + "");
-            //    MessageBox.Show(AI.AlphaBeta(BoardInformations.CurrentPosition, 1, int.MinValue, int.MaxValue, true) + "");
+            //MessageBox.Show(AI.AlphaBeta(BoardInformations.CurrentPosition, 1, int.MinValue, int.MaxValue, true) + "");
 
-            AI.AlphaBeta(BoardInformations.CurrentPosition, 3+1, int.MinValue, int.MaxValue, false, new StepAndValue(BoardInformations.CurrentPosition, 0, new List<StepAndValue>()));
+            MessageBox.Show("" + AI.AlphaBeta(BoardInformations.CurrentPosition, 4, int.MinValue, int.MaxValue, false, new StepAndValue(BoardInformations.CurrentPosition, 0, new List<StepAndValue>())));
 
             BoardInformations.CurrentPosition = AI.SAV.Children.First(y => y.EvaluatedValue == AI.SAV.Children.Min(x => x.EvaluatedValue)).Step;
+            board.SetBoard(BoardInformations.CurrentPosition);
+        }
+
+        private void Generate_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Init.BasicPosition();
+            Generator.Generate(BoardInformations.CurrentPosition, false, false);
             board.SetBoard(BoardInformations.CurrentPosition);
         }
     }

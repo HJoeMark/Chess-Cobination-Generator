@@ -43,6 +43,7 @@
     <Compile Include="AI.cs" />
     <Compile Include="BoardInformations.cs" />
     <Compile Include="Evaluator.cs" />
+    <Compile Include="Generator.cs" />
     <Compile Include="PossibleSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

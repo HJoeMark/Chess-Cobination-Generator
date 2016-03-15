@@ -71,6 +71,12 @@ namespace Common
         public static FieldType[] WhitePieces = new FieldType[] { FieldType.WhiteKing, FieldType.WhiteQueen, FieldType.WhiteRock, FieldType.WhiteKnight, FieldType.WhiteBishop, FieldType.WhitePawn };
         public static FieldType[] BlackPieces = new FieldType[] { FieldType.BlackKing, FieldType.BlackQueen, FieldType.BlackRock, FieldType.BlackKnight, FieldType.BlackBishop, FieldType.BlackPawn };
 
-
+        public static FieldType[] GetEmptyBoard()
+        {
+            var result = new FieldType[144];
+            for (byte i = 0; i < BoardInformations.InsideBoard.Length; i++)
+                result[BoardInformations.InsideBoard[i]] = FieldType.Empty;
+            return result;
+        }
     }
 }
