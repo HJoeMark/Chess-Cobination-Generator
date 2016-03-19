@@ -11,7 +11,7 @@ namespace Chess_Combination_Generator
     {
         //Colors
         public static SolidColorBrush WhiteField = new SolidColorBrush(Colors.White);
-        public static SolidColorBrush BlackField = new SolidColorBrush(Colors.Red);
+        public static SolidColorBrush BlackField = new SolidColorBrush(Colors.Gray);
 
     }
 }

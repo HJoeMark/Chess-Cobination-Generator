@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Common.AI;
 
 namespace Chess_Combination_Generator.UI
 {
@@ -32,8 +34,6 @@ namespace Chess_Combination_Generator.UI
             //LOAD RESOURCES
             this.Resources["White"] = Settings.WhiteField;
             this.Resources["Black"] = Settings.BlackField;
-
-
         }
 
         public void SetBoard(FieldType[] board, byte[] possibleSteps = null)
@@ -46,9 +46,9 @@ namespace Chess_Combination_Generator.UI
             foreach (var item in BoardInformations.InsideBoard)
             {
                 index++;
+                var field = main.FindName("f" + index);
                 if (board[item] != FieldType.Empty)
                 {
-                    var field = main.FindName("f" + index);
                     if (field != null)
                     {
                         switch (board[item])
@@ -94,13 +94,15 @@ namespace Chess_Combination_Generator.UI
                         }
                     }
                 }
+                // TEST
+                //else
+                //    ((Label)field).Content = item;
 
                 if (possibleSteps != null && possibleSteps.Contains(item))
                 {
-                    var field = main.FindName("f" + index);
+                    field = main.FindName("f" + index);
                     ((Label)field).Background = new SolidColorBrush(Colors.LightGreen);
                 }
-
             }
         }
 
@@ -131,6 +133,7 @@ namespace Chess_Combination_Generator.UI
             {
                 firstClick = true;
                 firstLabel = currentLabel;
+                firstLabel.Background = new SolidColorBrush(Colors.LightBlue);
             }
             else
             {
@@ -140,7 +143,22 @@ namespace Chess_Combination_Generator.UI
                 BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(currentLabel.Name.Substring(1))]] = BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(firstLabel.Name.Substring(1))]];
                 BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(firstLabel.Name.Substring(1))]] = FieldType.Empty;
 
+                //Step();
             }
+        }
+
+        private void Step()
+        {
+            StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+            StepAndValue SAVAB = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+            AI.AlphaBeta(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAVAB);
+            var best = SAVAB.Children.First(y => y.EvaluatedValue == SAVAB.Children.Min(x => x.EvaluatedValue));
+            var newBoard = new FieldType[144];
+            Array.Copy(BoardInformations.CurrentPosition, newBoard, 144);
+            newBoard[best.From] = FieldType.Empty;
+            newBoard[best.Where] = best.What;
+            BoardInformations.CurrentPosition = newBoard;
+            SetBoard(BoardInformations.CurrentPosition);
         }
     }
 }

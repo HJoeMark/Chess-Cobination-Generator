@@ -1,8 +1,10 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Common.AI;
 
 namespace Chess_Combination_Generator
 {
@@ -35,39 +38,8 @@ namespace Chess_Combination_Generator
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Init.BasicPosition();
-            board.SetBoard(BoardInformations.CurrentPosition);
-            //TEST
-            //It's working
-            //var whiteEvaluate = Evaluator.Evaluate(BoardInformations.CurrentPosition);
-            //var blackEvaluate = Evaluator.Evaluate(BoardInformations.CurrentPosition, false);
-
-            var allW = PossibleSteps.AllPiece(BoardInformations.CurrentPosition);
-            var allB = PossibleSteps.AllPiece(BoardInformations.CurrentPosition, false);
-
-            //whiteK = PossibleSteps.WithKing(BoardInformations.CurrentPosition, BoardInformations.WhiteKingPosition, BoardInformations.BlackKingPosition)/*.Where(x => !allB.Contains(x)).ToArray()*/;
-            //blackK = PossibleSteps.WithKing(BoardInformations.CurrentPosition, BoardInformations.WhiteKingPosition, BoardInformations.BlackKingPosition, false)/*.Where(x => !allW.Contains(x)).ToArray()*/;
-            //whiteR = PossibleSteps.WithRock(BoardInformations.CurrentPosition);
-            //blackR = PossibleSteps.WithRock(BoardInformations.CurrentPosition, false);
-
-
-            // board.SetBoard(BoardInformations.CurrentPosition, blackR);
-
-
-            pSteps_lbox.Items.Add(FType.BlackKing);
-            pSteps_lbox.Items.Add(FType.WhiteKing);
-            pSteps_lbox.Items.Add(FType.BlackRocks);
-            pSteps_lbox.Items.Add(FType.WhiteRocks);
-
-
-            var whiteSteps = PossibleSteps.StepsForAllPiece(BoardInformations.CurrentPosition);
-            var blackSteps = PossibleSteps.StepsForAllPiece(BoardInformations.CurrentPosition, false);
-
-            blackR = blackSteps.Where(x => x.Value.FieldType == FieldType.BlackRock).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
-            whiteR = whiteSteps.Where(x => x.Value.FieldType == FieldType.WhiteRock).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
-            blackK = blackSteps.Where(x => x.Value.FieldType == FieldType.BlackKing).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
-            whiteK = whiteSteps.Where(x => x.Value.FieldType == FieldType.WhiteKnight).Select(y => y.Value.Steps).SelectMany(x => x).ToArray();
+            board.SetBoard(BoardInformations.CurrentPosition);         
         }
-
 
         //Select a piece race
         private void pSteps_lbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -102,26 +74,62 @@ namespace Chess_Combination_Generator
 
         private void Test_btn_Click(object sender, RoutedEventArgs e)
         {
-            #region working
-            //MessageBox.Show(AI.IsCheck(BoardInformations.CurrentPosition) + "");
-            //MessageBox.Show(AI.IsCheck(BoardInformations.CurrentPosition, false) + "");
-            //MessageBox.Show(AI.IsCheckMate(BoardInformations.CurrentPosition) + "");
-            //MessageBox.Show(AI.IsCheckMate(BoardInformations.CurrentPosition, false) + "");
-            #endregion
-            //MessageBox.Show(AI.AlphaBeta(BoardInformations.CurrentPosition, 2, int.MinValue, int.MaxValue, false, new StepAndValue(BoardInformations.CurrentPosition, 0, new List<StepAndValue>())) + "");
-            //MessageBox.Show(AI.AlphaBeta(BoardInformations.CurrentPosition, 1, int.MinValue, int.MaxValue, true) + "");
-
-            MessageBox.Show("" + AI.AlphaBeta(BoardInformations.CurrentPosition, 4, int.MinValue, int.MaxValue, false, new StepAndValue(BoardInformations.CurrentPosition, 0, new List<StepAndValue>())));
-
-            BoardInformations.CurrentPosition = AI.SAV.Children.First(y => y.EvaluatedValue == AI.SAV.Children.Min(x => x.EvaluatedValue)).Step;
-            board.SetBoard(BoardInformations.CurrentPosition);
+            //StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+            //StepAndValue SAVAB = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+            ////AI.AlphaBeta(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAV);
+            ////var val = AI.AB(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAV);
+            //AI.TreeTest(BoardInformations.CurrentPosition, 5, false, SAV);
+            ////  var best = SAVAB.Children.First(y => y.EvaluatedValue == SAVAB.Children.Min(x => x.EvaluatedValue));
+            //var best = SAV.Children.First(y => y.EvaluatedValue == SAV.Children.Min(x => x.EvaluatedValue));
+            //var newBoard = new FieldType[144];
+            //Array.Copy(BoardInformations.CurrentPosition, newBoard, 144);
+            //newBoard[best.From] = FieldType.Empty;
+            //newBoard[best.Where] = best.What;
+            //BoardInformations.CurrentPosition = newBoard;
+            //board.SetBoard(BoardInformations.CurrentPosition);
         }
 
         private void Generate_btn_Click(object sender, RoutedEventArgs e)
         {
-            Init.BasicPosition();
-            Generator.Generate(BoardInformations.CurrentPosition, false, false);
-            board.SetBoard(BoardInformations.CurrentPosition);
+            for (int i = 0; i < 101; i++)
+            {
+                Init.BasicPosition();
+                Generator.Generate(BoardInformations.CurrentPosition, false, false);
+                board.SetBoard(BoardInformations.CurrentPosition);
+                board.UpdateLayout();
+                SaveToPng(container_grid, String.Format("C/combination{0}.png", i));
+            }
+        }
+
+        void SaveToBmp(FrameworkElement visual, string fileName)
+        {
+            var encoder = new BmpBitmapEncoder();
+            SaveUsingEncoder(visual, fileName, encoder);
+        }
+
+        void SaveToPng(FrameworkElement visual, string fileName)
+        {
+            var encoder = new PngBitmapEncoder();
+            SaveUsingEncoder(visual, fileName, encoder);
+        }
+
+        void SaveUsingEncoder(FrameworkElement visual, string fileName, BitmapEncoder encoder)
+        {
+            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(visual);
+            BitmapFrame frame = BitmapFrame.Create(bitmap);
+            encoder.Frames.Add(frame);
+
+            using (var stream = File.Create(fileName))
+            {
+                encoder.Save(stream);
+            }
+        }
+
+        private void Photo_btn_Click(object sender, RoutedEventArgs e)
+        {
+            SaveToPng(container_grid, "board" + DateTime.Now.Ticks + ".png");
+
         }
     }
 

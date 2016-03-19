@@ -44,7 +44,7 @@ namespace Common
         //18                  break (* α cut-off*)
         //19          return v
 
-
+        //Something wrong with this
         public static int AlphaBeta(FieldType[] boardNode, int depth, int alpha, int beta, bool maximizinPlayer, StepAndValue sAv)
         {
             if (IsCheckMate(boardNode, maximizinPlayer))
@@ -56,54 +56,65 @@ namespace Common
             if (maximizinPlayer)
             {
                 var v = int.MinValue;
-                foreach (var piece in PossibleSteps.StepsForAllPiece(boardNode, maximizinPlayer))
+                foreach (var step in AllNode(boardNode, maximizinPlayer))
                 {
                     var newBoard = new FieldType[144];
-                    foreach (var step in piece.Value.Steps)
-                    {
-                        sAv.Children.Add(new StepAndValue());
-                        Array.Copy(boardNode, newBoard, 144);
-                        newBoard[piece.Key] = FieldType.Empty;
-                        newBoard[step] = piece.Value.FieldType;
-                        Array.Copy(newBoard, sAv.Children[sAv.Children.Count() - 1].Step = new FieldType[144], 144);
-                        var ab = AlphaBeta(newBoard, depth - 1, alpha, beta, false, sAv.Children[sAv.Children.Count() - 1]);
-                        v = Math.Max(v, ab);
-                        alpha = Math.Max(alpha, v);
-                        sAv.Children[sAv.Children.Count() - 1].EvaluatedValue = alpha;
-                        if (beta <= alpha)
-                            break;
-                    }
+                    sAv.Children.Add(new StepAndValue());
+                    Array.Copy(boardNode, newBoard, 144);
+                    newBoard[step.From] = FieldType.Empty;
+                    newBoard[step.Where] = step.What;
+                    sAv.Children[sAv.Children.Count() - 1].What = step.What;
+                    sAv.Children[sAv.Children.Count() - 1].Where = step.Where;
+                    sAv.Children[sAv.Children.Count() - 1].From = step.From;
+                    sAv.Children[sAv.Children.Count() - 1].SetParentDepth(depth - 1);
+                    var ab = AlphaBeta(newBoard, depth - 1, alpha, beta, false, sAv.Children[sAv.Children.Count() - 1]);
+                    v = Math.Max(v, ab);
+                    alpha = Math.Max(alpha, v);
+                    sAv.Children[sAv.Children.Count() - 1].EvaluatedValue = ab;
+                    if (beta <= alpha)
+                        break;
+
                 }
-                SAV = sAv;
+                // sAv.EvaluatedValue = sAv.Children.Count() > 0 ? sAv.Children.First(x => x.EvaluatedValue == sAv.Children.Max(y => y.EvaluatedValue)).EvaluatedValue : sAv.EvaluatedValue;
                 return v;
             }
             else
             {
                 var v = int.MaxValue;
-                foreach (var piece in PossibleSteps.StepsForAllPiece(boardNode, maximizinPlayer))
+                foreach (var step in AllNode(boardNode, maximizinPlayer))
                 {
                     var newBoard = new FieldType[144];
-                    foreach (var step in piece.Value.Steps)
-                    {
-                        sAv.Children.Add(new StepAndValue());
-                        Array.Copy(boardNode, newBoard, 144);
-                        newBoard[piece.Key] = FieldType.Empty;
-                        newBoard[step] = piece.Value.FieldType;
-                        Array.Copy(newBoard, sAv.Children[sAv.Children.Count() - 1].Step = new FieldType[144], 144);
-                        var ab = AlphaBeta(newBoard, depth - 1, alpha, beta, true, sAv.Children[sAv.Children.Count() - 1]);
-                        v = Math.Min(v, ab);
-                        beta = Math.Min(beta, v);
-                        sAv.Children[sAv.Children.Count() - 1].EvaluatedValue = beta;
-                        if (beta <= alpha)
-                            break;
-                    }
+                    sAv.Children.Add(new StepAndValue());
+                    Array.Copy(boardNode, newBoard, 144);
+                    newBoard[step.From] = FieldType.Empty;
+                    sAv.Children[sAv.Children.Count() - 1].What = newBoard[step.Where] = step.What;
+                    sAv.Children[sAv.Children.Count() - 1].Where = step.Where;
+                    sAv.Children[sAv.Children.Count() - 1].From = step.From;
+                    sAv.Children[sAv.Children.Count() - 1].SetParentDepth(depth - 1);
+                    var ab = AlphaBeta(newBoard, depth - 1, alpha, beta, true, sAv.Children[sAv.Children.Count() - 1]);
+                    v = Math.Min(v, ab);
+                    beta = Math.Min(beta, v);
+                    sAv.Children[sAv.Children.Count() - 1].EvaluatedValue = ab;
+                    if (beta <= alpha)
+                        break;
                 }
-                SAV = sAv;
+                // sAv.EvaluatedValue = sAv.Children.Count() > 0 ? sAv.Children.First(x => x.EvaluatedValue == sAv.Children.Max(y => y.EvaluatedValue)).EvaluatedValue : sAv.EvaluatedValue;
                 return v;
             }
         }
 
-        public static StepAndValue SAV;
+        static List<StepAndValue> AllNode(FieldType[] board, bool isWhite = true)
+        {
+            var result = new List<StepAndValue>();
+            foreach (var piece in PossibleSteps.StepsForAllPiece(board, isWhite))
+            {
+                foreach (var step in piece.Value.Steps)
+                {
+                    result.Add(new StepAndValue(piece.Key, step, piece.Value.FieldType, 0, null));
+                }
+            }
+            return result;
+        }
     }
 
     public class StepAndValue
@@ -113,14 +124,34 @@ namespace Common
             Children = new List<StepAndValue>();
         }
 
-        public StepAndValue(FieldType[] _step, int _evaluatedValue, List<StepAndValue> _children)
+        public StepAndValue(byte _from, byte _where, FieldType _what, int _evaluatedValue, List<StepAndValue> _children/*, int _depth = 0*/)
         {
-            Step = _step;
             EvaluatedValue = _evaluatedValue;
             Children = _children;
+            //Depth = _depth;
+            From = _from;
+            Where = _where;
+            What = _what;
         }
-        public FieldType[] Step;
+        public int Depth;
         public int EvaluatedValue;
         public List<StepAndValue> Children;
+        public byte From;
+        public byte Where;
+        public FieldType What;
+
+        public StepAndValue Parent;
+
+        public void SetParentDepth(int depth)
+        {
+            if (Parent == null)
+                this.Depth = depth;
+            else
+            {
+                if (this.Parent.Depth > depth)
+                    this.Parent.SetParentDepth(depth);
+            }
+        }
     }
+
 }

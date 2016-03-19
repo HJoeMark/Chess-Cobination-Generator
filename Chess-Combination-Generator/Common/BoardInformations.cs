@@ -28,9 +28,6 @@ namespace Common
     {
         public static FieldType[] CurrentPosition;
 
-        //public static byte WhiteKingPosition;
-        //public static byte BlackKingPosition;
-
         public static byte[] InsideBoard = new byte[] {
             26,27,28,29,30,31,32,33,
             38,39,40,41,42,43,44,45,
@@ -71,7 +68,7 @@ namespace Common
         public static FieldType[] WhitePieces = new FieldType[] { FieldType.WhiteKing, FieldType.WhiteQueen, FieldType.WhiteRock, FieldType.WhiteKnight, FieldType.WhiteBishop, FieldType.WhitePawn };
         public static FieldType[] BlackPieces = new FieldType[] { FieldType.BlackKing, FieldType.BlackQueen, FieldType.BlackRock, FieldType.BlackKnight, FieldType.BlackBishop, FieldType.BlackPawn };
 
-        public static FieldType[] GetEmptyBoard()
+        public static FieldType[] SetEmptyBoard()
         {
             var result = new FieldType[144];
             for (byte i = 0; i < BoardInformations.InsideBoard.Length; i++)

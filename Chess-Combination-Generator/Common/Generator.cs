@@ -60,8 +60,13 @@ namespace Common
             Pieces = new List<byte>();
             Kings(board);
             Rocks(board, 2, false);
-            AI.AlphaBeta(board, 1, int.MinValue, int.MaxValue, isWhite, new StepAndValue(BoardInformations.CurrentPosition, 0, new List<StepAndValue>()));
-            if ((!checkIsOk && (AI.IsCheck(board) || AI.IsCheck(board, false)) /*|| AI.SAV.Children.First(y => y.EvaluatedValue == AI.SAV.Children.Min(x => x.EvaluatedValue)).EvaluatedValue != int.MinValue)*/))
+            //AI.AlphaBeta(board, 1, int.MinValue, int.MaxValue, isWhite, new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>()));
+
+            StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+
+            AI.AlphaBeta(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAV);
+
+            if ((!checkIsOk && (AI.IsCheck(board) || AI.IsCheck(board, false)) || SAV.Children.First(y => y.EvaluatedValue == SAV.Children.Min(x => x.EvaluatedValue)).EvaluatedValue != int.MinValue))
             {
                 for (byte i = 0; i < Pieces.Count(); i++)
                     board[Pieces[i]] = FieldType.Empty;
