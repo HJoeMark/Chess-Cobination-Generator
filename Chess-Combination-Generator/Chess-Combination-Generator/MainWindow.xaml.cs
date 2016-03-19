@@ -38,7 +38,7 @@ namespace Chess_Combination_Generator
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Init.BasicPosition();
-            board.SetBoard(BoardInformations.CurrentPosition);         
+            board.SetBoard(BoardInformations.CurrentPosition);
         }
 
         //Select a piece race
@@ -120,6 +120,8 @@ namespace Chess_Combination_Generator
             BitmapFrame frame = BitmapFrame.Create(bitmap);
             encoder.Frames.Add(frame);
 
+            if (!Directory.Exists("C"))
+                Directory.CreateDirectory("C");
             using (var stream = File.Create(fileName))
             {
                 encoder.Save(stream);

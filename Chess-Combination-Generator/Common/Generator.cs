@@ -54,16 +54,40 @@ namespace Common
             }
         }
 
+        static void Knights(FieldType[] board, byte number, bool isWhite = true)
+        {
+            var isComplete = false;
+            var numberOfKnight = 0;
+            Random rnd = new Random();
+            var index = rnd.Next(0, 63);
+            while (!isComplete)
+            {
+                if (!Pieces.Contains(BoardInformations.InsideBoard[index]))
+                {
+                    if (isWhite)
+                        board[BoardInformations.InsideBoard[index]] = FieldType.WhiteKnight;
+                    else
+                        board[BoardInformations.InsideBoard[index]] = FieldType.BlackKnight;
+                    Pieces.Add(BoardInformations.InsideBoard[index]);
+                    numberOfKnight++;
+                    if (numberOfKnight == number)
+                        isComplete = true;
+                }
+                else
+                    index = rnd.Next(0, 63);
+            }
+        }
+
 
         public static void Generate(FieldType[] board, bool checkIsOk = false, bool isWhite = true)
         {
             Pieces = new List<byte>();
             Kings(board);
             Rocks(board, 2, false);
-            //AI.AlphaBeta(board, 1, int.MinValue, int.MaxValue, isWhite, new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>()));
+            Knights(board, 2, false);
+            Knights(board, 1);
 
             StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-
             AI.AlphaBeta(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAV);
 
             if ((!checkIsOk && (AI.IsCheck(board) || AI.IsCheck(board, false)) || SAV.Children.First(y => y.EvaluatedValue == SAV.Children.Min(x => x.EvaluatedValue)).EvaluatedValue != int.MinValue))

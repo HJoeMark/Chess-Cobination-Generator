@@ -86,7 +86,7 @@ namespace Common
                                         result.Add((byte)newPos);
                                         continue;
                                     }
-                                    if (!BoardInformations.Frame.Contains((byte)newPos) && (byte)board[newPos] > 7)
+                                    if ((byte)board[newPos] > 7)
                                     {
                                         result.Add((byte)newPos);
                                         break;
@@ -116,7 +116,7 @@ namespace Common
                                         result.Add((byte)newPos);
                                         continue;
                                     }
-                                    if (!BoardInformations.Frame.Contains((byte)newPos) && ((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                                    if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
                                     {
                                         result.Add((byte)newPos);
                                         break;
@@ -128,6 +128,48 @@ namespace Common
                         }
                     }
                 }
+            }
+            return result.ToArray();
+        }
+
+        static byte[] WithKnight(FieldType[] board, bool isWhite = true)
+        {
+            List<byte> result = new List<byte>();
+            List<byte> knights = new List<byte>();
+
+            if (isWhite)
+                foreach (var field in BoardInformations.InsideBoard)
+                {
+                    if (board[field] == FieldType.WhiteKnight)
+                        knights.Add(field);
+                }
+            else
+                foreach (var field in BoardInformations.InsideBoard)
+                {
+                    if (board[field] == FieldType.BlackKnight)
+                        knights.Add(field);
+                }
+            if (knights.Count() > 0)
+            {
+                int newPos;
+                if (isWhite)
+                    foreach (var knightPos in knights)
+                        foreach (var item in KnightSteps)
+                        {
+                            newPos = (knightPos + item);
+                            if (newPos >= 0)
+                                if (board[newPos] != FieldType.Frame && (((byte)board[newPos] > 7) || board[newPos] == FieldType.Empty))
+                                    result.Add((byte)newPos);
+                        }
+                else
+                    foreach (var knightPos in knights)
+                        foreach (var item in KnightSteps)
+                        {
+                            newPos = (knightPos + item);
+                            if (newPos >= 0)
+                                if (board[newPos] != FieldType.Frame && (((byte)board[newPos] > 1 && (byte)board[newPos] < 8) || board[newPos] == FieldType.Empty))
+                                    result.Add((byte)newPos);
+                        }
             }
             return result.ToArray();
         }
@@ -152,7 +194,7 @@ namespace Common
                                 result.Add((byte)newPos);
                                 continue;
                             }
-                            if (!BoardInformations.Frame.Contains((byte)newPos) && (byte)board[newPos] > 7)
+                            if ((byte)board[newPos] > 7)
                             {
                                 result.Add((byte)newPos);
                                 break;
@@ -177,7 +219,7 @@ namespace Common
                                 result.Add((byte)newPos);
                                 continue;
                             }
-                            if (!BoardInformations.Frame.Contains((byte)newPos) && ((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                            if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
                             {
                                 result.Add((byte)newPos);
                                 break;
@@ -213,6 +255,31 @@ namespace Common
 
             return result.ToArray();
         }
+
+        public static byte[] WithKnight(FieldType[] board, byte knightPos, bool isWhite = true)
+        {
+            List<byte> result = new List<byte>();
+            int newPos;
+            if (isWhite)
+                foreach (var item in KnightSteps)
+                {
+                    newPos = (knightPos + item);
+                    if (newPos >= 0)
+                        if (board[newPos] != FieldType.Frame && (((byte)board[newPos] > 7) || board[newPos] == FieldType.Empty))
+                            result.Add((byte)newPos);
+                }
+            else
+                foreach (var item in KnightSteps)
+                {
+                    newPos = (knightPos + item);
+                    if (newPos >= 0)
+                        if (board[newPos] != FieldType.Frame && (((byte)board[newPos] > 1 && (byte)board[newPos] < 8) || board[newPos] == FieldType.Empty))
+                            result.Add((byte)newPos);
+                }
+
+            return result.ToArray();
+        }
+
         #endregion
 
         static byte[] Steps(FieldType[] board, byte figPos, bool isWhite = true)
@@ -229,6 +296,7 @@ namespace Common
                     result = WithRock(board, figPos);
                     break;
                 case FieldType.WhiteKnight:
+                    result = WithKnight(board, figPos);
                     break;
                 case FieldType.WhiteBishop:
                     break;
@@ -243,6 +311,7 @@ namespace Common
                     result = WithRock(board, figPos, false);
                     break;
                 case FieldType.BlackKnight:
+                    result = WithKnight(board, figPos, false);
                     break;
                 case FieldType.BlackBishop:
                     break;
@@ -265,6 +334,7 @@ namespace Common
             List<byte> result = new List<byte>();
             result.AddRange(WithKing(board, wKingPos, bKingPos, isWhite));
             result.AddRange(WithRock(board, isWhite));
+            result.AddRange(WithKnight(board, isWhite));
             return result.ToArray();
         }
 
@@ -321,6 +391,7 @@ namespace Common
 
         public static int[] KingSteps = new int[] { -13, -12, -11, -1, 1, 11, 12, 13 };
         public static int[] RockSteps = new int[] { -12, -1, 1, 12 };
+        public static int[] KnightSteps = new int[] { -25, -23, -14, -10, 10, 14, 23, 25 };
 
         public static byte WhereIsTheKing(FieldType[] board, bool isWhite = true)
         {
