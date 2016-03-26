@@ -151,5 +151,92 @@ namespace Common
             //I think the last two member are not important
             return result + (isWhite ? " w" : " b") + " 0" + " 0";
         }
+
+        public static void SetBoard(FieldType[] board, string fen)
+        {
+            var array = fen.Split('/');
+            array[array.Length - 1] = array[array.Length - 1].Split(' ')[0];
+            var fields = new FieldType[64];
+
+            var index = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                for (int j = 0; j < array[i].Length; j++)
+                {
+                    int n;
+                    bool isNumeric = int.TryParse(array[i].Substring(j, 1), out n);
+                    if (isNumeric)
+                    {
+                        for (int k = 0; k < n; k++)
+                        {                           
+                            fields[index] = FieldType.Empty;
+                            index += 1;
+                        }
+                    }
+                    else
+                    {
+                        switch (array[i].Substring(j, 1))
+                        {
+                            case "K":
+                                fields[index] = FieldType.WhiteKing;
+                                index++;
+                                break;
+                            case "Q":
+                                fields[index] = FieldType.WhiteQueen;
+                                index++;
+                                break;
+                            case "R":
+                                fields[index] = FieldType.WhiteRock;
+                                index++;
+                                break;
+                            case "B":
+                                fields[index] = FieldType.WhiteBishop;
+                                index++;
+                                break;
+                            case "N":
+                                fields[index] = FieldType.WhiteKnight;
+                                index++;
+                                break;
+                            case "P":
+                                fields[index] = FieldType.WhitePawn;
+                                index++;
+                                break;
+                            case "k":
+                                fields[index] = FieldType.BlackKing;
+                                index++;
+                                break;
+                            case "q":
+                                fields[index] = FieldType.BlackQueen;
+                                index++;
+                                break;
+                            case "r":
+                                fields[index] = FieldType.BlackRock;
+                                index++;
+                                break;
+                            case "b":
+                                fields[index] = FieldType.BlackBishop;
+                                index++;
+                                break;
+                            case "n":
+                                fields[index] = FieldType.BlackKnight;
+                                index++;
+                                break;
+                            case "p":
+                                fields[index] = FieldType.BlackPawn;
+                                index++;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+            var num = 0;
+            foreach (var field in InsideBoard)
+            {
+                board[field] = fields[num];
+                num++;
+            }
+        }
     }
 }

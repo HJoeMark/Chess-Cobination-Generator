@@ -57,37 +57,43 @@ namespace Chess_Combination_Generator.UI
                     Pawns = 0
                 }
             };
-
-
             this.DataContext = generationModel;
         }
 
         private void generate_btn_Click(object sender, RoutedEventArgs e)
         {
-            List<string> fens = new List<string>();
-            var index = 0;
-            var lastFen = "";
-            using (StreamWriter sw = new StreamWriter("fens" + DateTime.Now.Ticks + ".txt"))
+            try
             {
-                while (index < generationModel.NumberOfCombination)
+
+                List<string> fens = new List<string>();
+                var index = 0;
+                var lastFen = "";
+                if (!Directory.Exists("Fens"))
+                    Directory.CreateDirectory("Fens");
+                using (StreamWriter sw = new StreamWriter("Fens/fens" + DateTime.Now.Ticks + ".txt"))
                 {
-                    var fen = "";
-                    var nb = new FieldType[144];
-                    foreach (var item in BoardInformations.InsideBoard)
-                        nb[item] = FieldType.Empty;
-
-
-                    if (Common.Generator.Generate(nb, out fen, false, generationModel.IsWhite, generationModel.TreeLevel,
-                generationModel.Black.Queens, generationModel.Black.Rocks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
-                generationModel.White.Queens, generationModel.White.Rocks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns) && fen != lastFen)
+                    while (index < generationModel.NumberOfCombination)
                     {
-                        sw.WriteLine(fen);
-                        lastFen = fen;
-                        index++;
+                        var fen = "";
+                        var nb = new FieldType[144];
+                        foreach (var item in BoardInformations.InsideBoard)
+                            nb[item] = FieldType.Empty;
+                        if (Common.Generator.Generate(nb, out fen, false, generationModel.IsWhite, generationModel.TreeLevel,
+                    generationModel.Black.Queens, generationModel.Black.Rocks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
+                    generationModel.White.Queens, generationModel.White.Rocks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns) && fen != lastFen)
+                        {
+                            sw.WriteLine(fen);
+                            lastFen = fen;
+                            index++;
+                        }
                     }
                 }
+                MessageBox.Show("Complete", "Generate", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            MessageBox.Show("Complete");
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

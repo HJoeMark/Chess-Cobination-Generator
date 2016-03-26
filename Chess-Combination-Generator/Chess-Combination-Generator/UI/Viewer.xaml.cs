@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,12 +30,20 @@ namespace Chess_Combination_Generator.UI
 
         private void Viewer_Loaded(object sender, RoutedEventArgs e)
         {
-            fens_lbox.Items.Clear();
+            List<string> fens = new List<string>();
             if (Directory.Exists("Fens"))
                 foreach (var file in Directory.GetFiles("Fens"))
                     if (System.IO.Path.GetExtension(file) == ".txt")
                         foreach (string line in File.ReadLines(file))
-                            fens_lbox.Items.Add(line);
+                            fens.Add(line);
+
+            fens_lbox.ItemsSource = fens.Distinct().ToList();
+        }
+
+        private void fens_lbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BoardInformations.SetBoard(BoardInformations.CurrentPosition, fens_lbox.SelectedItem.ToString());
+            board.SetBoard(BoardInformations.CurrentPosition);
         }
     }
 }
