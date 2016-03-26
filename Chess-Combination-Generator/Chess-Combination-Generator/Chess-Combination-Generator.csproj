@@ -55,9 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\GenerationModel.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="UI\Board.xaml.cs">
       <DependentUpon>Board.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Generator.xaml.cs">
+      <DependentUpon>Generator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Viewer.xaml.cs">
+      <DependentUpon>Viewer.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -73,6 +80,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UI\Board.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Generator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Viewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -110,7 +125,9 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Documentation\SimpleFEN.jpg" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Documentation\bishop.jpg" />
     <Resource Include="Documentation\chess144board.jpg" />

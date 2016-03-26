@@ -30,8 +30,10 @@ namespace Common
             Pieces.Add(BoardInformations.InsideBoard[index2]);
         }
 
-        static void Rocks(FieldType[] board, byte number, bool isWhite = true)
+        static void Rocks(FieldType[] board, int number, bool isWhite = true)
         {
+            if (number == 0)
+                return;
             var isComplete = false;
             var numberOfRock = 0;
             Random rnd = new Random();
@@ -54,8 +56,10 @@ namespace Common
             }
         }
 
-        static void Knights(FieldType[] board, byte number, bool isWhite = true)
+        static void Knights(FieldType[] board, int number, bool isWhite = true)
         {
+            if (number == 0)
+                return;
             var isComplete = false;
             var numberOfKnight = 0;
             Random rnd = new Random();
@@ -79,22 +83,30 @@ namespace Common
         }
 
 
-        public static void Generate(FieldType[] board, bool checkIsOk = false, bool isWhite = true)
+        public static bool Generate(FieldType[] board, out string fen, bool checkIsOk = false, bool isWhite = true, int level = 5,
+            int bQueens = 0, int bRocks = 2, int bKnights = 2, int bBishops = 0, int bPawns = 0,
+            int wQueens = 0, int wRocks = 2, int wKnights = 2, int wBishops = 0, int wPawns = 0)
         {
+          
             Pieces = new List<byte>();
             Kings(board);
-            Rocks(board, 2, false);
-            Knights(board, 2, false);
-            Knights(board, 1);
+            Rocks(board, bRocks, false);
+            Rocks(board, wRocks);
+            Knights(board, bKnights, false);
+            Knights(board, wKnights);
 
             StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-            AI.AlphaBeta(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAV);
+            AI.AlphaBeta(board, level, int.MinValue, int.MaxValue, false, SAV);
 
             if ((!checkIsOk && (AI.IsCheck(board) || AI.IsCheck(board, false)) || SAV.Children.First(y => y.EvaluatedValue == SAV.Children.Min(x => x.EvaluatedValue)).EvaluatedValue != int.MinValue))
             {
-                for (byte i = 0; i < Pieces.Count(); i++)
-                    board[Pieces[i]] = FieldType.Empty;
-                Generate(board);
+                fen = "";
+                return false;
+            }
+            else
+            {
+                fen = BoardInformations.GetFEN(board, isWhite);
+                return true;
             }
         }
     }

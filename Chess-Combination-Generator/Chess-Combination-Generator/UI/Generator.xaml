@@ -1,0 +1,151 @@
+﻿<UserControl x:Class="Chess_Combination_Generator.UI.Generator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chess_Combination_Generator.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="500">
+    <Grid x:Name="generatorMain_grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Number of combination:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding NumberOfCombination}" Margin="5"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Tree level:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1"  Margin="5" Text="{Binding TreeLevel}"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Content="White step:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <CheckBox Grid.Column="1" IsChecked="{Binding IsWhite}" Margin="5" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="White pieces" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Queens:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=White.Queens}" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Rocks:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=White.Rocks}" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Knights:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=White.Knights}" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Bishops:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=White.Bishops}" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Pawns:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=White.Pawns}" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Black pieces" Grid.Column="1" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Queens:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=Black.Queens}" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Rocks:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=Black.Rocks}" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Knights:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=Black.Knights}" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Bishops:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=Black.Bishops}" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Pawns:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=Black.Pawns}" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <Button x:Name="generate_btn" Content="Generate" Grid.Row="4" Margin="5" Click="generate_btn_Click"/>
+    </Grid>
+</UserControl>

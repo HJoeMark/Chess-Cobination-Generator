@@ -75,5 +75,81 @@ namespace Common
                 result[BoardInformations.InsideBoard[i]] = FieldType.Empty;
             return result;
         }
+
+        public static string GetFEN(FieldType[] board, bool isWhite = true)
+        {
+            var result = "";
+            var empty = 0;
+            var index = 0;
+            foreach (var field in InsideBoard)
+            {
+                index++;
+                if (index > 8)
+                {
+                    index = 1;
+                    result += (empty > 0 ? (empty + "") : "") + "/";
+                    empty = 0;
+                }
+                switch (board[field])
+                {
+                    case FieldType.Empty:
+                        empty++;
+                        break;
+                    case FieldType.WhiteKing:
+                        result += (empty > 0 ? (empty + "") : "") + "K";
+                        empty = 0;
+                        break;
+                    case FieldType.WhiteQueen:
+                        result += (empty > 0 ? (empty + "") : "") + "Q";
+                        empty = 0;
+                        break;
+                    case FieldType.WhiteRock:
+                        result += (empty > 0 ? (empty + "") : "") + "R";
+                        empty = 0;
+                        break;
+                    case FieldType.WhiteKnight:
+                        result += (empty > 0 ? (empty + "") : "") + "N";
+                        empty = 0;
+                        break;
+                    case FieldType.WhiteBishop:
+                        result += (empty > 0 ? (empty + "") : "") + "B";
+                        empty = 0;
+                        break;
+                    case FieldType.WhitePawn:
+                        result += (empty > 0 ? (empty + "") : "") + "P";
+                        empty = 0;
+                        break;
+                    case FieldType.BlackKing:
+                        result += (empty > 0 ? (empty + "") : "") + "k";
+                        empty = 0;
+                        break;
+                    case FieldType.BlackQueen:
+                        result += (empty > 0 ? (empty + "") : "") + "q";
+                        empty = 0;
+                        break;
+                    case FieldType.BlackRock:
+                        result += (empty > 0 ? (empty + "") : "") + "r";
+                        empty = 0;
+                        break;
+                    case FieldType.BlackKnight:
+                        result += (empty > 0 ? (empty + "") : "") + "n";
+                        empty = 0;
+                        break;
+                    case FieldType.BlackBishop:
+                        result += (empty > 0 ? (empty + "") : "") + "b";
+                        empty = 0;
+                        break;
+                    case FieldType.BlackPawn:
+                        result += (empty > 0 ? (empty + "") : "") + "p";
+                        empty = 0;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            result += empty > 0 ? (empty + "") : "";
+            //I think the last two member are not important
+            return result + (isWhite ? " w" : " b") + " 0" + " 0";
+        }
     }
 }

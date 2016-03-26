@@ -4,29 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chess_Combination_Generator"
-        xmlns:board="clr-namespace:Chess_Combination_Generator.UI"
+        xmlns:UI="clr-namespace:Chess_Combination_Generator.UI"
         mc:Ignorable="d"
-        Title="Chess Combination Generator" Height="600" Width="800">
+        Title="Chess Combination Generator" Height="600" Width="800" WindowStartupLocation="CenterScreen">
     <Grid x:Name="main_grid" Background="LightGray">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2.5*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid x:Name="container_grid"  >
-            <board:Board x:Name="board" Width="500" Height="500"/>
-        </Grid>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Button x:Name="Test_btn" Content="TEST" Click="Test_btn_Click" />
-            <Button x:Name="Generate_btn" Grid.Row="1"  Content="Generate" Click="Generate_btn_Click"/>
-            <Button x:Name="Photo_btn" Grid.Row="2"  Content="Take a picture" Click="Photo_btn_Click" />
-            <!--<Label x:Name="EvaluteValue_lb" Grid.Row="2"/>-->
-            <ListBox x:Name="pSteps_lbox" Grid.Row="3"  SelectionChanged="pSteps_lbox_SelectionChanged" />
-        </Grid>
+        <TabControl>
+            <TabItem Header="Generator">
+                <UI:Generator/>
+            </TabItem>
+            <TabItem Header="Viewer">
+                <UI:Viewer/>
+            </TabItem>
+            <TabItem Header="Settings"></TabItem>
+        </TabControl>
+
     </Grid>
 </Window>

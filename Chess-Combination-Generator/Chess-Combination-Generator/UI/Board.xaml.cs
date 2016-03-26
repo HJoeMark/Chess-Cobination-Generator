@@ -128,23 +128,23 @@ namespace Chess_Combination_Generator.UI
 
         private void FieldClick(object sender, MouseButtonEventArgs e)
         {
-            var currentLabel = ((Label)sender);
-            if (!firstClick)
-            {
-                firstClick = true;
-                firstLabel = currentLabel;
-                firstLabel.Background = new SolidColorBrush(Colors.LightBlue);
-            }
-            else
-            {
-                firstClick = false;
-                currentLabel.Content = firstLabel.Content;
-                firstLabel.Content = "";
-                BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(currentLabel.Name.Substring(1))]] = BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(firstLabel.Name.Substring(1))]];
-                BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(firstLabel.Name.Substring(1))]] = FieldType.Empty;
+            //var currentLabel = ((Label)sender);
+            //if (!firstClick)
+            //{
+            //    firstClick = true;
+            //    firstLabel = currentLabel;
+            //    firstLabel.Background = new SolidColorBrush(Colors.LightBlue);
+            //}
+            //else
+            //{
+            //    firstClick = false;
+            //    currentLabel.Content = firstLabel.Content;
+            //    firstLabel.Content = "";
+            //    BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(currentLabel.Name.Substring(1))]] = BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(firstLabel.Name.Substring(1))]];
+            //    BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(firstLabel.Name.Substring(1))]] = FieldType.Empty;
 
-                //Step();
-            }
+            //    //Step();
+            //}
         }
 
         private void Step()

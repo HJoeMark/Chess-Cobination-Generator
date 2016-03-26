@@ -13,5 +13,9 @@ namespace Chess_Combination_Generator
         public static SolidColorBrush WhiteField = new SolidColorBrush(Colors.White);
         public static SolidColorBrush BlackField = new SolidColorBrush(Colors.Gray);
 
+
+        //File path
+
+        public static string SettingsPath = "Settings.xml";
     }
 }
