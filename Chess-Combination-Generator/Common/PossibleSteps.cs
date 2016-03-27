@@ -174,6 +174,85 @@ namespace Common
             return result.ToArray();
         }
 
+        static byte[] WithBishop(FieldType[] board, bool isWhite = true)
+        {
+            List<byte> result = new List<byte>();
+            List<byte> bishops = new List<byte>();
+
+            if (isWhite)
+            {
+                foreach (var field in BoardInformations.InsideBoard)
+                    if (board[field] == FieldType.WhiteBishop)
+                        bishops.Add(field);
+            }
+            else
+                foreach (var field in BoardInformations.InsideBoard)
+                    if (board[field] == FieldType.BlackBishop)
+                        bishops.Add(field);
+
+            if (bishops.Count() > 0)
+            {
+                int newPos;
+                if (isWhite)
+                {
+                    foreach (var bishopPos in bishops)
+                    {
+                        foreach (var item in BishopSteps)
+                        {
+                            for (int i = 1; i < 8; i++)
+                            {
+                                newPos = (bishopPos + item * i);
+                                if (board[newPos] == FieldType.Frame)
+                                    break;
+                                if (board[newPos] == FieldType.Empty)
+                                {
+                                    result.Add((byte)newPos);
+                                    continue;
+                                }
+                                if ((byte)board[newPos] > 7)
+                                {
+                                    result.Add((byte)newPos);
+                                    break;
+                                }
+                                else
+                                    break;
+
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var bishopPos in bishops)
+                    {
+                        foreach (var item in BishopSteps)
+                        {
+                            for (int i = 1; i < 8; i++)
+                            {
+                                newPos = (bishopPos + item * i);
+                                if (board[newPos] == FieldType.Frame)
+                                    break;
+                                if (board[newPos] == FieldType.Empty)
+                                {
+                                    result.Add((byte)newPos);
+                                    continue;
+                                }
+                                if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                                {
+                                    result.Add((byte)newPos);
+                                    break;
+                                }
+                                else
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            return result.ToArray();
+        }
+
+
         #region With Position
         public static byte[] WithRock(FieldType[] board, byte rockPos, bool isWhite = true)
         {
@@ -280,6 +359,57 @@ namespace Common
             return result.ToArray();
         }
 
+        public static byte[] WithBishop(FieldType[] board, byte bishopPos, bool isWhite = true)
+        {
+            List<byte> result = new List<byte>();
+            int newPos;
+            if (isWhite)
+                foreach (var item in BishopSteps)
+                {
+                    for (int i = 1; i < 8; i++)
+                    {
+                        newPos = (bishopPos + item * i);
+                        if (board[newPos] == FieldType.Frame)
+                            break;
+                        if (board[newPos] == FieldType.Empty)
+                        {
+                            result.Add((byte)newPos);
+                            continue;
+                        }
+                        if ((byte)board[newPos] > 7)
+                        {
+                            result.Add((byte)newPos);
+                            break;
+                        }
+                        else
+                            break;
+                    }
+                }
+            else
+                foreach (var item in BishopSteps)
+                {
+                    for (int i = 1; i < 8; i++)
+                    {
+                        newPos = (bishopPos + item * i);
+                        if (board[newPos] == FieldType.Frame)
+                            break;
+                        if (board[newPos] == FieldType.Empty)
+                        {
+                            result.Add((byte)newPos);
+                            continue;
+                        }
+                        if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                        {
+                            result.Add((byte)newPos);
+                            break;
+                        }
+                        else
+                            break;
+                    }
+                }
+            return result.ToArray();
+        }
+
         #endregion
 
         static byte[] Steps(FieldType[] board, byte figPos, bool isWhite = true)
@@ -299,6 +429,7 @@ namespace Common
                     result = WithKnight(board, figPos);
                     break;
                 case FieldType.WhiteBishop:
+                    result = WithBishop(board, figPos);
                     break;
                 case FieldType.WhitePawn:
                     break;
@@ -314,6 +445,7 @@ namespace Common
                     result = WithKnight(board, figPos, false);
                     break;
                 case FieldType.BlackBishop:
+                    result = WithBishop(board, figPos, false);
                     break;
                 case FieldType.BlackPawn:
                     break;
@@ -335,6 +467,7 @@ namespace Common
             result.AddRange(WithKing(board, wKingPos, bKingPos, isWhite));
             result.AddRange(WithRock(board, isWhite));
             result.AddRange(WithKnight(board, isWhite));
+            result.AddRange(WithBishop(board, isWhite));
             return result.ToArray();
         }
 
@@ -392,6 +525,7 @@ namespace Common
         public static int[] KingSteps = new int[] { -13, -12, -11, -1, 1, 11, 12, 13 };
         public static int[] RockSteps = new int[] { -12, -1, 1, 12 };
         public static int[] KnightSteps = new int[] { -25, -23, -14, -10, 10, 14, 23, 25 };
+        public static int[] BishopSteps = new int[] { -13, -11, 11, 13 };
 
         public static byte WhereIsTheKing(FieldType[] board, bool isWhite = true)
         {

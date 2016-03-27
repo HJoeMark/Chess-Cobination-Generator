@@ -45,5 +45,15 @@ namespace Chess_Combination_Generator.UI
             BoardInformations.SetBoard(BoardInformations.CurrentPosition, fens_lbox.SelectedItem.ToString());
             board.SetBoard(BoardInformations.CurrentPosition);
         }
+
+        private void fens_lbox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            fens_lbox.ContextMenu.Visibility = Visibility.Visible;
+        }      
+
+        private void copy_menuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(fens_lbox.SelectedItem.ToString());
+        }
     }
 }

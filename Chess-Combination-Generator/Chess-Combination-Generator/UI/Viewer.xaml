@@ -25,7 +25,13 @@
             <Button x:Name="Generate_btn" Grid.Row="1"  Content="Generate" Click="Generate_btn_Click"/>
             <Button x:Name="Photo_btn" Grid.Row="2"  Content="Take a picture" Click="Photo_btn_Click" />-->
             <!--<Label x:Name="EvaluteValue_lb" Grid.Row="2"/>-->
-            <ListBox x:Name="fens_lbox" Grid.Row="3" SelectionChanged="fens_lbox_SelectionChanged"  />
+            <ListBox x:Name="fens_lbox" Grid.Row="3" SelectionChanged="fens_lbox_SelectionChanged" MouseRightButtonUp="fens_lbox_MouseRightButtonUp"  >
+                <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Copy" x:Name="copy_menuItem" Click="copy_menuItem_Click" />
+                        </ContextMenu>                  
+                </ListBox.ContextMenu>
+            </ListBox>
         </Grid>
     </Grid>
 </UserControl>
