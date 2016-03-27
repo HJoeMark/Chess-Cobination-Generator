@@ -331,6 +331,84 @@ namespace Common
             return result.ToArray();
         }
 
+        static byte[] WithPawn(FieldType[] board, bool isWhite = true)
+        {
+            List<byte> result = new List<byte>();
+            List<byte> pawns = new List<byte>();
+
+            if (isWhite)
+            {
+                foreach (var field in BoardInformations.InsideBoard)
+                    if (board[field] == FieldType.WhitePawn)
+                        pawns.Add(field);
+            }
+            else
+                foreach (var field in BoardInformations.InsideBoard)
+                    if (board[field] == FieldType.BlackPawn)
+                        pawns.Add(field);
+
+            if (pawns.Count() > 0)
+            {
+                int newPos;
+                if (isWhite)
+                {
+                    foreach (var queenPos in pawns)
+                    {
+                        foreach (var item in QueenSteps)
+                        {
+                            for (int i = 1; i < 8; i++)
+                            {
+                                newPos = (queenPos + item * i);
+                                if (board[newPos] == FieldType.Frame)
+                                    break;
+                                if (board[newPos] == FieldType.Empty)
+                                {
+                                    result.Add((byte)newPos);
+                                    continue;
+                                }
+                                if ((byte)board[newPos] > 7)
+                                {
+                                    result.Add((byte)newPos);
+                                    break;
+                                }
+                                else
+                                    break;
+
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var queenPos in pawns)
+                    {
+                        foreach (var item in QueenSteps)
+                        {
+                            for (int i = 1; i < 8; i++)
+                            {
+                                newPos = (queenPos + item * i);
+                                if (board[newPos] == FieldType.Frame)
+                                    break;
+                                if (board[newPos] == FieldType.Empty)
+                                {
+                                    result.Add((byte)newPos);
+                                    continue;
+                                }
+                                if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                                {
+                                    result.Add((byte)newPos);
+                                    break;
+                                }
+                                else
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            return result.ToArray();
+        }
+
 
         #region With Position
         public static byte[] WithRock(FieldType[] board, byte rockPos, bool isWhite = true)
