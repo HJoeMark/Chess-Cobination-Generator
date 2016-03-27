@@ -10,9 +10,9 @@ Check List:
 
 --Rock-Ok
 
---Bishop-
+--Bishop-Ok
 
---Knight-
+--Knight-Ok
 
 --Queen-
 
