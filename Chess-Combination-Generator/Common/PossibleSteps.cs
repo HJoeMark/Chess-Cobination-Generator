@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common
 {
+    //TODO: Steps functions may be combined
     public static class PossibleSteps
     {
         /// <summary>
@@ -252,6 +253,84 @@ namespace Common
             return result.ToArray();
         }
 
+        static byte[] WithQueen(FieldType[] board, bool isWhite = true)
+        {
+            List<byte> result = new List<byte>();
+            List<byte> queens = new List<byte>();
+
+            if (isWhite)
+            {
+                foreach (var field in BoardInformations.InsideBoard)
+                    if (board[field] == FieldType.WhiteQueen)
+                        queens.Add(field);
+            }
+            else
+                foreach (var field in BoardInformations.InsideBoard)
+                    if (board[field] == FieldType.BlackQueen)
+                        queens.Add(field);
+
+            if (queens.Count() > 0)
+            {
+                int newPos;
+                if (isWhite)
+                {
+                    foreach (var queenPos in queens)
+                    {
+                        foreach (var item in QueenSteps)
+                        {
+                            for (int i = 1; i < 8; i++)
+                            {
+                                newPos = (queenPos + item * i);
+                                if (board[newPos] == FieldType.Frame)
+                                    break;
+                                if (board[newPos] == FieldType.Empty)
+                                {
+                                    result.Add((byte)newPos);
+                                    continue;
+                                }
+                                if ((byte)board[newPos] > 7)
+                                {
+                                    result.Add((byte)newPos);
+                                    break;
+                                }
+                                else
+                                    break;
+
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var queenPos in queens)
+                    {
+                        foreach (var item in QueenSteps)
+                        {
+                            for (int i = 1; i < 8; i++)
+                            {
+                                newPos = (queenPos + item * i);
+                                if (board[newPos] == FieldType.Frame)
+                                    break;
+                                if (board[newPos] == FieldType.Empty)
+                                {
+                                    result.Add((byte)newPos);
+                                    continue;
+                                }
+                                if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                                {
+                                    result.Add((byte)newPos);
+                                    break;
+                                }
+                                else
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            return result.ToArray();
+        }
+
 
         #region With Position
         public static byte[] WithRock(FieldType[] board, byte rockPos, bool isWhite = true)
@@ -410,6 +489,58 @@ namespace Common
             return result.ToArray();
         }
 
+        public static byte[] WithQueen(FieldType[] board, byte queenPos, bool isWhite = true)
+        {
+            List<byte> result = new List<byte>();
+            int newPos;
+            if (isWhite)
+                foreach (var item in QueenSteps)
+                {
+                    for (int i = 1; i < 8; i++)
+                    {
+                        newPos = (queenPos + item * i);
+                        if (board[newPos] == FieldType.Frame)
+                            break;
+                        if (board[newPos] == FieldType.Empty)
+                        {
+                            result.Add((byte)newPos);
+                            continue;
+                        }
+                        if ((byte)board[newPos] > 7)
+                        {
+                            result.Add((byte)newPos);
+                            break;
+                        }
+                        else
+                            break;
+                    }
+                }
+            else
+                foreach (var item in QueenSteps)
+                {
+                    for (int i = 1; i < 8; i++)
+                    {
+                        newPos = (queenPos + item * i);
+                        if (board[newPos] == FieldType.Frame)
+                            break;
+                        if (board[newPos] == FieldType.Empty)
+                        {
+                            result.Add((byte)newPos);
+                            continue;
+                        }
+                        if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                        {
+                            result.Add((byte)newPos);
+                            break;
+                        }
+                        else
+                            break;
+                    }
+                }
+            return result.ToArray();
+        }
+
+
         #endregion
 
         static byte[] Steps(FieldType[] board, byte figPos, bool isWhite = true)
@@ -421,6 +552,7 @@ namespace Common
                     result = WithKing(board, figPos);
                     break;
                 case FieldType.WhiteQueen:
+                    result = WithQueen(board, figPos);
                     break;
                 case FieldType.WhiteRock:
                     result = WithRock(board, figPos);
@@ -437,6 +569,7 @@ namespace Common
                     result = WithKing(board, figPos, false);
                     break;
                 case FieldType.BlackQueen:
+                    result = WithQueen(board, figPos, false);
                     break;
                 case FieldType.BlackRock:
                     result = WithRock(board, figPos, false);
@@ -457,7 +590,7 @@ namespace Common
 
         public static byte[] AllPiece(FieldType[] board, bool isWhite = true)
         {
-            //TODO bishop, knight, queen, pawn
+            //TODO pawn
             var wKingPos = WhereIsTheKing(board);
             var bKingPos = WhereIsTheKing(board, false);
             //Smash the king
@@ -468,6 +601,7 @@ namespace Common
             result.AddRange(WithRock(board, isWhite));
             result.AddRange(WithKnight(board, isWhite));
             result.AddRange(WithBishop(board, isWhite));
+            result.AddRange(WithQueen(board, isWhite));
             return result.ToArray();
         }
 
@@ -526,6 +660,7 @@ namespace Common
         public static int[] RockSteps = new int[] { -12, -1, 1, 12 };
         public static int[] KnightSteps = new int[] { -25, -23, -14, -10, 10, 14, 23, 25 };
         public static int[] BishopSteps = new int[] { -13, -11, 11, 13 };
+        public static int[] QueenSteps = new int[] { -13, -12, -11, -1, 1, 12, 11, 13 };
 
         public static byte WhereIsTheKing(FieldType[] board, bool isWhite = true)
         {
