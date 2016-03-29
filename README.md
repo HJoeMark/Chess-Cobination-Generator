@@ -2,7 +2,8 @@
 
 It is my test project.
 
-![Alt text](Chess-Combination-Generator/Chess-Combination-Generator/Documentation/Program/GeneratorUI.PNG "Optional Title")
+![Alt text](Chess-Combination-Generator/Chess-Combination-Generator/Documentation/Program/GeneratorUI.PNG "GeneratorUI")
+![Alt text](Chess-Combination-Generator/Chess-Combination-Generator/Documentation/Program/ViewerUI.PNG "ViewerUI")
 
 Check List:
 
