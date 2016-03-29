@@ -10,14 +10,19 @@ Check List:
 -PossibleSteps-Processing
 
 --King-Ok
+![Alt text](Chess-Combination-Generator/Chess-Combination-Generator/Documentation/king.jpg "king steps")
 
 --Rock-Ok
+![Alt text](Chess-Combination-Generator/Chess-Combination-Generator/Documentation/rock.jpg "rock steps")
 
 --Bishop-Ok
+![Alt text](Chess-Combination-Generator/Chess-Combination-Generator/Documentation/bishop.jpg "bishop steps")
 
 --Knight-Ok
+![Alt text](Chess-Combination-Generator/Chess-Combination-Generator/Documentation/knight.jpg "knight steps")
 
 --Queen-Ok
+![Alt text](Chess-Combination-Generator/Chess-Combination-Generator/Documentation/queen.jpg "queen steps")
 
 --Pawn-
 
