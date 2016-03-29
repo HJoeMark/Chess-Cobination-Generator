@@ -146,6 +146,6 @@
                 </Grid>
             </GroupBox>
         </Grid>
-        <Button x:Name="generate_btn" Content="Generate" Grid.Row="4" Margin="5" Click="generate_btn_Click"/>
+        <Button x:Name="generate_btn" Content="Start Generate" Grid.Row="4" Margin="5" Click="generate_btn_Click"/>
     </Grid>
 </UserControl>

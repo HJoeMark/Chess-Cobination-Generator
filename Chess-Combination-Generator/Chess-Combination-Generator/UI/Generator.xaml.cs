@@ -2,9 +2,11 @@
 using Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,15 +26,13 @@ namespace Chess_Combination_Generator.UI
     public partial class Generator : UserControl
     {
         GenerationModel generationModel;
+        BackgroundWorker bw = null;
+        private bool isStart = false;
 
         public Generator()
         {
             InitializeComponent();
             this.Loaded += Generator_Loaded;
-        }
-
-        private void Generator_Loaded(object sender, RoutedEventArgs e)
-        {
             // TODO: Load for settings.xml
             //TEST
             generationModel = new GenerationModel()
@@ -60,45 +60,79 @@ namespace Chess_Combination_Generator.UI
             this.DataContext = generationModel;
         }
 
-        private void generate_btn_Click(object sender, RoutedEventArgs e)
+        private void Generator_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+
+
+        }
+
+        private void generate_btn_Click(object sende, RoutedEventArgs e)
+        {
+            if (bw != null)
             {
+                isStart = false;
+                bw.CancelAsync();
+                bw.Dispose();
+                bw = null;
+                generate_btn.Content = "Start Generate";
 
-                List<string> fens = new List<string>();
-                var index = 0;
-                var lastFen = "";
-                if (!Directory.Exists("Fens"))
-                    Directory.CreateDirectory("Fens");
-
-                var path = "Fens/fens" + DateTime.Now.Ticks + ".txt";
-
-                while (index < generationModel.NumberOfCombination)
+            }
+            else
+            {
+                isStart = true;
+                bw = new BackgroundWorker();
+                bw.WorkerSupportsCancellation = true;
+                generate_btn.Content = "Stop Generate";
+                // define the event handlers
+                bw.DoWork += (sender, args) =>
                 {
-                    var fen = "";
-                    var nb = new FieldType[144];
-                    foreach (var item in BoardInformations.InsideBoard)
-                        nb[item] = FieldType.Empty;
-                    if (Common.Generator.Generate(nb, out fen, false, generationModel.IsWhite, generationModel.TreeLevel,
-                generationModel.Black.Queens, generationModel.Black.Rocks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
-                generationModel.White.Queens, generationModel.White.Rocks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns) && fen != lastFen)
-                    {
-                        using (StreamWriter sw = new StreamWriter(path))
-                        {
-                            sw.WriteLine(fen);
-                            lastFen = fen;
-                            index++;
+                    List<string> fens = new List<string>();
+                    var index = 0;
+                    var lastFen = "";
+                    if (!Directory.Exists("Fens"))
+                        Directory.CreateDirectory("Fens");
 
+                    var path = "Fens/fens" + DateTime.Now.Ticks + ".txt";
+                    using (StreamWriter sw = new StreamWriter(path))
+                    {
+                        while (index < generationModel.NumberOfCombination && isStart)
+                        {
+                            var fen = "";
+                            var nb = new FieldType[144];
+                            foreach (var item in BoardInformations.InsideBoard)
+                                nb[item] = FieldType.Empty;
+                            if (Common.Generator.Generate(nb, out fen, false, generationModel.IsWhite, generationModel.TreeLevel,
+                        generationModel.Black.Queens, generationModel.Black.Rocks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
+                        generationModel.White.Queens, generationModel.White.Rocks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns) && fen != lastFen)
+                            {
+                                sw.WriteLine(fen);
+                                lastFen = fen;
+                                index++;
+                            }
                         }
                     }
-                }
+                    if (isStart)
+                        MessageBox.Show("Complete", "Generate", MessageBoxButton.OK, MessageBoxImage.Information);
+                };
+                bw.RunWorkerCompleted += (sender, args) =>
+                {
+                    if (args.Error != null)  // if an exception occurred during DoWork,
+                        MessageBox.Show(args.Error.ToString());  // do your error handling here
 
-                MessageBox.Show("Complete", "Generate", MessageBoxButton.OK, MessageBoxImage.Information);
+                    // Do whatever else you want to do after the work completed.
+                    // This happens in the main UI thread.
+                    generate_btn.Content = "Start Generate";
+                    isStart = false;
+
+                };
+                bw.Disposed += (sender, args) =>
+                {
+
+                };
+                bw.RunWorkerAsync(); // starts the background worker
+
+                // execution continues here in parallel to the background worker
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        }     
     }
 }
