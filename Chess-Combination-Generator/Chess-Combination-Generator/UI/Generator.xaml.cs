@@ -70,24 +70,29 @@ namespace Chess_Combination_Generator.UI
                 var lastFen = "";
                 if (!Directory.Exists("Fens"))
                     Directory.CreateDirectory("Fens");
-                using (StreamWriter sw = new StreamWriter("Fens/fens" + DateTime.Now.Ticks + ".txt"))
+
+                var path = "Fens/fens" + DateTime.Now.Ticks + ".txt";
+
+                while (index < generationModel.NumberOfCombination)
                 {
-                    while (index < generationModel.NumberOfCombination)
+                    var fen = "";
+                    var nb = new FieldType[144];
+                    foreach (var item in BoardInformations.InsideBoard)
+                        nb[item] = FieldType.Empty;
+                    if (Common.Generator.Generate(nb, out fen, false, generationModel.IsWhite, generationModel.TreeLevel,
+                generationModel.Black.Queens, generationModel.Black.Rocks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
+                generationModel.White.Queens, generationModel.White.Rocks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns) && fen != lastFen)
                     {
-                        var fen = "";
-                        var nb = new FieldType[144];
-                        foreach (var item in BoardInformations.InsideBoard)
-                            nb[item] = FieldType.Empty;
-                        if (Common.Generator.Generate(nb, out fen, false, generationModel.IsWhite, generationModel.TreeLevel,
-                    generationModel.Black.Queens, generationModel.Black.Rocks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
-                    generationModel.White.Queens, generationModel.White.Rocks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns) && fen != lastFen)
+                        using (StreamWriter sw = new StreamWriter(path))
                         {
                             sw.WriteLine(fen);
                             lastFen = fen;
                             index++;
+
                         }
                     }
                 }
+
                 MessageBox.Show("Complete", "Generate", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
