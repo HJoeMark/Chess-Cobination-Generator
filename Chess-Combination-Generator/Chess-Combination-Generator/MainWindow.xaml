@@ -8,6 +8,10 @@
         mc:Ignorable="d"
         Title="Chess Combination Generator" Height="600" Width="800" WindowStartupLocation="CenterScreen">
     <Grid x:Name="main_grid" Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
         <TabControl>
             <TabItem Header="Generator">
                 <UI:Generator/>
@@ -17,6 +21,9 @@
             </TabItem>
             <TabItem Header="Settings"></TabItem>
         </TabControl>
-
+        <Grid Grid.Row="1" >
+            <ProgressBar x:Name="generationProcess_pbar" Margin="2" />
+            <TextBlock x:Name="generazionProcess_tblock" Text="100/10" TextAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
     </Grid>
 </Window>

@@ -9,12 +9,6 @@ namespace Common
     //TODO: Steps functions may be combined
     public static class PossibleSteps
     {
-        /// <summary>
-        /// King possible steps
-        /// </summary>
-        /// <param name="board">the current board</param>
-        /// <param name="isWhite">who is comming</param>
-        /// <returns>the fields, where the king can move</returns>
         static byte[] WithKing(FieldType[] board, byte? wKingPos, byte? bKingPos, bool isWhite = true)
         {
             List<byte> result = new List<byte>();
@@ -49,424 +43,7 @@ namespace Common
             return result.ToArray();
         }
 
-        static byte[] WithRock(FieldType[] board, bool isWhite = true)
-        {
-            List<byte> result = new List<byte>();
-            List<byte> rocks = new List<byte>();
-
-            if (isWhite)
-                foreach (var field in BoardInformations.InsideBoard)
-                {
-                    if (board[field] == FieldType.WhiteRock)
-                        rocks.Add(field);
-                }
-            else
-                foreach (var field in BoardInformations.InsideBoard)
-                {
-                    if (board[field] == FieldType.BlackRock)
-                        rocks.Add(field);
-                }
-            if (rocks.Count() > 0)
-            {
-                int newPos;
-                if (isWhite)
-                {
-                    foreach (var rockPos in rocks)
-                    {
-                        foreach (var item in RockSteps)
-                        {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                newPos = (rockPos + item * i);
-                                if (newPos >= 0)
-                                {
-                                    if (board[newPos] == FieldType.Frame)
-                                        break;
-                                    if (board[newPos] == FieldType.Empty)
-                                    {
-                                        result.Add((byte)newPos);
-                                        continue;
-                                    }
-                                    if ((byte)board[newPos] > 7)
-                                    {
-                                        result.Add((byte)newPos);
-                                        break;
-                                    }
-                                    else
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var rockPos in rocks)
-                    {
-                        foreach (var item in RockSteps)
-                        {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                newPos = (rockPos + item * i);
-                                if (newPos >= 0)
-                                {
-                                    if (board[newPos] == FieldType.Frame)
-                                        break;
-                                    if (board[newPos] == FieldType.Empty)
-                                    {
-                                        result.Add((byte)newPos);
-                                        continue;
-                                    }
-                                    if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
-                                    {
-                                        result.Add((byte)newPos);
-                                        break;
-                                    }
-                                    else
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return result.ToArray();
-        }
-
-        static byte[] WithKnight(FieldType[] board, bool isWhite = true)
-        {
-            List<byte> result = new List<byte>();
-            List<byte> knights = new List<byte>();
-
-            if (isWhite)
-                foreach (var field in BoardInformations.InsideBoard)
-                {
-                    if (board[field] == FieldType.WhiteKnight)
-                        knights.Add(field);
-                }
-            else
-                foreach (var field in BoardInformations.InsideBoard)
-                {
-                    if (board[field] == FieldType.BlackKnight)
-                        knights.Add(field);
-                }
-            if (knights.Count() > 0)
-            {
-                int newPos;
-                if (isWhite)
-                    foreach (var knightPos in knights)
-                        foreach (var item in KnightSteps)
-                        {
-                            newPos = (knightPos + item);
-                            if (newPos >= 0)
-                                if (board[newPos] != FieldType.Frame && (((byte)board[newPos] > 7) || board[newPos] == FieldType.Empty))
-                                    result.Add((byte)newPos);
-                        }
-                else
-                    foreach (var knightPos in knights)
-                        foreach (var item in KnightSteps)
-                        {
-                            newPos = (knightPos + item);
-                            if (newPos >= 0)
-                                if (board[newPos] != FieldType.Frame && (((byte)board[newPos] > 1 && (byte)board[newPos] < 8) || board[newPos] == FieldType.Empty))
-                                    result.Add((byte)newPos);
-                        }
-            }
-            return result.ToArray();
-        }
-
-        static byte[] WithBishop(FieldType[] board, bool isWhite = true)
-        {
-            List<byte> result = new List<byte>();
-            List<byte> bishops = new List<byte>();
-
-            if (isWhite)
-            {
-                foreach (var field in BoardInformations.InsideBoard)
-                    if (board[field] == FieldType.WhiteBishop)
-                        bishops.Add(field);
-            }
-            else
-                foreach (var field in BoardInformations.InsideBoard)
-                    if (board[field] == FieldType.BlackBishop)
-                        bishops.Add(field);
-
-            if (bishops.Count() > 0)
-            {
-                int newPos;
-                if (isWhite)
-                {
-                    foreach (var bishopPos in bishops)
-                    {
-                        foreach (var item in BishopSteps)
-                        {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                newPos = (bishopPos + item * i);
-                                if (board[newPos] == FieldType.Frame)
-                                    break;
-                                if (board[newPos] == FieldType.Empty)
-                                {
-                                    result.Add((byte)newPos);
-                                    continue;
-                                }
-                                if ((byte)board[newPos] > 7)
-                                {
-                                    result.Add((byte)newPos);
-                                    break;
-                                }
-                                else
-                                    break;
-
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var bishopPos in bishops)
-                    {
-                        foreach (var item in BishopSteps)
-                        {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                newPos = (bishopPos + item * i);
-                                if (board[newPos] == FieldType.Frame)
-                                    break;
-                                if (board[newPos] == FieldType.Empty)
-                                {
-                                    result.Add((byte)newPos);
-                                    continue;
-                                }
-                                if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
-                                {
-                                    result.Add((byte)newPos);
-                                    break;
-                                }
-                                else
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-            return result.ToArray();
-        }
-
-        static byte[] WithQueen(FieldType[] board, bool isWhite = true)
-        {
-            List<byte> result = new List<byte>();
-            List<byte> queens = new List<byte>();
-
-            if (isWhite)
-            {
-                foreach (var field in BoardInformations.InsideBoard)
-                    if (board[field] == FieldType.WhiteQueen)
-                        queens.Add(field);
-            }
-            else
-                foreach (var field in BoardInformations.InsideBoard)
-                    if (board[field] == FieldType.BlackQueen)
-                        queens.Add(field);
-
-            if (queens.Count() > 0)
-            {
-                int newPos;
-                if (isWhite)
-                {
-                    foreach (var queenPos in queens)
-                    {
-                        foreach (var item in QueenSteps)
-                        {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                newPos = (queenPos + item * i);
-                                if (board[newPos] == FieldType.Frame)
-                                    break;
-                                if (board[newPos] == FieldType.Empty)
-                                {
-                                    result.Add((byte)newPos);
-                                    continue;
-                                }
-                                if ((byte)board[newPos] > 7)
-                                {
-                                    result.Add((byte)newPos);
-                                    break;
-                                }
-                                else
-                                    break;
-
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var queenPos in queens)
-                    {
-                        foreach (var item in QueenSteps)
-                        {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                newPos = (queenPos + item * i);
-                                if (board[newPos] == FieldType.Frame)
-                                    break;
-                                if (board[newPos] == FieldType.Empty)
-                                {
-                                    result.Add((byte)newPos);
-                                    continue;
-                                }
-                                if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
-                                {
-                                    result.Add((byte)newPos);
-                                    break;
-                                }
-                                else
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-            return result.ToArray();
-        }
-
-        static byte[] WithPawn(FieldType[] board, bool isWhite = true)
-        {
-            List<byte> result = new List<byte>();
-            List<byte> pawns = new List<byte>();
-
-            if (isWhite)
-            {
-                foreach (var field in BoardInformations.InsideBoard)
-                    if (board[field] == FieldType.WhitePawn)
-                        pawns.Add(field);
-            }
-            else
-                foreach (var field in BoardInformations.InsideBoard)
-                    if (board[field] == FieldType.BlackPawn)
-                        pawns.Add(field);
-
-            if (pawns.Count() > 0)
-            {
-                int newPos;
-                if (isWhite)
-                {
-                    foreach (var queenPos in pawns)
-                    {
-                        foreach (var item in QueenSteps)
-                        {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                newPos = (queenPos + item * i);
-                                if (board[newPos] == FieldType.Frame)
-                                    break;
-                                if (board[newPos] == FieldType.Empty)
-                                {
-                                    result.Add((byte)newPos);
-                                    continue;
-                                }
-                                if ((byte)board[newPos] > 7)
-                                {
-                                    result.Add((byte)newPos);
-                                    break;
-                                }
-                                else
-                                    break;
-
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var queenPos in pawns)
-                    {
-                        foreach (var item in QueenSteps)
-                        {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                newPos = (queenPos + item * i);
-                                if (board[newPos] == FieldType.Frame)
-                                    break;
-                                if (board[newPos] == FieldType.Empty)
-                                {
-                                    result.Add((byte)newPos);
-                                    continue;
-                                }
-                                if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
-                                {
-                                    result.Add((byte)newPos);
-                                    break;
-                                }
-                                else
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-            return result.ToArray();
-        }
-
-
         #region With Position
-        public static byte[] WithRock(FieldType[] board, byte rockPos, bool isWhite = true)
-        {
-            List<byte> result = new List<byte>();
-            int newPos;
-            if (isWhite)
-                foreach (var item in RockSteps)
-                {
-                    for (int i = 1; i < 8; i++)
-                    {
-                        newPos = (rockPos + item * i);
-                        if (newPos >= 0)
-                        {
-                            if (board[newPos] == FieldType.Frame)
-                                break;
-                            if (board[newPos] == FieldType.Empty)
-                            {
-                                result.Add((byte)newPos);
-                                continue;
-                            }
-                            if ((byte)board[newPos] > 7)
-                            {
-                                result.Add((byte)newPos);
-                                break;
-                            }
-                            else
-                                break;
-                        }
-                    }
-                }
-            else
-                foreach (var item in RockSteps)
-                {
-                    for (int i = 1; i < 8; i++)
-                    {
-                        newPos = (rockPos + item * i);
-                        if (newPos >= 0)
-                        {
-                            if (board[newPos] == FieldType.Frame)
-                                break;
-                            if (board[newPos] == FieldType.Empty)
-                            {
-                                result.Add((byte)newPos);
-                                continue;
-                            }
-                            if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
-                            {
-                                result.Add((byte)newPos);
-                                break;
-                            }
-                            else
-                                break;
-                        }
-                    }
-                }
-            return result.ToArray();
-        }
 
         public static byte[] WithKing(FieldType[] board, byte kingPos, bool isWhite = true)
         {
@@ -516,16 +93,16 @@ namespace Common
             return result.ToArray();
         }
 
-        public static byte[] WithBishop(FieldType[] board, byte bishopPos, bool isWhite = true)
+        public static byte[] WithPiece(FieldType[] board, byte piecePos, int[] steps, bool isWhite = true)
         {
             List<byte> result = new List<byte>();
             int newPos;
             if (isWhite)
-                foreach (var item in BishopSteps)
+                foreach (var item in steps)
                 {
                     for (int i = 1; i < 8; i++)
                     {
-                        newPos = (bishopPos + item * i);
+                        newPos = (piecePos + item * i);
                         if (board[newPos] == FieldType.Frame)
                             break;
                         if (board[newPos] == FieldType.Empty)
@@ -543,11 +120,11 @@ namespace Common
                     }
                 }
             else
-                foreach (var item in BishopSteps)
+                foreach (var item in steps)
                 {
                     for (int i = 1; i < 8; i++)
                     {
-                        newPos = (bishopPos + item * i);
+                        newPos = (piecePos + item * i);
                         if (board[newPos] == FieldType.Frame)
                             break;
                         if (board[newPos] == FieldType.Empty)
@@ -565,60 +142,8 @@ namespace Common
                     }
                 }
             return result.ToArray();
+
         }
-
-        public static byte[] WithQueen(FieldType[] board, byte queenPos, bool isWhite = true)
-        {
-            List<byte> result = new List<byte>();
-            int newPos;
-            if (isWhite)
-                foreach (var item in QueenSteps)
-                {
-                    for (int i = 1; i < 8; i++)
-                    {
-                        newPos = (queenPos + item * i);
-                        if (board[newPos] == FieldType.Frame)
-                            break;
-                        if (board[newPos] == FieldType.Empty)
-                        {
-                            result.Add((byte)newPos);
-                            continue;
-                        }
-                        if ((byte)board[newPos] > 7)
-                        {
-                            result.Add((byte)newPos);
-                            break;
-                        }
-                        else
-                            break;
-                    }
-                }
-            else
-                foreach (var item in QueenSteps)
-                {
-                    for (int i = 1; i < 8; i++)
-                    {
-                        newPos = (queenPos + item * i);
-                        if (board[newPos] == FieldType.Frame)
-                            break;
-                        if (board[newPos] == FieldType.Empty)
-                        {
-                            result.Add((byte)newPos);
-                            continue;
-                        }
-                        if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
-                        {
-                            result.Add((byte)newPos);
-                            break;
-                        }
-                        else
-                            break;
-                    }
-                }
-            return result.ToArray();
-        }
-
-
         #endregion
 
         static byte[] Steps(FieldType[] board, byte figPos, bool isWhite = true)
@@ -630,16 +155,16 @@ namespace Common
                     result = WithKing(board, figPos);
                     break;
                 case FieldType.WhiteQueen:
-                    result = WithQueen(board, figPos);
+                    result = WithPiece(board, figPos, QueenSteps);
                     break;
                 case FieldType.WhiteRock:
-                    result = WithRock(board, figPos);
+                    result = WithPiece(board, figPos, RockSteps);
                     break;
                 case FieldType.WhiteKnight:
                     result = WithKnight(board, figPos);
                     break;
                 case FieldType.WhiteBishop:
-                    result = WithBishop(board, figPos);
+                    result = WithPiece(board, figPos, BishopSteps);
                     break;
                 case FieldType.WhitePawn:
                     break;
@@ -647,16 +172,16 @@ namespace Common
                     result = WithKing(board, figPos, false);
                     break;
                 case FieldType.BlackQueen:
-                    result = WithQueen(board, figPos, false);
+                    result = WithPiece(board, figPos, QueenSteps, false);
                     break;
                 case FieldType.BlackRock:
-                    result = WithRock(board, figPos, false);
+                    result = WithPiece(board, figPos, RockSteps, false);
                     break;
                 case FieldType.BlackKnight:
                     result = WithKnight(board, figPos, false);
                     break;
                 case FieldType.BlackBishop:
-                    result = WithBishop(board, figPos, false);
+                    result = WithPiece(board, figPos, BishopSteps, false);
                     break;
                 case FieldType.BlackPawn:
                     break;
@@ -676,10 +201,36 @@ namespace Common
                 return new List<byte>().ToArray();
             List<byte> result = new List<byte>();
             result.AddRange(WithKing(board, wKingPos, bKingPos, isWhite));
-            result.AddRange(WithRock(board, isWhite));
-            result.AddRange(WithKnight(board, isWhite));
-            result.AddRange(WithBishop(board, isWhite));
-            result.AddRange(WithQueen(board, isWhite));
+
+            if (isWhite)
+            {
+                foreach (var field in BoardInformations.InsideBoard)
+                {
+                    if (board[field] == FieldType.WhiteRock)
+                        result.AddRange(WithPiece(board, field, RockSteps, isWhite));
+                    if (board[field] == FieldType.WhiteBishop)
+                        result.AddRange(WithPiece(board, field, BishopSteps, isWhite));
+                    if (board[field] == FieldType.WhiteQueen)
+                        result.AddRange(WithPiece(board, field, QueenSteps, isWhite));
+                    if (board[field] == FieldType.WhiteKnight)
+                        result.AddRange(WithKnight(board, field, isWhite));
+                }
+            }
+            else
+            {
+                foreach (var field in BoardInformations.InsideBoard)
+                {
+                    if (board[field] == FieldType.BlackRock)
+                        result.AddRange(WithPiece(board, field, RockSteps, isWhite));
+                    if (board[field] == FieldType.BlackBishop)
+                        result.AddRange(WithPiece(board, field, BishopSteps, isWhite));
+                    if (board[field] == FieldType.BlackQueen)
+                        result.AddRange(WithPiece(board, field, QueenSteps, isWhite));
+                    if (board[field] == FieldType.BlackKnight)
+                        result.AddRange(WithKnight(board, field, isWhite));
+                }
+            }
+
             return result.ToArray();
         }
 

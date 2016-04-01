@@ -55,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Init.cs" />
     <Compile Include="Model\GenerationModel.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="UI\Board.xaml.cs">

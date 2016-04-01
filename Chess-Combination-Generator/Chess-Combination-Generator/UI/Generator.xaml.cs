@@ -27,6 +27,8 @@ namespace Chess_Combination_Generator.UI
     {
         GenerationModel generationModel;
         BackgroundWorker bw = null;
+
+
         private bool isStart = false;
 
         public Generator()
@@ -79,6 +81,9 @@ namespace Chess_Combination_Generator.UI
             }
             else
             {
+                //Global.ProgressBar.Maximum = generationModel.NumberOfCombination;
+                //Global.ProgressBar.Value = 0;
+
                 isStart = true;
                 bw = new BackgroundWorker();
                 bw.WorkerSupportsCancellation = true;
@@ -108,6 +113,11 @@ namespace Chess_Combination_Generator.UI
                                 sw.WriteLine(fen);
                                 lastFen = fen;
                                 index++;
+                                //System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
+                                //{
+                                //    Global.ProgressBar.Value = index;
+                                //});
+
                             }
                         }
                     }
@@ -133,6 +143,9 @@ namespace Chess_Combination_Generator.UI
 
                 // execution continues here in parallel to the background worker
             }
-        }     
+        }
+
+
+
     }
 }
