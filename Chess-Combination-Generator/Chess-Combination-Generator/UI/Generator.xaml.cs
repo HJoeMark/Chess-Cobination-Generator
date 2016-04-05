@@ -1,22 +1,10 @@
 ﻿using Chess_Combination_Generator.Model;
-using Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Chess_Combination_Generator.UI
 {
@@ -106,7 +94,7 @@ namespace Chess_Combination_Generator.UI
                             var nb = new FieldType[144];
                             foreach (var item in BoardInformations.InsideBoard)
                                 nb[item] = FieldType.Empty;
-                            if (Common.Generator.Generate(nb, out fen, false, generationModel.IsWhite, generationModel.TreeLevel,
+                            if (Chess_Combination_Generator.Generator.Generate(nb, out fen, false, generationModel.IsWhite, generationModel.TreeLevel,
                         generationModel.Black.Queens, generationModel.Black.Rocks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
                         generationModel.White.Queens, generationModel.White.Rocks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns) && fen != lastFen)
                             {
