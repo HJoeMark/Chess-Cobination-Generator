@@ -134,6 +134,35 @@ namespace Chess_Combination_Generator
             }
         }
 
+        static void Pawn(FieldType[] board, int number, bool isWhite = true)
+        {
+            if (number == 0)
+                return;
+            var isComplete = false;
+            var numberOfKnight = 0;
+            Random rnd = new Random();
+            var index = rnd.Next(0, 63);
+            while (!isComplete)
+            {
+                if (!BoardInformations.RowOneEight.Contains(BoardInformations.InsideBoard[index]) && !Pieces.Contains(BoardInformations.InsideBoard[index]))
+                {
+                    if (isWhite)
+                        board[BoardInformations.InsideBoard[index]] = FieldType.WhitePawn;
+                    else
+                        board[BoardInformations.InsideBoard[index]] = FieldType.BlackPawn;
+                    Pieces.Add(BoardInformations.InsideBoard[index]);
+                    numberOfKnight++;
+                    if (numberOfKnight == number)
+                        isComplete = true;
+                }
+                else
+                    index = rnd.Next(0, 63);
+            }
+        }
+
+
+
+
 
         public static bool Generate(FieldType[] board, out string fen, bool checkIsOk = false, bool isWhite = true, int level = 5,
             int bQueens = 0, int bRocks = 2, int bKnights = 2, int bBishops = 0, int bPawns = 0,
@@ -148,11 +177,13 @@ namespace Chess_Combination_Generator
             Knights(board, wKnights);
             Bishops(board, wBishops);
             Queen(board, wQueens);
+            Pawn(board, wPawns);
             //Black
             Rocks(board, bRocks, false);
             Knights(board, bKnights, false);
             Bishops(board, bBishops, false);
             Queen(board, bQueens, false);
+            Pawn(board, bPawns, false);
 
             StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
             var value = AI.AlphaBeta(board, level, int.MinValue, int.MaxValue, isWhite, SAV);

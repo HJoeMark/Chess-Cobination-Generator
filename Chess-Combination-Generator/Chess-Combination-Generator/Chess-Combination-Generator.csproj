@@ -136,7 +136,9 @@
   <ItemGroup>
     <Resource Include="Documentation\queen.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Documentation\pawn.jpg" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Documentation\Program\GeneratorUI.PNG" />
   </ItemGroup>

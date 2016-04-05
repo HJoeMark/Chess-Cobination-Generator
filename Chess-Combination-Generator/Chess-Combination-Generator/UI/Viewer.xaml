@@ -11,9 +11,11 @@
             <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid x:Name="container_grid"  >
-            <local:Board x:Name="board" Width="500" Height="500"/>
-        </Grid>
+        <Viewbox x:Name="container_grid"  >
+            <Canvas Height="500" Width="500">
+            <local:Board x:Name="board" Height="500" Width="500"/>
+            </Canvas>
+        </Viewbox>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <!--<RowDefinition Height="40"/>

@@ -90,7 +90,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Pawns:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding Path=White.Pawns}" Grid.Column="1" Margin="5" IsEnabled="False"/>
+                        <TextBox Text="{Binding Path=White.Pawns}" Grid.Column="1" Margin="5" />
                     </Grid>
                 </Grid>
             </GroupBox>
@@ -141,7 +141,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Pawns:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding Path=Black.Pawns}" Grid.Column="1" Margin="5" IsEnabled="False"/>
+                        <TextBox Text="{Binding Path=Black.Pawns}" Grid.Column="1" Margin="5" />
                     </Grid>
                 </Grid>
             </GroupBox>

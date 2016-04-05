@@ -144,6 +144,51 @@ namespace Chess_Combination_Generator
             return result.ToArray();
 
         }
+
+        public static byte[] WithPawn(FieldType[] board, byte pawnPos, bool isWhite = true)
+        {
+            List<byte> result = new List<byte>();
+            byte newPos;
+            if (isWhite)
+            {
+                newPos = (byte)(pawnPos - 12);
+                if (board[newPos] == FieldType.Empty)
+                {
+                    result.Add(newPos);
+                    newPos = (byte)(pawnPos - 12);
+                    if (BoardInformations.WhitePawnBasicState.Contains(pawnPos) && board[newPos] == FieldType.Empty)
+                        result.Add(newPos);
+                }
+                newPos = (byte)(pawnPos - 13);
+                if (((byte)board[newPos] > 9))
+                    result.Add(newPos);
+                newPos = (byte)(pawnPos - 11);
+                if (((byte)board[newPos] > 9))
+                    result.Add(newPos);
+            }
+            else
+            {
+                newPos = (byte)(pawnPos + 12);
+                if (board[newPos] == FieldType.Empty)
+                {
+                    result.Add(newPos);
+                    newPos = (byte)(pawnPos + 12);
+                    if (BoardInformations.BlackPawnBasicState.Contains(pawnPos) && board[newPos] == FieldType.Empty)
+                        result.Add(newPos);
+                }
+                newPos = (byte)(pawnPos + 13);
+                if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                    result.Add(newPos);
+                newPos = (byte)(pawnPos + 11);
+                if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                    result.Add(newPos);
+            }
+
+            return result.ToArray();
+        }
+
+
+
         #endregion
 
         static byte[] Steps(FieldType[] board, byte figPos, bool isWhite = true)
@@ -167,6 +212,7 @@ namespace Chess_Combination_Generator
                     result = WithPiece(board, figPos, BishopSteps);
                     break;
                 case FieldType.WhitePawn:
+                    result = WithPawn(board, figPos);
                     break;
                 case FieldType.BlackKing:
                     result = WithKing(board, figPos, false);
@@ -184,6 +230,7 @@ namespace Chess_Combination_Generator
                     result = WithPiece(board, figPos, BishopSteps, false);
                     break;
                 case FieldType.BlackPawn:
+                    result = WithPawn(board, figPos, false);
                     break;
                 default:
                     break;
@@ -214,6 +261,8 @@ namespace Chess_Combination_Generator
                         result.AddRange(WithPiece(board, field, QueenSteps, isWhite));
                     if (board[field] == FieldType.WhiteKnight)
                         result.AddRange(WithKnight(board, field, isWhite));
+                    if (board[field] == FieldType.WhitePawn)
+                        result.AddRange(WithPawn(board, field, isWhite));
                 }
             }
             else
@@ -228,32 +277,36 @@ namespace Chess_Combination_Generator
                         result.AddRange(WithPiece(board, field, QueenSteps, isWhite));
                     if (board[field] == FieldType.BlackKnight)
                         result.AddRange(WithKnight(board, field, isWhite));
+                    if (board[field] == FieldType.BlackPawn)
+                        result.AddRange(WithPawn(board, field, isWhite));
                 }
             }
 
             return result.ToArray();
         }
 
-        public static Dictionary<byte, PiecesAndSteps> StepsForAllPiece(FieldType[] board, bool isWhite = true)
+        public static Dictionary<FieldAndType, PiecesAndSteps> StepsForAllPiece(FieldType[] board, bool isWhite = true)
         {
-            Dictionary<byte, PiecesAndSteps> pSteps = new Dictionary<byte, PiecesAndSteps>();
-            Dictionary<byte, PiecesAndSteps> result = new Dictionary<byte, PiecesAndSteps>();
+            Dictionary<FieldAndType, PiecesAndSteps> pSteps = new Dictionary<FieldAndType, PiecesAndSteps>();
+            Dictionary<FieldAndType, PiecesAndSteps> result = new Dictionary<FieldAndType, PiecesAndSteps>();
             if (isWhite)
+            {
                 foreach (var field in BoardInformations.InsideBoard)
-                {
                     if (BoardInformations.WhitePieces.Contains(board[field]))
-                    {
-                        pSteps.Add(field, new PiecesAndSteps(board[field], Steps(board, field)));
-                    }
-                }
+                        if (board[field] != FieldType.WhitePawn || !BoardInformations.BlackPawnBasicState.Contains(field))
+                            pSteps.Add(new FieldAndType(field, board[field]), new PiecesAndSteps(board[field], Steps(board, field)));
+                        else
+                            for (int i = 3; i < 7; i++)
+                                pSteps.Add(new FieldAndType(field, (FieldType)i), new PiecesAndSteps((FieldType)i, Steps(board, field)));
+            }
             else
                 foreach (var field in BoardInformations.InsideBoard)
-                {
                     if (BoardInformations.BlackPieces.Contains(board[field]))
-                    {
-                        pSteps.Add(field, new PiecesAndSteps(board[field], Steps(board, field, false)));
-                    }
-                }
+                        if (board[field] != FieldType.BlackPawn || !BoardInformations.WhitePawnBasicState.Contains(field))
+                            pSteps.Add(new FieldAndType(field, board[field]), new PiecesAndSteps(board[field], Steps(board, field)));
+                        else
+                            for (int i = 9; i < 13; i++)
+                                pSteps.Add(new FieldAndType(field, (FieldType)i), new PiecesAndSteps((FieldType)i, Steps(board, field)));
 
             List<byte> newSteps;
             byte kingPos;
@@ -264,13 +317,13 @@ namespace Chess_Combination_Generator
                 {
                     var newBoard = new FieldType[144];
                     Array.Copy(board, newBoard, 144);
-                    newBoard[piece.Key] = FieldType.Empty;
+                    newBoard[piece.Key.Field] = FieldType.Empty;
                     newBoard[step] = piece.Value.FieldType;
                     kingPos = WhereIsTheKing(newBoard, isWhite);
                     if (!AllPiece(newBoard, !isWhite).Contains(kingPos))
                         newSteps.Add(step);
                 }
-                result.Add(piece.Key, new PiecesAndSteps(board[piece.Key], newSteps.ToArray()));
+                result.Add(piece.Key, new PiecesAndSteps(board[piece.Key.Field], newSteps.ToArray()));
             }
             return result;
         }
@@ -312,4 +365,19 @@ namespace Chess_Combination_Generator
         public byte[] Steps { get; set; }
     }
 
+
+    public class FieldAndType
+    {
+        public FieldAndType()
+        {
+
+        }
+        public FieldAndType(byte _field, FieldType _type)
+        {
+            Field = _field;
+            Type = _type;
+        }
+        public byte Field { get; set; }
+        public FieldType Type { get; set; }
+    }
 }
