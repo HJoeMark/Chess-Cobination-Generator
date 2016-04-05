@@ -24,7 +24,8 @@ Check List:
 --Queen-Ok
 ![Alt text](Chess-Combination-Generator/Chess-Combination-Generator/Documentation/queen.jpg "queen steps")
 
---Pawn-
+--Pawn-Ok (without n'passant in possible steps)
+![Alt text](Chess-Combination-Generator/Chess-Combination-Generator/Documentation/pawn.jpg "pawn steps")
 
 -AI-processing
 
@@ -39,7 +40,7 @@ Check List:
 --Figures-Ok (string characters (Thanks to uicode))
 --The player can move
 
---Menu
+--Menu->tab menu
 
 ---Settings
 
