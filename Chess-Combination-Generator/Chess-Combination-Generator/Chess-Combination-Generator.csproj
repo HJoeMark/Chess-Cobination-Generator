@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -60,18 +62,22 @@
     <Compile Include="Evaluator.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Model\GenerationModel.cs" />
+    <Compile Include="Model\SettingsModel.cs" />
     <Compile Include="PossibleSteps.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="UI\Board.xaml.cs">
-      <DependentUpon>Board.xaml</DependentUpon>
+    <Compile Include="UI\BoardUI.xaml.cs">
+      <DependentUpon>BoardUI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Generator.xaml.cs">
-      <DependentUpon>Generator.xaml</DependentUpon>
+    <Compile Include="UI\GeneratorUI.xaml.cs">
+      <DependentUpon>GeneratorUI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Viewer.xaml.cs">
-      <DependentUpon>Viewer.xaml</DependentUpon>
+    <Compile Include="UI\SettingsUI.xaml.cs">
+      <DependentUpon>SettingsUI.xaml</DependentUpon>
     </Compile>
-    <Page Include="UI\MainWindow.xaml">
+    <Compile Include="UI\ViewerUI.xaml.cs">
+      <DependentUpon>ViewerUI.xaml</DependentUpon>
+    </Compile>
+    <Page Include="UI\MainUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -79,19 +85,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="UI\MainUI.xaml.cs">
+      <DependentUpon>MainUI.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UI\Board.xaml">
+    <Page Include="UI\BoardUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Generator.xaml">
+    <Page Include="UI\GeneratorUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Viewer.xaml">
+    <Page Include="UI\SettingsUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ViewerUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

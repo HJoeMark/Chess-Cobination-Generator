@@ -19,9 +19,9 @@ namespace Chess_Combination_Generator.UI
     /// <summary>
     /// Interaction logic for Board.xaml
     /// </summary>
-    public partial class Board : UserControl
+    public partial class BoardUI : UserControl
     {
-        public Board()
+        public BoardUI()
         {
             InitializeComponent();
             this.Loaded += Board_Loaded;

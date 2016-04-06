@@ -14,12 +14,14 @@
         </Grid.RowDefinitions>
         <TabControl>
             <TabItem Header="Generator">
-                <UI:Generator/>
+                <UI:GeneratorUI/>
             </TabItem>
             <TabItem Header="Viewer">
-                <UI:Viewer/>
+                <UI:ViewerUI/>
             </TabItem>
-            <TabItem Header="Settings"></TabItem>
+            <TabItem Header="Settings">
+                <UI:SettingsUI/>
+            </TabItem>
         </TabControl>
         <Grid Grid.Row="1" >
             <ProgressBar x:Name="generationProcess_pbar" Margin="2" />

@@ -11,7 +11,7 @@ namespace Chess_Combination_Generator.UI
     /// <summary>
     /// Interaction logic for Generator.xaml
     /// </summary>
-    public partial class Generator : UserControl
+    public partial class GeneratorUI : UserControl
     {
         GenerationModel generationModel;
         BackgroundWorker bw = null;
@@ -19,7 +19,7 @@ namespace Chess_Combination_Generator.UI
 
         private bool isStart = false;
 
-        public Generator()
+        public GeneratorUI()
         {
             InitializeComponent();
             this.Loaded += Generator_Loaded;

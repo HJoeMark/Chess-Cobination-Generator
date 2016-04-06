@@ -19,9 +19,9 @@ namespace Chess_Combination_Generator.UI
     /// <summary>
     /// Interaction logic for Viewer.xaml
     /// </summary>
-    public partial class Viewer : UserControl
+    public partial class ViewerUI : UserControl
     {
-        public Viewer()
+        public ViewerUI()
         {
             InitializeComponent();
             this.Loaded += Viewer_Loaded;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chess_Combination_Generator.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,26 @@ namespace Chess_Combination_Generator
         public static SolidColorBrush BlackField = new SolidColorBrush(Colors.Gray);
 
 
+        //Last setting
+
+
+
         //File path
 
-        public static string SettingsPath = "Settings.xml";
+        public static string SETTINGS_PATH = "Settings.xml";
 
+    }
+
+    public class SavedSettings
+    {
+        public Language Language { get; set; }
+        public GenerationModel Generation { get; set; }
+
+    }
+
+    public enum Language
+    {
+        HUN,
+        ENG
     }
 }
