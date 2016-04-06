@@ -15,8 +15,6 @@ namespace Chess_Combination_Generator.UI
     {
         GenerationModel generationModel;
         BackgroundWorker bw = null;
-
-
         private bool isStart = false;
 
         public GeneratorUI()
@@ -64,18 +62,15 @@ namespace Chess_Combination_Generator.UI
                 bw.CancelAsync();
                 bw.Dispose();
                 bw = null;
-                generate_btn.Content = "Start Generate";
+                generate_btn_lab.Content = "Start Generate";
 
             }
             else
             {
-                //Global.ProgressBar.Maximum = generationModel.NumberOfCombination;
-                //Global.ProgressBar.Value = 0;
-
                 isStart = true;
                 bw = new BackgroundWorker();
                 bw.WorkerSupportsCancellation = true;
-                generate_btn.Content = "Stop Generate";
+                generate_btn_lab.Content = "Stop Generate";
                 // define the event handlers
                 bw.DoWork += (sender, args) =>
                 {
@@ -101,11 +96,6 @@ namespace Chess_Combination_Generator.UI
                                 sw.WriteLine(fen);
                                 lastFen = fen;
                                 index++;
-                                //System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
-                                //{
-                                //    Global.ProgressBar.Value = index;
-                                //});
-
                             }
                         }
                     }
@@ -119,7 +109,7 @@ namespace Chess_Combination_Generator.UI
 
                     // Do whatever else you want to do after the work completed.
                     // This happens in the main UI thread.
-                    generate_btn.Content = "Start Generate";
+                    generate_btn_lab.Content = "Start Generate";
                     isStart = false;
 
                 };
@@ -132,8 +122,5 @@ namespace Chess_Combination_Generator.UI
                 // execution continues here in parallel to the background worker
             }
         }
-
-
-
     }
 }

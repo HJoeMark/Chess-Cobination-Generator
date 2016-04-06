@@ -48,11 +48,19 @@ namespace Chess_Combination_Generator.UI
         private void fens_lbox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             fens_lbox.ContextMenu.Visibility = Visibility.Visible;
-        }      
+        }
 
         private void copy_menuItem_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(fens_lbox.SelectedItem.ToString());
+        }
+
+        private void random_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Random rnd = new Random();
+            var index = rnd.Next(0, fens_lbox.Items.Count - 1);
+            fens_lbox.SelectedIndex = index;
+            fens_lbox.ScrollIntoView(fens_lbox.SelectedItem);
         }
     }
 }
