@@ -160,10 +160,10 @@ namespace Chess_Combination_Generator
                         result.Add(newPos);
                 }
                 newPos = (byte)(pawnPos - 13);
-                if (((byte)board[newPos] > 9))
+                if (((byte)board[newPos] > 7))
                     result.Add(newPos);
                 newPos = (byte)(pawnPos - 11);
-                if (((byte)board[newPos] > 9))
+                if (((byte)board[newPos] > 7))
                     result.Add(newPos);
             }
             else

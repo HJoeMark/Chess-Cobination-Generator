@@ -21,6 +21,9 @@ namespace Chess_Combination_Generator.UI
     /// </summary>
     public partial class BoardUI : UserControl
     {
+        //bool firstClick = false;
+        //Label firstLabel;
+
         public BoardUI()
         {
             InitializeComponent();
@@ -34,17 +37,16 @@ namespace Chess_Combination_Generator.UI
             this.Resources["Black"] = Settings.BlackField;
         }
 
-        public void SetBoard(FieldType[] board, byte[] possibleSteps = null)
+        public void SetBoard(FieldType[] board, byte[] possibleSteps = null, bool isWhite = true)
         {
             ClearBoard();
             //RESOURCES
             //https://en.wikipedia.org/wiki/Chess_symbols_in_Unicode
-            var a = main.FindName("f1");
-            var index = -1;
+            var index = isWhite ? -1 : 64;
             foreach (var item in BoardInformations.InsideBoard)
             {
-                index++;
-                var field = main.FindName("f" + index);
+                index += isWhite ? 1 : -1;
+                var field = fields.FindName("f" + index);
                 if (board[item] != FieldType.Empty)
                 {
                     if (field != null)
@@ -98,8 +100,42 @@ namespace Chess_Combination_Generator.UI
 
                 if (possibleSteps != null && possibleSteps.Contains(item))
                 {
-                    field = main.FindName("f" + index);
+                    field = fields.FindName("f" + index);
                     ((Label)field).Background = new SolidColorBrush(Colors.LightGreen);
+                }
+            }
+
+            if (isWhite)
+            {
+                Label label;
+                int cIndex = 0;
+                foreach (var column in BoardInformations.Columns)
+                {
+                    cIndex++;
+                    label = (Label)columns_grid.FindName("c" + cIndex);
+                    label.Content = column;
+                }
+                for (int i = 1; i < 9; i++)
+                {
+                    label = (Label)rows_grid.FindName("r" + (9 - i));
+                    label.Content = i;
+                }
+
+            }
+            else
+            {
+                Label label;
+                int cIndex = 9;
+                foreach (var column in BoardInformations.Columns)
+                {
+                    cIndex--;
+                    label = (Label)columns_grid.FindName("c" + cIndex);
+                    label.Content = column;
+                }
+                for (int i = 1; i < 9; i++)
+                {
+                    label = (Label)rows_grid.FindName("r" + (i));
+                    label.Content = i;
                 }
             }
         }
@@ -110,7 +146,7 @@ namespace Chess_Combination_Generator.UI
             foreach (var item in BoardInformations.InsideBoard)
             {
                 index++;
-                var field = main.FindName("f" + index);
+                var field = fields.FindName("f" + index);
                 ((Label)field).Content = "";
                 if (BoardInformations.WhiteFields.Contains(item))
                     ((Label)field).Background = Settings.WhiteField;
@@ -120,9 +156,6 @@ namespace Chess_Combination_Generator.UI
 
             }
         }
-
-        bool firstClick = false;
-        Label firstLabel;
 
         private void FieldClick(object sender, MouseButtonEventArgs e)
         {
@@ -145,18 +178,18 @@ namespace Chess_Combination_Generator.UI
             //}
         }
 
-        private void Step()
-        {
-            StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-            StepAndValue SAVAB = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-            AI.AlphaBeta(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAVAB);
-            var best = SAVAB.Children.First(y => y.EvaluatedValue == SAVAB.Children.Min(x => x.EvaluatedValue));
-            var newBoard = new FieldType[144];
-            Array.Copy(BoardInformations.CurrentPosition, newBoard, 144);
-            newBoard[best.From] = FieldType.Empty;
-            newBoard[best.Where] = best.What;
-            BoardInformations.CurrentPosition = newBoard;
-            SetBoard(BoardInformations.CurrentPosition);
-        }
+        //private void Step()
+        //{
+        //    StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+        //    StepAndValue SAVAB = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+        //    AI.AlphaBeta(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAVAB);
+        //    var best = SAVAB.Children.First(y => y.EvaluatedValue == SAVAB.Children.Min(x => x.EvaluatedValue));
+        //    var newBoard = new FieldType[144];
+        //    Array.Copy(BoardInformations.CurrentPosition, newBoard, 144);
+        //    newBoard[best.From] = FieldType.Empty;
+        //    newBoard[best.Where] = best.What;
+        //    BoardInformations.CurrentPosition = newBoard;
+        //    SetBoard(BoardInformations.CurrentPosition);
+        //}
     }
 }

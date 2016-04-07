@@ -42,7 +42,7 @@ namespace Chess_Combination_Generator.UI
         private void fens_lbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BoardInformations.SetBoard(BoardInformations.CurrentPosition, fens_lbox.SelectedItem.ToString());
-            board.SetBoard(BoardInformations.CurrentPosition);
+            board.SetBoard(BoardInformations.CurrentPosition, null, fens_lbox.SelectedItem.ToString().Contains('w') ? true : false);
         }
 
         private void fens_lbox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)

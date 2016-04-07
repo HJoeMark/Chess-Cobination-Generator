@@ -75,6 +75,8 @@ namespace Chess_Combination_Generator
         public static FieldType[] WhitePieces = new FieldType[] { FieldType.WhiteKing, FieldType.WhiteQueen, FieldType.WhiteRock, FieldType.WhiteKnight, FieldType.WhiteBishop, FieldType.WhitePawn };
         public static FieldType[] BlackPieces = new FieldType[] { FieldType.BlackKing, FieldType.BlackQueen, FieldType.BlackRock, FieldType.BlackKnight, FieldType.BlackBishop, FieldType.BlackPawn };
 
+        public static char[] Columns = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+
         public static FieldType[] SetEmptyBoard()
         {
             var result = new FieldType[144];
