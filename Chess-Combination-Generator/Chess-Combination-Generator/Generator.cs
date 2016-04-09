@@ -9,6 +9,7 @@ namespace Chess_Combination_Generator
     public static class Generator
     {
         static List<byte> Pieces;
+        static List<byte> lastPices;
 
         static void Kings(FieldType[] board)
         {
@@ -160,45 +161,67 @@ namespace Chess_Combination_Generator
             }
         }
 
-
-
-
-
-        public static bool Generate(FieldType[] board, out string fen, bool checkIsOk = false, bool isWhite = true, int level = 5,
+        public static ReturnValues Generate(bool checkIsOk = false, bool isWhite = true, int level = 5,
             int bQueens = 0, int bRocks = 2, int bKnights = 2, int bBishops = 0, int bPawns = 0,
             int wQueens = 0, int wRocks = 2, int wKnights = 2, int wBishops = 0, int wPawns = 0)
         {
+            FieldType[] board = null;
 
-            Pieces = new List<byte>();
-            Kings(board);
+            while (Pieces == null)
+            {
+                board = BoardInformations.EmptyBoard;
+                Pieces = new List<byte>();
+                Kings(board);
 
-            //White  
-            Rocks(board, wRocks);
-            Knights(board, wKnights);
-            Bishops(board, wBishops);
-            Queen(board, wQueens);
-            Pawn(board, wPawns);
-            //Black
-            Rocks(board, bRocks, false);
-            Knights(board, bKnights, false);
-            Bishops(board, bBishops, false);
-            Queen(board, bQueens, false);
-            Pawn(board, bPawns, false);
+                //White  
+                Rocks(board, wRocks);
+                Knights(board, wKnights);
+                Bishops(board, wBishops);
+                Queen(board, wQueens);
+                Pawn(board, wPawns);
+                //Black
+                Rocks(board, bRocks, false);
+                Knights(board, bKnights, false);
+                Bishops(board, bBishops, false);
+                Queen(board, bQueens, false);
+                Pawn(board, bPawns, false);
+
+                if (lastPices != null && Pieces.SequenceEqual(lastPices))
+                    Pieces = null;
+            }
+            lastPices = new List<byte>();
+            Pieces.ForEach((item) =>
+            {
+                lastPices.Add(item);
+            });
+            Pieces = null;
 
             StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
             var value = AI.AlphaBeta(board, level, int.MinValue, int.MaxValue, isWhite, SAV);
             var searchedValue = isWhite ? int.MaxValue : int.MinValue;
 
             if ((!checkIsOk && (AI.IsCheck(board) || AI.IsCheck(board, false)) || value != searchedValue))//SAV.Children.First(y => y.EvaluatedValue == SAV.Children.Min(x => x.EvaluatedValue)).EvaluatedValue != int.MinValue))
-            {
-                fen = "";
-                return false;
-            }
+                return new ReturnValues() { Fen = "", IsCorrect = false };
             else
-            {
-                fen = BoardInformations.GetFEN(board, isWhite);
-                return true;
-            }
+                return new ReturnValues() { Fen = BoardInformations.GetFEN(board, isWhite), IsCorrect = true };
+        }
+    }
+
+    public class ReturnValues
+    {
+        private string fen;
+
+        public string Fen
+        {
+            get { return fen; }
+            set { fen = value; }
+        }
+        private bool isCorrect;
+
+        public bool IsCorrect
+        {
+            get { return isCorrect; }
+            set { isCorrect = value; }
         }
     }
 }

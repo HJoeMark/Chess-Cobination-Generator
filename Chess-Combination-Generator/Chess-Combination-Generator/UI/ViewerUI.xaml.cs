@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,19 +25,28 @@ namespace Chess_Combination_Generator.UI
         public ViewerUI()
         {
             InitializeComponent();
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
             this.Loaded += Viewer_Loaded;
         }
 
         private void Viewer_Loaded(object sender, RoutedEventArgs e)
         {
-            List<string> fens = new List<string>();
-            if (Directory.Exists("Fens"))
-                foreach (var file in Directory.GetFiles("Fens"))
-                    if (System.IO.Path.GetExtension(file) == ".txt")
-                        foreach (string line in File.ReadLines(file))
-                            fens.Add(line);
+            try
+            {
+                List<string> fens = new List<string>();
+                if (Directory.Exists("Fens"))
+                    foreach (var file in Directory.GetFiles("Fens"))
+                        if (System.IO.Path.GetExtension(file) == ".txt")
+                            foreach (string line in File.ReadLines(file))
+                                fens.Add(line);
 
-            fens_lbox.ItemsSource = fens.Distinct().ToList();
+                fens_lbox.ItemsSource = fens.Distinct().ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void fens_lbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -61,6 +71,29 @@ namespace Chess_Combination_Generator.UI
             var index = rnd.Next(0, fens_lbox.Items.Count - 1);
             fens_lbox.SelectedIndex = index;
             fens_lbox.ScrollIntoView(fens_lbox.SelectedItem);
+        }
+
+        private void saveToImage_btn_Click(object sender, RoutedEventArgs e)
+        {
+            UserControl control = this.board;
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)control.ActualWidth * 2, (int)control.ActualHeight * 2, 192, 192, PixelFormats.Pbgra32);
+            Rect bounds = VisualTreeHelper.GetDescendantBounds(control);
+            DrawingVisual dv = new DrawingVisual();
+            using (DrawingContext ctx = dv.RenderOpen())
+            {
+                VisualBrush vb = new VisualBrush(control);
+                ctx.DrawRectangle(vb, null, new Rect(new Point(), bounds.Size));
+            }
+            rtb.Render(dv);
+
+            PngBitmapEncoder png = new PngBitmapEncoder();
+            png.Frames.Add(BitmapFrame.Create(rtb));
+
+            using (Stream fileStream = new FileStream("c_" + DateTime.Now.Ticks + ".png", FileMode.Create))
+            {
+                png.Save(fileStream);
+            }
+            MessageBox.Show("Complete", "Image saving", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

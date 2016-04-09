@@ -26,11 +26,18 @@ namespace Chess_Combination_Generator
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
+            generationProcess_pbar.ValueChanged += GenerationProcess_pbar_ValueChanged;
+        }
+
+        private void GenerationProcess_pbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            generazionProcess_tblock.Text = generationProcess_pbar.Maximum + "/" + generationProcess_pbar.Value;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             BoardInformations.BasicPosition();
+            generatorUI.pbar = generationProcess_pbar;
         }
     }
 }

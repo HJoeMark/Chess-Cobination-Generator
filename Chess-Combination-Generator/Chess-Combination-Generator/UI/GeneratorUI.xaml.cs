@@ -17,9 +17,26 @@ namespace Chess_Combination_Generator.UI
         BackgroundWorker bw = null;
         private bool isStart = false;
 
+        List<string> fenList;
+
+
+
+        public ProgressBar pbar
+        {
+            get { return (ProgressBar)GetValue(pbarProperty); }
+            set { SetValue(pbarProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for pbar.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty pbarProperty =
+            DependencyProperty.Register("pbar", typeof(ProgressBar), typeof(GeneratorUI), null);
+
+
         public GeneratorUI()
         {
             InitializeComponent();
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
             this.Loaded += Generator_Loaded;
             // TODO: Load for settings.xml
             //TEST
@@ -63,10 +80,13 @@ namespace Chess_Combination_Generator.UI
                 bw.Dispose();
                 bw = null;
                 generate_btn_lab.Content = "Start Generate";
-
+                Save();
             }
             else
             {
+                fenList = new List<string>();
+                pbar.Maximum = generationModel.NumberOfCombination;
+                pbar.Value = 0;
                 isStart = true;
                 bw = new BackgroundWorker();
                 bw.WorkerSupportsCancellation = true;
@@ -74,33 +94,36 @@ namespace Chess_Combination_Generator.UI
                 // define the event handlers
                 bw.DoWork += (sender, args) =>
                 {
-                    List<string> fens = new List<string>();
+                    fenList = new List<string>();
                     var index = 0;
                     var lastFen = "";
                     if (!Directory.Exists("Fens"))
                         Directory.CreateDirectory("Fens");
 
-                    var path = "Fens/fens" + DateTime.Now.Ticks + ".txt";
-                    using (StreamWriter sw = new StreamWriter(path))
+
+                    while (index < generationModel.NumberOfCombination && isStart)
                     {
-                        while (index < generationModel.NumberOfCombination && isStart)
+                        var newBoard = Chess_Combination_Generator.Generator.Generate(false, generationModel.IsWhite, generationModel.TreeLevel,
+                         generationModel.Black.Queens, generationModel.Black.Rocks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
+                         generationModel.White.Queens, generationModel.White.Rocks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns);
+                        if (newBoard.IsCorrect)
                         {
-                            var fen = "";
-                            var nb = new FieldType[144];
-                            foreach (var item in BoardInformations.InsideBoard)
-                                nb[item] = FieldType.Empty;
-                            if (Chess_Combination_Generator.Generator.Generate(nb, out fen, false, generationModel.IsWhite, generationModel.TreeLevel,
-                        generationModel.Black.Queens, generationModel.Black.Rocks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
-                        generationModel.White.Queens, generationModel.White.Rocks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns) && fen != lastFen)
+                            fenList.Add(newBoard.Fen);
+                            lastFen = newBoard.Fen;
+                            index++;
+
+                            this.Dispatcher.Invoke((Action)(() =>
                             {
-                                sw.WriteLine(fen);
-                                lastFen = fen;
-                                index++;
-                            }
+                                pbar.Value += 1;
+                            }));
                         }
                     }
+
                     if (isStart)
+                    {
+                        Save();
                         MessageBox.Show("Complete", "Generate", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 };
                 bw.RunWorkerCompleted += (sender, args) =>
                 {
@@ -120,6 +143,21 @@ namespace Chess_Combination_Generator.UI
                 bw.RunWorkerAsync(); // starts the background worker
 
                 // execution continues here in parallel to the background worker
+            }
+        }
+
+        void Save()
+        {
+            var path = "Fens/fens" + DateTime.Now.Ticks + ".txt";
+            using (StreamWriter sw = new StreamWriter(path))
+            {
+                foreach (var fen in fenList)
+                    sw.WriteLine(fen);
+            }
+            if (bw != null)
+            {
+                bw.Dispose();
+                bw = null;
             }
         }
     }

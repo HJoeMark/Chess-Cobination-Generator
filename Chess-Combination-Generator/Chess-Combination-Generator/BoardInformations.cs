@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chess_Combination_Generator
 {
-    public enum FieldType
+    public enum FieldType : byte
     {
         Frame,
         Empty,
@@ -68,22 +68,12 @@ namespace Chess_Combination_Generator
         public static int[] WhitePawnBasicState = new int[] { 98, 99, 100, 101, 102, 103, 104, 105 };
         public static int[] BlackPawnBasicState = new int[] { 38, 39, 40, 41, 42, 43, 44, 45 };
 
-
         public static int[] RowOneEight = new int[] { 26, 27, 28, 29, 30, 31, 32, 33, 110, 111, 112, 113, 114, 115, 116, 117 };
-
 
         public static FieldType[] WhitePieces = new FieldType[] { FieldType.WhiteKing, FieldType.WhiteQueen, FieldType.WhiteRock, FieldType.WhiteKnight, FieldType.WhiteBishop, FieldType.WhitePawn };
         public static FieldType[] BlackPieces = new FieldType[] { FieldType.BlackKing, FieldType.BlackQueen, FieldType.BlackRock, FieldType.BlackKnight, FieldType.BlackBishop, FieldType.BlackPawn };
 
         public static char[] Columns = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
-
-        public static FieldType[] SetEmptyBoard()
-        {
-            var result = new FieldType[144];
-            for (byte i = 0; i < BoardInformations.InsideBoard.Length; i++)
-                result[BoardInformations.InsideBoard[i]] = FieldType.Empty;
-            return result;
-        }
 
         public static string GetFEN(FieldType[] board, bool isWhite = true)
         {
@@ -266,13 +256,26 @@ namespace Chess_Combination_Generator
             //BoardInformations.CurrentPosition[27] = FieldType.WhiteRock;
         }
 
+        public static FieldType[] EmptyBoard
+        {
+            get
+            {
 
-        //public static void ClearBoard(ref FieldType[] board)
-        //{
-        //    board = new FieldType[144];
-        //    for (byte i = 0; i < BoardInformations.InsideBoard.Length; i++)
-        //        board[BoardInformations.InsideBoard[i]] = FieldType.Empty;
-        //}
-
+                return new FieldType[] {
+                    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame
+                };
+            }
+        }
     }
 }
