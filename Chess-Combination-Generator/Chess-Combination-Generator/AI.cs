@@ -13,10 +13,10 @@ namespace Chess_Combination_Generator
             return PossibleSteps.StepsForAllPiece(board, !isWhite).SelectMany(x => x.Value.Steps).Contains(PossibleSteps.WhereIsTheKing(board, isWhite));
         }
 
-        public static bool IsCheckMate(FieldType[] board, bool isWhite = true)
-        {
-            return IsCheck(board, isWhite) && PossibleSteps.StepsForAllPiece(board, isWhite).SelectMany(x => x.Value.Steps).Count() == 0;
-        }
+        //public static bool IsCheckMate(FieldType[] board, bool isWhite = true)
+        //{
+        //    return IsCheck(board, isWhite) && PossibleSteps.StepsForAllPiece(board, isWhite).SelectMany(x => x.Value.Steps).Count() == 0;
+        //}
 
         public static bool IsStalemate(FieldType[] board, bool isWhite = true)
         {
@@ -47,10 +47,18 @@ namespace Chess_Combination_Generator
         //Something wrong with this
         public static int AlphaBeta(FieldType[] boardNode, int depth, int alpha, int beta, bool maximizinPlayer, StepAndValue sAv)
         {
-            if (IsCheckMate(boardNode, maximizinPlayer))
-                return !maximizinPlayer ? int.MaxValue : int.MinValue;
+            //if (IsCheckMate(boardNode, maximizinPlayer))
+            //    return !maximizinPlayer ? int.MaxValue : int.MinValue;
 
-            if (depth == 0 || IsStalemate(boardNode, maximizinPlayer))
+            if (IsStalemate(boardNode, maximizinPlayer))
+            {
+                if (IsCheck(boardNode, maximizinPlayer))
+                    return !maximizinPlayer ? int.MaxValue : int.MinValue;
+                else
+                    return Evaluator.Evaluate(boardNode, maximizinPlayer);
+            }
+
+            if (depth == 0 /*|| IsStalemate(boardNode, maximizinPlayer)*/)
                 return Evaluator.Evaluate(boardNode, maximizinPlayer);
 
             if (maximizinPlayer)
@@ -58,8 +66,6 @@ namespace Chess_Combination_Generator
                 var v = int.MinValue;
                 foreach (var step in AllNode(boardNode, maximizinPlayer))
                 {
-                    //if (boardNode[step.From] != FieldType.WhitePawn)
-                    //{
                     var newBoard = new FieldType[144];
                     sAv.Children.Add(new StepAndValue());
                     Array.Copy(boardNode, newBoard, 144);
@@ -75,43 +81,6 @@ namespace Chess_Combination_Generator
                     sAv.Children[sAv.Children.Count() - 1].EvaluatedValue = ab;
                     if (beta <= alpha)
                         break;
-                    //}
-                    //else
-                    //{
-                    //    //Frame, 0
-                    //    //Empty,1
-                    //    //WhiteKing,2
-                    //    //WhiteQueen,3
-                    //    //WhiteRock,4
-                    //    //WhiteKnight,5
-                    //    //WhiteBishop,6
-                    //    //WhitePawn,7
-                    //    //BlackKing, 8
-                    //    //BlackQueen,9
-                    //    //BlackRock,10
-                    //    //BlackKnight,11
-                    //    //BlackBishop,12
-                    //    //BlackPawn 13
-                    //    for (int i = 3; i < 7; i++)
-                    //    {
-                    //        var newBoard = new FieldType[144];
-                    //        sAv.Children.Add(new StepAndValue());
-                    //        Array.Copy(boardNode, newBoard, 144);
-                    //        newBoard[step.From] = FieldType.Empty;
-                    //        newBoard[step.Where] = (FieldType)i;
-                    //        sAv.Children[sAv.Children.Count() - 1].What = (FieldType)i;
-                    //        sAv.Children[sAv.Children.Count() - 1].Where = step.Where;
-                    //        sAv.Children[sAv.Children.Count() - 1].From = step.From;
-                    //        sAv.Children[sAv.Children.Count() - 1].SetParentDepth(depth - 1);
-                    //        var ab = AlphaBeta(newBoard, depth - 1, alpha, beta, false, sAv.Children[sAv.Children.Count() - 1]);
-                    //        v = Math.Max(v, ab);
-                    //        alpha = Math.Max(alpha, v);
-                    //        sAv.Children[sAv.Children.Count() - 1].EvaluatedValue = ab;
-                    //        if (beta <= alpha)
-                    //            break;
-                    //    }
-                    //}
-
                 }
                 // sAv.EvaluatedValue = sAv.Children.Count() > 0 ? sAv.Children.First(x => x.EvaluatedValue == sAv.Children.Max(y => y.EvaluatedValue)).EvaluatedValue : sAv.EvaluatedValue;
                 return v;
@@ -121,8 +90,6 @@ namespace Chess_Combination_Generator
                 var v = int.MaxValue;
                 foreach (var step in AllNode(boardNode, maximizinPlayer))
                 {
-                    //if (boardNode[step.From] != FieldType.BlackPawn)
-                    //{
                     var newBoard = new FieldType[144];
                     sAv.Children.Add(new StepAndValue());
                     Array.Copy(boardNode, newBoard, 144);
@@ -137,42 +104,6 @@ namespace Chess_Combination_Generator
                     sAv.Children[sAv.Children.Count() - 1].EvaluatedValue = ab;
                     if (beta <= alpha)
                         break;
-                    //}
-                    //else
-                    //{
-                    //    //Frame, 0
-                    //    //Empty,1
-                    //    //WhiteKing,2
-                    //    //WhiteQueen,3
-                    //    //WhiteRock,4
-                    //    //WhiteKnight,5
-                    //    //WhiteBishop,6
-                    //    //WhitePawn,7
-                    //    //BlackKing, 8
-                    //    //BlackQueen,9
-                    //    //BlackRock,10
-                    //    //BlackKnight,11
-                    //    //BlackBishop,12
-                    //    //BlackPawn 13
-                    //    for (int i = 9; i < 13; i++)
-                    //    {
-                    //        var newBoard = new FieldType[144];
-                    //        sAv.Children.Add(new StepAndValue());
-                    //        Array.Copy(boardNode, newBoard, 144);
-                    //        newBoard[step.From] = FieldType.Empty;
-                    //        newBoard[step.Where] = (FieldType)i;
-                    //        sAv.Children[sAv.Children.Count() - 1].What = (FieldType)i;
-                    //        sAv.Children[sAv.Children.Count() - 1].Where = step.Where;
-                    //        sAv.Children[sAv.Children.Count() - 1].From = step.From;
-                    //        sAv.Children[sAv.Children.Count() - 1].SetParentDepth(depth - 1);
-                    //        var ab = AlphaBeta(newBoard, depth - 1, alpha, beta, false, sAv.Children[sAv.Children.Count() - 1]);
-                    //        v = Math.Max(v, ab);
-                    //        alpha = Math.Max(alpha, v);
-                    //        sAv.Children[sAv.Children.Count() - 1].EvaluatedValue = ab;
-                    //        if (beta <= alpha)
-                    //            break;
-                    //    }
-                    //}
                 }
                 // sAv.EvaluatedValue = sAv.Children.Count() > 0 ? sAv.Children.First(x => x.EvaluatedValue == sAv.Children.Max(y => y.EvaluatedValue)).EvaluatedValue : sAv.EvaluatedValue;
                 return v;
@@ -183,12 +114,8 @@ namespace Chess_Combination_Generator
         {
             var result = new List<StepAndValue>();
             foreach (var piece in PossibleSteps.StepsForAllPiece(board, isWhite))
-            {
                 foreach (var step in piece.Value.Steps)
-                {
                     result.Add(new StepAndValue(piece.Key.Field, step, piece.Key.Type, 0, null));
-                }
-            }
             return result;
         }
     }

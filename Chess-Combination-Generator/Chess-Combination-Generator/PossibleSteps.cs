@@ -9,44 +9,39 @@ namespace Chess_Combination_Generator
     //TODO: Steps functions may be combined
     public static class PossibleSteps
     {
-        static byte[] WithKing(FieldType[] board, byte? wKingPos, byte? bKingPos, bool isWhite = true)
-        {
-            List<byte> result = new List<byte>();
-            byte newPos;
-            if (isWhite) //WHITE
-            {
-                //UP -13,-12,-11
-                //LEFT -1
-                //RIGHT +1
-                //DOWN +11,+12,+13
-                foreach (var item in KingSteps)
-                {
-                    newPos = (byte)(wKingPos - item);
-                    //FieldType 8 = black king and higher are his people
-                    //FieldType[] newBoard = new FieldType[144];
-                    //Array.Copy(board, newBoard, 144);
-                    if (!BoardInformations.Frame.Contains(newPos) && (board[newPos] == FieldType.Empty || (byte)board[newPos] > 7) /*&& !IsOtherKingNear(board, newPos, bKingPos, isWhite) *//*&& !IsCheck(newBoard, newPos)*/)
-                        result.Add(newPos);
-                }
-            }
-            else //BLACK
-                foreach (var item in KingSteps)
-                {
-                    newPos = (byte)(bKingPos - item);
-                    //FieldType 2-8 white people
-                    //FieldType[] newBoard = new FieldType[144];
-                    //Array.Copy(board, newBoard, 144);
-                    if (!BoardInformations.Frame.Contains(newPos) && (board[newPos] == FieldType.Empty || ((byte)board[newPos] > 1 && (byte)board[newPos] < 8)) /*&& !IsOtherKingNear(board, wKingPos, newPos, isWhite)*/ /*&& !IsCheck(newBoard, newPos, false)*/)
-                        result.Add(newPos);
-                }
+        //static byte[] WithKing(FieldType[] board, byte? wKingPos, byte? bKingPos, bool isWhite = true)
+        //{
+        //    List<byte> result = new List<byte>();
+        //    byte newPos;
+        //    if (isWhite) //WHITE
+        //    {
+        //        //UP -13,-12,-11
+        //        //LEFT -1
+        //        //RIGHT +1
+        //        //DOWN +11,+12,+13
+        //        foreach (var item in KingSteps)
+        //        {
+        //            newPos = (byte)(wKingPos - item);
+        //            if (!BoardInformations.Frame.Contains(newPos) && (board[newPos] == FieldType.Empty || BoardInformations.BlackPieces.Contains(board[newPos])))//(byte)board[newPos] > 7))
+        //                result.Add(newPos);
+        //        }
+        //    }
+        //    else //BLACK
+        //        foreach (var item in KingSteps)
+        //        {
+        //            newPos = (byte)(bKingPos - item);
+        //            if (!BoardInformations.Frame.Contains(newPos) && (board[newPos] == FieldType.Empty || BoardInformations.WhitePieces.Contains(board[newPos])))//((byte)board[newPos] > 1 && (byte)board[newPos] < 8)) )
+        //                result.Add(newPos);
+        //        }
 
-            return result.ToArray();
-        }
+        //    return result.ToArray();
+        //}
 
         #region With Position
 
         public static byte[] WithKing(FieldType[] board, byte kingPos, bool isWhite = true)
         {
+            //TODO 0-0 0-0-0
             List<byte> result = new List<byte>();
             byte newPos;
             if (isWhite)
@@ -54,7 +49,7 @@ namespace Chess_Combination_Generator
                 foreach (var item in KingSteps)
                 {
                     newPos = (byte)(kingPos - item);
-                    if (!BoardInformations.Frame.Contains(newPos) && (board[newPos] == FieldType.Empty || (byte)board[newPos] > 8) /*&& !IsOtherKingNear(board, newPos, bKingPos, isWhite)*/)
+                    if (/*!BoardInformations.Frame.Contains(newPos) && */(board[newPos] == FieldType.Empty || BoardInformations.BlackPieces.Contains(board[newPos])))// (byte)board[newPos] > 8))
                         result.Add(newPos);
                 }
             }
@@ -62,7 +57,7 @@ namespace Chess_Combination_Generator
                 foreach (var item in KingSteps)
                 {
                     newPos = (byte)(kingPos - item);
-                    if (!BoardInformations.Frame.Contains(newPos) && (board[newPos] == FieldType.Empty || ((byte)board[newPos] > 2 && (byte)board[newPos] < 8)) /*&& !IsOtherKingNear(board, wKingPos, newPos, isWhite)*/)
+                    if (/*!BoardInformations.Frame.Contains(newPos) &&*/ (board[newPos] == FieldType.Empty || BoardInformations.WhitePieces.Contains(board[newPos])))// ((byte)board[newPos] > 2 && (byte)board[newPos] < 8)))
                         result.Add(newPos);
                 }
 
@@ -78,7 +73,7 @@ namespace Chess_Combination_Generator
                 {
                     newPos = (knightPos + item);
                     if (newPos >= 0)
-                        if (board[newPos] != FieldType.Frame && (((byte)board[newPos] > 7) || board[newPos] == FieldType.Empty))
+                        if (/*board[newPos] != FieldType.Frame &&*/ (/*((byte)board[newPos] > 7)*/BoardInformations.BlackPieces.Contains(board[newPos]) || board[newPos] == FieldType.Empty))
                             result.Add((byte)newPos);
                 }
             else
@@ -86,7 +81,7 @@ namespace Chess_Combination_Generator
                 {
                     newPos = (knightPos + item);
                     if (newPos >= 0)
-                        if (board[newPos] != FieldType.Frame && (((byte)board[newPos] > 1 && (byte)board[newPos] < 8) || board[newPos] == FieldType.Empty))
+                        if (/*board[newPos] != FieldType.Frame && */(/*((byte)board[newPos] > 1 && (byte)board[newPos] < 8)*/BoardInformations.WhitePieces.Contains(board[newPos]) || board[newPos] == FieldType.Empty))
                             result.Add((byte)newPos);
                 }
 
@@ -110,7 +105,8 @@ namespace Chess_Combination_Generator
                             result.Add((byte)newPos);
                             continue;
                         }
-                        if ((byte)board[newPos] > 7)
+                        //if ((byte)board[newPos] > 7)
+                        if (BoardInformations.BlackPieces.Contains(board[newPos]))
                         {
                             result.Add((byte)newPos);
                             break;
@@ -132,7 +128,8 @@ namespace Chess_Combination_Generator
                             result.Add((byte)newPos);
                             continue;
                         }
-                        if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                        //if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                        if (BoardInformations.WhitePieces.Contains(board[newPos]))
                         {
                             result.Add((byte)newPos);
                             break;
@@ -147,6 +144,7 @@ namespace Chess_Combination_Generator
 
         public static byte[] WithPawn(FieldType[] board, byte pawnPos, bool isWhite = true)
         {
+            //TODO n'passant
             List<byte> result = new List<byte>();
             byte newPos;
             if (isWhite)
@@ -160,10 +158,12 @@ namespace Chess_Combination_Generator
                         result.Add(newPos);
                 }
                 newPos = (byte)(pawnPos - 13);
-                if (((byte)board[newPos] > 7))
+                //if (((byte)board[newPos] > 7))
+                if (BoardInformations.BlackPieces.Contains(board[newPos]))
                     result.Add(newPos);
                 newPos = (byte)(pawnPos - 11);
-                if (((byte)board[newPos] > 7))
+                //if (((byte)board[newPos] > 7))
+                if (BoardInformations.BlackPieces.Contains(board[newPos]))
                     result.Add(newPos);
             }
             else
@@ -177,17 +177,17 @@ namespace Chess_Combination_Generator
                         result.Add(newPos);
                 }
                 newPos = (byte)(pawnPos + 13);
-                if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                //if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                if (BoardInformations.WhitePieces.Contains(board[newPos]))
                     result.Add(newPos);
                 newPos = (byte)(pawnPos + 11);
-                if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                //if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
+                if (BoardInformations.WhitePieces.Contains(board[newPos]))
                     result.Add(newPos);
             }
 
             return result.ToArray();
         }
-
-
 
         #endregion
 
@@ -240,14 +240,13 @@ namespace Chess_Combination_Generator
 
         public static byte[] AllPiece(FieldType[] board, bool isWhite = true)
         {
-            //TODO pawn
             var wKingPos = WhereIsTheKing(board);
             var bKingPos = WhereIsTheKing(board, false);
             //Smash the king
             if (bKingPos > 144 || wKingPos > 144)
                 return new List<byte>().ToArray();
             List<byte> result = new List<byte>();
-            result.AddRange(WithKing(board, wKingPos, bKingPos, isWhite));
+            //result.AddRange(WithKing(board, wKingPos, bKingPos, isWhite));
 
             if (isWhite)
             {
@@ -263,6 +262,8 @@ namespace Chess_Combination_Generator
                         result.AddRange(WithKnight(board, field, isWhite));
                     if (board[field] == FieldType.WhitePawn)
                         result.AddRange(WithPawn(board, field, isWhite));
+                    if (board[field] == FieldType.WhiteKing)
+                        result.AddRange(WithKing(board, field, isWhite));
                 }
             }
             else
@@ -279,6 +280,8 @@ namespace Chess_Combination_Generator
                         result.AddRange(WithKnight(board, field, isWhite));
                     if (board[field] == FieldType.BlackPawn)
                         result.AddRange(WithPawn(board, field, isWhite));
+                    if (board[field] == FieldType.BlackKing)
+                        result.AddRange(WithKing(board, field, isWhite));
                 }
             }
 
