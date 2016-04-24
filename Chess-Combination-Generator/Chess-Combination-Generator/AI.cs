@@ -13,11 +13,6 @@ namespace Chess_Combination_Generator
             return PossibleSteps.StepsForAllPiece(board, !isWhite).SelectMany(x => x.Value.Steps).Contains(PossibleSteps.WhereIsTheKing(board, isWhite));
         }
 
-        //public static bool IsCheckMate(FieldType[] board, bool isWhite = true)
-        //{
-        //    return IsCheck(board, isWhite) && PossibleSteps.StepsForAllPiece(board, isWhite).SelectMany(x => x.Value.Steps).Count() == 0;
-        //}
-
         public static bool IsStalemate(FieldType[] board, bool isWhite = true)
         {
             return PossibleSteps.StepsForAllPiece(board, isWhite).SelectMany(x => x.Value.Steps).Count() == 0;
@@ -47,9 +42,6 @@ namespace Chess_Combination_Generator
         //Something wrong with this
         public static int AlphaBeta(FieldType[] boardNode, int depth, int alpha, int beta, bool maximizinPlayer, StepAndValue sAv)
         {
-            //if (IsCheckMate(boardNode, maximizinPlayer))
-            //    return !maximizinPlayer ? int.MaxValue : int.MinValue;
-
             if (IsStalemate(boardNode, maximizinPlayer))
             {
                 if (IsCheck(boardNode, maximizinPlayer))
@@ -58,7 +50,7 @@ namespace Chess_Combination_Generator
                     return Evaluator.Evaluate(boardNode, maximizinPlayer);
             }
 
-            if (depth == 0 /*|| IsStalemate(boardNode, maximizinPlayer)*/)
+            if (depth == 0)
                 return Evaluator.Evaluate(boardNode, maximizinPlayer);
 
             if (maximizinPlayer)
