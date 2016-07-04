@@ -59,7 +59,7 @@ namespace Chess_Combination_Generator.UI
                             case FieldType.WhiteQueen:
                                 ((Label)field).Content = "♕";
                                 break;
-                            case FieldType.WhiteRock:
+                            case FieldType.WhiteRook:
                                 ((Label)field).Content = "♖";
                                 break;
                             case FieldType.WhiteKnight:
@@ -77,7 +77,7 @@ namespace Chess_Combination_Generator.UI
                             case FieldType.BlackQueen:
                                 ((Label)field).Content = "♛";
                                 break;
-                            case FieldType.BlackRock:
+                            case FieldType.BlackRook:
                                 ((Label)field).Content = "♜";
                                 break;
                             case FieldType.BlackKnight:
@@ -178,18 +178,18 @@ namespace Chess_Combination_Generator.UI
             //}
         }
 
-        //private void Step()
-        //{
-        //    StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-        //    StepAndValue SAVAB = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-        //    AI.AlphaBeta(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAVAB);
-        //    var best = SAVAB.Children.First(y => y.EvaluatedValue == SAVAB.Children.Min(x => x.EvaluatedValue));
-        //    var newBoard = new FieldType[144];
-        //    Array.Copy(BoardInformations.CurrentPosition, newBoard, 144);
-        //    newBoard[best.From] = FieldType.Empty;
-        //    newBoard[best.Where] = best.What;
-        //    BoardInformations.CurrentPosition = newBoard;
-        //    SetBoard(BoardInformations.CurrentPosition);
-        //}
+        public void Step()
+        {
+            //StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+            StepAndValue SAVAB = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+            AI.AlphaBeta(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAVAB);
+            var best = SAVAB.Children.First(y => y.EvaluatedValue == SAVAB.Children.Min(x => x.EvaluatedValue));
+            var newBoard = new FieldType[144];
+            Array.Copy(BoardInformations.CurrentPosition, newBoard, 144);
+            newBoard[best.From] = FieldType.Empty;
+            newBoard[best.Where] = best.What;
+            BoardInformations.CurrentPosition = newBoard;
+            SetBoard(BoardInformations.CurrentPosition);
+        }
     }
 }

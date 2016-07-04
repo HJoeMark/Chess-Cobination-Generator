@@ -141,7 +141,7 @@
     <Resource Include="Documentation\chess144board.jpg" />
     <Resource Include="Documentation\horse.jpg" />
     <Resource Include="Documentation\king.jpg" />
-    <Resource Include="Documentation\rock.jpg" />
+    <Resource Include="Documentation\rook.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Documentation\queen.jpg" />

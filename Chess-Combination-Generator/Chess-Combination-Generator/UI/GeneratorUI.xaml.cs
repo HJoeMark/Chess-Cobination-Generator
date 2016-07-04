@@ -48,7 +48,7 @@ namespace Chess_Combination_Generator.UI
                 Black = new PiecesNumber()
                 {
                     Queens = 0,
-                    Rocks = 2,
+                    Rooks = 2,
                     Bishops = 0,
                     Knights = 0,
                     Pawns = 0
@@ -56,7 +56,7 @@ namespace Chess_Combination_Generator.UI
                 White = new PiecesNumber()
                 {
                     Queens = 0,
-                    Rocks = 0,
+                    Rooks = 0,
                     Bishops = 0,
                     Knights = 0,
                     Pawns = 0
@@ -104,8 +104,8 @@ namespace Chess_Combination_Generator.UI
                     while (index < generationModel.NumberOfCombination && isStart)
                     {
                         var newBoard = Chess_Combination_Generator.Generator.Generate(false, generationModel.IsWhite, generationModel.TreeLevel,
-                         generationModel.Black.Queens, generationModel.Black.Rocks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
-                         generationModel.White.Queens, generationModel.White.Rocks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns);
+                         generationModel.Black.Queens, generationModel.Black.Rooks, generationModel.Black.Knights, generationModel.Black.Bishops, generationModel.Black.Pawns,
+                         generationModel.White.Queens, generationModel.White.Rooks, generationModel.White.Knights, generationModel.White.Bishops, generationModel.White.Pawns);
                         if (newBoard.IsCorrect)
                         {
                             fenList.Add(newBoard.Fen);

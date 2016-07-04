@@ -65,8 +65,8 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Rocks:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding Path=White.Rocks}" Grid.Column="1" Margin="5"/>
+                        <Label Content="Rooks:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=White.Rooks}" Grid.Column="1" Margin="5"/>
                     </Grid>
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
@@ -116,8 +116,8 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Rocks:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding Path=Black.Rocks}" Grid.Column="1" Margin="5"/>
+                        <Label Content="Rooks:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=Black.Rooks}" Grid.Column="1" Margin="5"/>
                     </Grid>
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>

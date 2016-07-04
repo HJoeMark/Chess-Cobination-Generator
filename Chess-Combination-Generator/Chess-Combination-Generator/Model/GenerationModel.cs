@@ -57,11 +57,11 @@ namespace Chess_Combination_Generator.Model
             get { return queens; }
             set { queens = value; }
         }
-        private int rocks;
-        public int Rocks
+        private int rooks;
+        public int Rooks
         {
-            get { return rocks; }
-            set { rocks = value; }
+            get { return rooks; }
+            set { rooks = value; }
         }
         private int knights;
         public int Knights

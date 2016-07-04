@@ -12,13 +12,13 @@ namespace Chess_Combination_Generator
         Empty,
         WhiteKing,
         WhiteQueen,
-        WhiteRock,
+        WhiteRook,
         WhiteKnight,
         WhiteBishop,
         WhitePawn,
         BlackKing,
         BlackQueen,
-        BlackRock,
+        BlackRook,
         BlackKnight,
         BlackBishop,
         BlackPawn
@@ -70,8 +70,8 @@ namespace Chess_Combination_Generator
 
         public static int[] RowOneEight = new int[] { 26, 27, 28, 29, 30, 31, 32, 33, 110, 111, 112, 113, 114, 115, 116, 117 };
 
-        public static FieldType[] WhitePieces = new FieldType[] { FieldType.WhiteKing, FieldType.WhiteQueen, FieldType.WhiteRock, FieldType.WhiteKnight, FieldType.WhiteBishop, FieldType.WhitePawn };
-        public static FieldType[] BlackPieces = new FieldType[] { FieldType.BlackKing, FieldType.BlackQueen, FieldType.BlackRock, FieldType.BlackKnight, FieldType.BlackBishop, FieldType.BlackPawn };
+        public static FieldType[] WhitePieces = new FieldType[] { FieldType.WhiteKing, FieldType.WhiteQueen, FieldType.WhiteRook, FieldType.WhiteKnight, FieldType.WhiteBishop, FieldType.WhitePawn };
+        public static FieldType[] BlackPieces = new FieldType[] { FieldType.BlackKing, FieldType.BlackQueen, FieldType.BlackRook, FieldType.BlackKnight, FieldType.BlackBishop, FieldType.BlackPawn };
 
         public static char[] Columns = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
 
@@ -102,7 +102,7 @@ namespace Chess_Combination_Generator
                         result += (empty > 0 ? (empty + "") : "") + "Q";
                         empty = 0;
                         break;
-                    case FieldType.WhiteRock:
+                    case FieldType.WhiteRook:
                         result += (empty > 0 ? (empty + "") : "") + "R";
                         empty = 0;
                         break;
@@ -126,7 +126,7 @@ namespace Chess_Combination_Generator
                         result += (empty > 0 ? (empty + "") : "") + "q";
                         empty = 0;
                         break;
-                    case FieldType.BlackRock:
+                    case FieldType.BlackRook:
                         result += (empty > 0 ? (empty + "") : "") + "r";
                         empty = 0;
                         break;
@@ -185,7 +185,7 @@ namespace Chess_Combination_Generator
                                 index++;
                                 break;
                             case "R":
-                                fields[index] = FieldType.WhiteRock;
+                                fields[index] = FieldType.WhiteRook;
                                 index++;
                                 break;
                             case "B":
@@ -209,7 +209,7 @@ namespace Chess_Combination_Generator
                                 index++;
                                 break;
                             case "r":
-                                fields[index] = FieldType.BlackRock;
+                                fields[index] = FieldType.BlackRook;
                                 index++;
                                 break;
                             case "b":
@@ -251,9 +251,9 @@ namespace Chess_Combination_Generator
 
             //BoardInformations.CurrentPosition[50] = FieldType.BlackKing;
             //BoardInformations.CurrentPosition[26] = FieldType.WhiteKing;
-            //BoardInformations.CurrentPosition[45] = FieldType.BlackRock;
-            //BoardInformations.CurrentPosition[33] = FieldType.BlackRock;
-            //BoardInformations.CurrentPosition[27] = FieldType.WhiteRock;
+            //BoardInformations.CurrentPosition[45] = FieldType.BlackRook;
+            //BoardInformations.CurrentPosition[33] = FieldType.BlackRook;
+            //BoardInformations.CurrentPosition[27] = FieldType.WhiteRook;
         }
 
         public static FieldType[] EmptyBoard

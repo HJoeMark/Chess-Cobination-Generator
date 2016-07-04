@@ -202,8 +202,8 @@ namespace Chess_Combination_Generator
                 case FieldType.WhiteQueen:
                     result = WithPiece(board, figPos, QueenSteps);
                     break;
-                case FieldType.WhiteRock:
-                    result = WithPiece(board, figPos, RockSteps);
+                case FieldType.WhiteRook:
+                    result = WithPiece(board, figPos, RookSteps);
                     break;
                 case FieldType.WhiteKnight:
                     result = WithKnight(board, figPos);
@@ -220,8 +220,8 @@ namespace Chess_Combination_Generator
                 case FieldType.BlackQueen:
                     result = WithPiece(board, figPos, QueenSteps, false);
                     break;
-                case FieldType.BlackRock:
-                    result = WithPiece(board, figPos, RockSteps, false);
+                case FieldType.BlackRook:
+                    result = WithPiece(board, figPos, RookSteps, false);
                     break;
                 case FieldType.BlackKnight:
                     result = WithKnight(board, figPos, false);
@@ -252,8 +252,8 @@ namespace Chess_Combination_Generator
             {
                 foreach (var field in BoardInformations.InsideBoard)
                 {
-                    if (board[field] == FieldType.WhiteRock)
-                        result.AddRange(WithPiece(board, field, RockSteps, isWhite));
+                    if (board[field] == FieldType.WhiteRook)
+                        result.AddRange(WithPiece(board, field, RookSteps, isWhite));
                     if (board[field] == FieldType.WhiteBishop)
                         result.AddRange(WithPiece(board, field, BishopSteps, isWhite));
                     if (board[field] == FieldType.WhiteQueen)
@@ -270,8 +270,8 @@ namespace Chess_Combination_Generator
             {
                 foreach (var field in BoardInformations.InsideBoard)
                 {
-                    if (board[field] == FieldType.BlackRock)
-                        result.AddRange(WithPiece(board, field, RockSteps, isWhite));
+                    if (board[field] == FieldType.BlackRook)
+                        result.AddRange(WithPiece(board, field, RookSteps, isWhite));
                     if (board[field] == FieldType.BlackBishop)
                         result.AddRange(WithPiece(board, field, BishopSteps, isWhite));
                     if (board[field] == FieldType.BlackQueen)
@@ -342,7 +342,7 @@ namespace Chess_Combination_Generator
         }
 
         public static int[] KingSteps = new int[] { -13, -12, -11, -1, 1, 11, 12, 13 };
-        public static int[] RockSteps = new int[] { -12, -1, 1, 12 };
+        public static int[] RookSteps = new int[] { -12, -1, 1, 12 };
         public static int[] KnightSteps = new int[] { -25, -23, -14, -10, 10, 14, 23, 25 };
         public static int[] BishopSteps = new int[] { -13, -11, 11, 13 };
         public static int[] QueenSteps = new int[] { -13, -12, -11, -1, 1, 12, 11, 13 };

@@ -39,8 +39,8 @@ namespace Chess_Combination_Generator
                             result += QueenPoint[index];
                             result += 900;
                             break;
-                        case FieldType.WhiteRock:
-                            result += RockPoint[index];
+                        case FieldType.WhiteRook:
+                            result += RookPoint[index];
                             result += 500;
                             break;
                         case FieldType.WhiteKnight:
@@ -62,8 +62,8 @@ namespace Chess_Combination_Generator
                             result -= QueenPoint[63 - index];
                             result -= 900;
                             break;
-                        case FieldType.BlackRock:
-                            result -= RockPoint[63 - index];
+                        case FieldType.BlackRook:
+                            result -= RookPoint[63 - index];
                             result -= 500;
                             break;
                         case FieldType.BlackKnight:
@@ -97,8 +97,8 @@ namespace Chess_Combination_Generator
                             result -= QueenPoint[index];
                             result -= 900;
                             break;
-                        case FieldType.WhiteRock:
-                            result -= RockPoint[index];
+                        case FieldType.WhiteRook:
+                            result -= RookPoint[index];
                             result -= 500;
                             break;
                         case FieldType.WhiteKnight:
@@ -120,8 +120,8 @@ namespace Chess_Combination_Generator
                             result += QueenPoint[63 - index];
                             result += 900;
                             break;
-                        case FieldType.BlackRock:
-                            result += RockPoint[63 - index];
+                        case FieldType.BlackRook:
+                            result += RookPoint[63 - index];
                             result += 500;
                             break;
                         case FieldType.BlackKnight:
@@ -150,7 +150,7 @@ namespace Chess_Combination_Generator
         #region PosPoints
 
 
-        static int[] RockPoint = new int[] {
+        static int[] RookPoint = new int[] {
          0,0,0,0,0,0,0,0,
          5,10,10,10,10,10,10,5,
         -5,0,0,0,0,0,0,-5,

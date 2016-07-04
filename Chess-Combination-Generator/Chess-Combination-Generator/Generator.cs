@@ -31,12 +31,12 @@ namespace Chess_Combination_Generator
             Pieces.Add(BoardInformations.InsideBoard[index2]);
         }
 
-        static void Rocks(FieldType[] board, int number, bool isWhite = true)
+        static void Rooks(FieldType[] board, int number, bool isWhite = true)
         {
             if (number == 0)
                 return;
             var isComplete = false;
-            var numberOfRock = 0;
+            var numberOfRook = 0;
             Random rnd = new Random();
             var index = rnd.Next(0, 63);
             while (!isComplete)
@@ -44,12 +44,12 @@ namespace Chess_Combination_Generator
                 if (!Pieces.Contains(BoardInformations.InsideBoard[index]))
                 {
                     if (isWhite)
-                        board[BoardInformations.InsideBoard[index]] = FieldType.WhiteRock;
+                        board[BoardInformations.InsideBoard[index]] = FieldType.WhiteRook;
                     else
-                        board[BoardInformations.InsideBoard[index]] = FieldType.BlackRock;
+                        board[BoardInformations.InsideBoard[index]] = FieldType.BlackRook;
                     Pieces.Add(BoardInformations.InsideBoard[index]);
-                    numberOfRock++;
-                    if (numberOfRock == number)
+                    numberOfRook++;
+                    if (numberOfRook == number)
                         isComplete = true;
                 }
                 else
@@ -162,8 +162,8 @@ namespace Chess_Combination_Generator
         }
 
         public static ReturnValues Generate(bool checkIsOk = false, bool isWhite = true, int level = 5,
-            int bQueens = 0, int bRocks = 2, int bKnights = 2, int bBishops = 0, int bPawns = 0,
-            int wQueens = 0, int wRocks = 2, int wKnights = 2, int wBishops = 0, int wPawns = 0)
+            int bQueens = 0, int bRooks = 2, int bKnights = 2, int bBishops = 0, int bPawns = 0,
+            int wQueens = 0, int wRooks = 2, int wKnights = 2, int wBishops = 0, int wPawns = 0)
         {
             FieldType[] board = null;
 
@@ -174,13 +174,13 @@ namespace Chess_Combination_Generator
                 Kings(board);
 
                 //White  
-                Rocks(board, wRocks);
+                Rooks(board, wRooks);
                 Knights(board, wKnights);
                 Bishops(board, wBishops);
                 Queen(board, wQueens);
                 Pawn(board, wPawns);
                 //Black
-                Rocks(board, bRocks, false);
+                Rooks(board, bRooks, false);
                 Knights(board, bKnights, false);
                 Bishops(board, bBishops, false);
                 Queen(board, bQueens, false);
