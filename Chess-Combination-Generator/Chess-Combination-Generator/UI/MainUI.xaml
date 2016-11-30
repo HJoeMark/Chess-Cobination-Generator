@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Chess_Combination_Generator"
         xmlns:UI="clr-namespace:Chess_Combination_Generator.UI"
         mc:Ignorable="d"
-        Title="Chess Combination Generator" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+        Title="Chess Combination Generator" Height="600" Width="800" MinHeight="505" MinWidth="660" WindowStartupLocation="CenterScreen">
     <Grid x:Name="main_grid" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition/>
