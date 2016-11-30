@@ -1,4 +1,4 @@
-# Chess-Cobination-Generator
+# Chess-Combination-Generator
 
 It is my test project.
 
