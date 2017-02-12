@@ -331,13 +331,11 @@ namespace Chess_Combination_Generator
             return result;
         }
 
-        public static bool IsOtherKingNear(FieldType[] board, byte king1, byte king2)
+        public static bool IsOtherKingNear(byte king1, byte king2)
         {
-            foreach (var item in KingSteps)
-            {
-                if (king1 + item == king2)
+            foreach (var step in KingSteps)
+                if (king1 + step == king2)
                     return true;
-            }
             return false;
         }
 

@@ -21,7 +21,7 @@ namespace Chess_Combination_Generator
             var index2 = rnd.Next(0, 63);
             while (!isComplete)
             {
-                if (index2 != index && !PossibleSteps.IsOtherKingNear(board, BoardInformations.InsideBoard[index], BoardInformations.InsideBoard[index2]))
+                if (index2 != index && !PossibleSteps.IsOtherKingNear(BoardInformations.InsideBoard[index], BoardInformations.InsideBoard[index2]))
                     isComplete = true;
                 else
                     index2 = rnd.Next(0, 63);
@@ -43,10 +43,7 @@ namespace Chess_Combination_Generator
             {
                 if (!Pieces.Contains(BoardInformations.InsideBoard[index]))
                 {
-                    if (isWhite)
-                        board[BoardInformations.InsideBoard[index]] = FieldType.WhiteRook;
-                    else
-                        board[BoardInformations.InsideBoard[index]] = FieldType.BlackRook;
+                    board[BoardInformations.InsideBoard[index]] = isWhite ? FieldType.WhiteRook : FieldType.BlackRook;
                     Pieces.Add(BoardInformations.InsideBoard[index]);
                     numberOfRook++;
                     if (numberOfRook == number)
@@ -69,10 +66,7 @@ namespace Chess_Combination_Generator
             {
                 if (!Pieces.Contains(BoardInformations.InsideBoard[index]))
                 {
-                    if (isWhite)
-                        board[BoardInformations.InsideBoard[index]] = FieldType.WhiteKnight;
-                    else
-                        board[BoardInformations.InsideBoard[index]] = FieldType.BlackKnight;
+                    board[BoardInformations.InsideBoard[index]] = isWhite ? FieldType.WhiteKnight : FieldType.BlackKnight;
                     Pieces.Add(BoardInformations.InsideBoard[index]);
                     numberOfKnight++;
                     if (numberOfKnight == number)
@@ -88,20 +82,17 @@ namespace Chess_Combination_Generator
             if (number == 0)
                 return;
             var isComplete = false;
-            var numberOfKnight = 0;
+            var numberOfBishop = 0;
             Random rnd = new Random();
             var index = rnd.Next(0, 63);
             while (!isComplete)
             {
                 if (!Pieces.Contains(BoardInformations.InsideBoard[index]))
                 {
-                    if (isWhite)
-                        board[BoardInformations.InsideBoard[index]] = FieldType.WhiteBishop;
-                    else
-                        board[BoardInformations.InsideBoard[index]] = FieldType.BlackBishop;
+                    board[BoardInformations.InsideBoard[index]] = isWhite ? FieldType.WhiteBishop : FieldType.BlackBishop;
                     Pieces.Add(BoardInformations.InsideBoard[index]);
-                    numberOfKnight++;
-                    if (numberOfKnight == number)
+                    numberOfBishop++;
+                    if (numberOfBishop == number)
                         isComplete = true;
                 }
                 else
@@ -114,20 +105,17 @@ namespace Chess_Combination_Generator
             if (number == 0)
                 return;
             var isComplete = false;
-            var numberOfKnight = 0;
+            var numberOfQueen = 0;
             Random rnd = new Random();
             var index = rnd.Next(0, 63);
             while (!isComplete)
             {
                 if (!Pieces.Contains(BoardInformations.InsideBoard[index]))
                 {
-                    if (isWhite)
-                        board[BoardInformations.InsideBoard[index]] = FieldType.WhiteQueen;
-                    else
-                        board[BoardInformations.InsideBoard[index]] = FieldType.BlackQueen;
+                    board[BoardInformations.InsideBoard[index]] = isWhite ? FieldType.WhiteQueen : FieldType.BlackQueen;
                     Pieces.Add(BoardInformations.InsideBoard[index]);
-                    numberOfKnight++;
-                    if (numberOfKnight == number)
+                    numberOfQueen++;
+                    if (numberOfQueen == number)
                         isComplete = true;
                 }
                 else
@@ -140,20 +128,17 @@ namespace Chess_Combination_Generator
             if (number == 0)
                 return;
             var isComplete = false;
-            var numberOfKnight = 0;
+            var numberOfPawn = 0;
             Random rnd = new Random();
             var index = rnd.Next(0, 63);
             while (!isComplete)
             {
                 if (!BoardInformations.RowOneEight.Contains(BoardInformations.InsideBoard[index]) && !Pieces.Contains(BoardInformations.InsideBoard[index]))
                 {
-                    if (isWhite)
-                        board[BoardInformations.InsideBoard[index]] = FieldType.WhitePawn;
-                    else
-                        board[BoardInformations.InsideBoard[index]] = FieldType.BlackPawn;
+                    board[BoardInformations.InsideBoard[index]] = isWhite ? FieldType.WhitePawn : FieldType.BlackPawn;
                     Pieces.Add(BoardInformations.InsideBoard[index]);
-                    numberOfKnight++;
-                    if (numberOfKnight == number)
+                    numberOfPawn++;
+                    if (numberOfPawn == number)
                         isComplete = true;
                 }
                 else
