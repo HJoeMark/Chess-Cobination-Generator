@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,10 +17,7 @@ namespace Chess_Combination_Generator.UI
         GenerationModel generationModel;
         BackgroundWorker bw = null;
         private bool isStart = false;
-
         List<string> fenList;
-
-
 
         public ProgressBar pbar
         {
@@ -31,13 +29,12 @@ namespace Chess_Combination_Generator.UI
         public static readonly DependencyProperty pbarProperty =
             DependencyProperty.Register("pbar", typeof(ProgressBar), typeof(GeneratorUI), null);
 
-
         public GeneratorUI()
         {
             InitializeComponent();
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
-            this.Loaded += Generator_Loaded;
+
             // TODO: Load for settings.xml
             //TEST
             generationModel = new GenerationModel()
@@ -65,12 +62,6 @@ namespace Chess_Combination_Generator.UI
             this.DataContext = generationModel;
         }
 
-        private void Generator_Loaded(object sender, RoutedEventArgs e)
-        {
-
-
-        }
-
         private void generate_btn_Click(object sende, RoutedEventArgs e)
         {
             if (bw != null)
@@ -91,7 +82,6 @@ namespace Chess_Combination_Generator.UI
                 bw = new BackgroundWorker();
                 bw.WorkerSupportsCancellation = true;
                 generate_btn_lab.Content = "Stop Generate";
-                // define the event handlers
                 bw.DoWork += (sender, args) =>
                 {
                     fenList = new List<string>();
@@ -99,7 +89,6 @@ namespace Chess_Combination_Generator.UI
                     var lastFen = "";
                     if (!Directory.Exists("Fens"))
                         Directory.CreateDirectory("Fens");
-
 
                     while (index < generationModel.NumberOfCombination && isStart)
                     {
@@ -127,22 +116,13 @@ namespace Chess_Combination_Generator.UI
                 };
                 bw.RunWorkerCompleted += (sender, args) =>
                 {
-                    if (args.Error != null)  // if an exception occurred during DoWork,
-                        MessageBox.Show(args.Error.ToString());  // do your error handling here
-
-                    // Do whatever else you want to do after the work completed.
-                    // This happens in the main UI thread.
+                    if (args.Error != null)
+                        MessageBox.Show(args.Error.ToString());
                     generate_btn_lab.Content = "Start Generate";
                     isStart = false;
 
                 };
-                bw.Disposed += (sender, args) =>
-                {
-
-                };
-                bw.RunWorkerAsync(); // starts the background worker
-
-                // execution continues here in parallel to the background worker
+                bw.RunWorkerAsync();
             }
         }
 
