@@ -181,8 +181,8 @@ namespace Chess_Combination_Generator
             });
             Pieces = null;
 
-            StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-            var value = AI.AlphaBeta(board, level, int.MinValue, int.MaxValue, isWhite, SAV);
+            //StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+            var value = AI.AlphaBeta(board, level, int.MinValue, int.MaxValue, isWhite);//, SAV);
             var searchedValue = isWhite ? int.MaxValue : int.MinValue;
 
             if ((!checkIsOk && (AI.IsCheck(board) || AI.IsCheck(board, false)) || value != searchedValue))//SAV.Children.First(y => y.EvaluatedValue == SAV.Children.Min(x => x.EvaluatedValue)).EvaluatedValue != int.MinValue))

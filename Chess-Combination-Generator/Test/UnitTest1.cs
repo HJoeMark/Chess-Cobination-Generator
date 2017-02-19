@@ -10,7 +10,7 @@ namespace Test
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void GeneratorSpeedTest()
         {
             var result = true;
             var time = new Stopwatch();
@@ -29,7 +29,7 @@ namespace Test
         }
 
         [TestMethod]
-        public void TestMethod2()
+        public void AITest()
         {
             var result = true;
             var isWhite = false;
@@ -44,10 +44,10 @@ namespace Test
             board[45] = FieldType.BlackRook;
             board[33] = FieldType.BlackRook;
             board[27] = FieldType.WhiteRook;
-                     
-          
-            StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-            var value = AI.AlphaBeta(board,7, int.MinValue, int.MaxValue, isWhite, SAV);
+
+
+            //StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
+            var value = AI.AlphaBeta(board, 1, int.MinValue, int.MaxValue, isWhite);//, SAV);
             var searchedValue = isWhite ? int.MaxValue : int.MinValue;
 
             if ((!checkIsOk && (AI.IsCheck(board) || AI.IsCheck(board, false)) || value != searchedValue))

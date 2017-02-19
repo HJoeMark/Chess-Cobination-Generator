@@ -102,6 +102,56 @@ namespace Chess_Combination_Generator
             }
         }
 
+        public static int AlphaBeta(FieldType[] boardNode, int depth, int alpha, int beta, bool maximizinPlayer)
+        {
+            if (IsStalemate(boardNode, maximizinPlayer))
+            {
+                if (IsCheck(boardNode, maximizinPlayer))
+                    return !maximizinPlayer ? int.MaxValue : int.MinValue;
+                else
+                    return Evaluator.Evaluate(boardNode, maximizinPlayer);
+            }
+
+            if (depth == 0)
+                return Evaluator.Evaluate(boardNode, maximizinPlayer);
+
+            if (maximizinPlayer)
+            {
+                var v = int.MinValue;
+                foreach (var step in AllNode(boardNode, maximizinPlayer))
+                {
+                    var newBoard = new FieldType[144];
+                    Array.Copy(boardNode, newBoard, 144);
+                    newBoard[step.From] = FieldType.Empty;
+                    newBoard[step.Where] = step.What;
+                    var ab = AlphaBeta(newBoard, depth - 1, alpha, beta, false);
+                    v = Math.Max(v, ab);
+                    alpha = Math.Max(alpha, v);
+                    if (beta <= alpha)
+                        break;
+                }
+                return v;
+            }
+            else
+            {
+                var v = int.MaxValue;
+                foreach (var step in AllNode(boardNode, maximizinPlayer))
+                {
+                    var newBoard = new FieldType[144];
+                    Array.Copy(boardNode, newBoard, 144);
+                    newBoard[step.From] = FieldType.Empty;
+                    newBoard[step.Where] = step.What;
+                    var ab = AlphaBeta(newBoard, depth - 1, alpha, beta, true);
+                    v = Math.Min(v, ab);
+                    beta = Math.Min(beta, v);
+                    if (beta <= alpha)
+                        break;
+                }
+                return v;
+            }
+        }
+
+
         static List<StepAndValue> AllNode(FieldType[] board, bool isWhite = true)
         {
             var result = new List<StepAndValue>();
