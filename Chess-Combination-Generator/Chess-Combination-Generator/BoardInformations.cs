@@ -276,5 +276,6 @@ namespace Chess_Combination_Generator
                 };
             }
         }
+        
     }
 }

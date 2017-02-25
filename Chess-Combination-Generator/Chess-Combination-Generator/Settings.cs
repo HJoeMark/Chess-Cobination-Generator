@@ -12,6 +12,7 @@ namespace Chess_Combination_Generator
     public static class Settings
     {
         //Colors
+        //Board color
         public static SolidColorBrush WhiteField = new SolidColorBrush(Colors.White);
         public static SolidColorBrush BlackField = new SolidColorBrush(Colors.Gray);
 

@@ -16,13 +16,15 @@ using System.Windows.Shapes;
 
 namespace Chess_Combination_Generator.UI
 {
+
     /// <summary>
     /// Interaction logic for Board.xaml
     /// </summary>
     public partial class BoardUI : UserControl
     {
-        //bool firstClick = false;
-        //Label firstLabel;
+        bool isWhite;
+        bool isClickedOnce;
+        byte prePos;
 
         public BoardUI()
         {
@@ -35,17 +37,20 @@ namespace Chess_Combination_Generator.UI
             //LOAD RESOURCES
             this.Resources["White"] = Settings.WhiteField;
             this.Resources["Black"] = Settings.BlackField;
+            isWhite = true;
         }
 
-        public void SetBoard(FieldType[] board, byte[] possibleSteps = null, bool isWhite = true)
+        public void SetBoard(FieldType[] board, byte[] possibleSteps = null, bool _isWhite = true)
         {
             ClearBoard();
+            this.isWhite = _isWhite;
+            this.isClickedOnce = false;
             //RESOURCES
             //https://en.wikipedia.org/wiki/Chess_symbols_in_Unicode
-            var index = isWhite ? -1 : 64;
+            var index = _isWhite ? -1 : 64;
             foreach (var item in BoardInformations.InsideBoard)
             {
-                index += isWhite ? 1 : -1;
+                index += _isWhite ? 1 : -1;
                 var field = fields.FindName("f" + index);
                 if (board[item] != FieldType.Empty)
                 {
@@ -94,10 +99,12 @@ namespace Chess_Combination_Generator.UI
                         }
                     }
                 }
-                // TEST
-                //else
-                //    ((Label)field).Content = item;
-
+                //#if (DEBUG == true)
+                //                else
+                //                {
+                //                    ((Label)field).Content = BoardInformations.InsideBoard[isWhite ? byte.Parse(((Label)field).Name.Substring(1)) : 63- byte.Parse(((Label)field).Name.Substring(1))];
+                //                }
+                //#endif
                 if (possibleSteps != null && possibleSteps.Contains(item))
                 {
                     field = fields.FindName("f" + index);
@@ -105,7 +112,7 @@ namespace Chess_Combination_Generator.UI
                 }
             }
 
-            if (isWhite)
+            if (_isWhite)
             {
                 Label label;
                 int cIndex = 0;
@@ -140,56 +147,199 @@ namespace Chess_Combination_Generator.UI
             }
         }
 
-        private void ClearBoard()
+        private void ClearBoard(bool widthPieces = true)
         {
             var index = -1;
             foreach (var item in BoardInformations.InsideBoard)
             {
                 index++;
                 var field = fields.FindName("f" + index);
-                ((Label)field).Content = "";
+                if (widthPieces)
+                    ((Label)field).Content = "";
                 if (BoardInformations.WhiteFields.Contains(item))
                     ((Label)field).Background = Settings.WhiteField;
 
                 else
                     ((Label)field).Background = Settings.BlackField;
-
             }
         }
 
         private void FieldClick(object sender, MouseButtonEventArgs e)
         {
-            //var currentLabel = ((Label)sender);
-            //if (!firstClick)
-            //{
-            //    firstClick = true;
-            //    firstLabel = currentLabel;
-            //    firstLabel.Background = new SolidColorBrush(Colors.LightBlue);
-            //}
-            //else
-            //{
-            //    firstClick = false;
-            //    currentLabel.Content = firstLabel.Content;
-            //    firstLabel.Content = "";
-            //    BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(currentLabel.Name.Substring(1))]] = BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(firstLabel.Name.Substring(1))]];
-            //    BoardInformations.CurrentPosition[BoardInformations.InsideBoard[byte.Parse(firstLabel.Name.Substring(1))]] = FieldType.Empty;
+            var currentLabel = ((Label)sender);
+            var fieldNumber = int.Parse(currentLabel.Name.Substring(1));
+            if (!isWhite)
+                fieldNumber = 63 - fieldNumber;
+            var position = BoardInformations.InsideBoard[fieldNumber];
 
-            //    //Step();
-            //}
+
+            if (!isClickedOnce)
+            {
+                if (isWhite)
+                {
+                    if (!BoardInformations.WhitePieces.Contains(BoardInformations.CurrentPosition[position]))
+                        return;
+                }
+                else if (!BoardInformations.BlackPieces.Contains(BoardInformations.CurrentPosition[position]))
+                    return;
+
+                var pieceType = BoardInformations.CurrentPosition[position];
+                if (pieceType != FieldType.Empty)
+                {
+                    switch (pieceType)
+                    {
+                        case FieldType.WhiteKing:
+                        case FieldType.BlackKing:
+                            KingColoring(pieceType, position);
+                            break;
+                        default:
+                            Coloring(pieceType, position);
+                            break;
+                    }
+                    currentLabel.Background = new SolidColorBrush(Colors.Green);
+                }
+                else
+                    currentLabel.Background = new SolidColorBrush(Colors.Red);
+                isClickedOnce = true;
+                prePos = position;
+            }
+            else
+            {
+                if (((SolidColorBrush)currentLabel.Background).Color == Brushes.Yellow.Color)
+                {
+                    BoardInformations.CurrentPosition = TemporatyBoard(BoardInformations.CurrentPosition, prePos, position);
+                    SetBoard(BoardInformations.CurrentPosition, null, isWhite);
+                    if (AI.IsStalemate(BoardInformations.CurrentPosition, !isWhite) && AI.IsCheck(BoardInformations.CurrentPosition, !isWhite))
+                        MessageBox.Show("Congrats!! It is checkmate :)");
+                    else
+                    {
+                        //Opponent move
+
+                    }
+                }
+                else
+                    ClearBoard(false);
+
+                isClickedOnce = false;
+            }
         }
 
-        public void Step()
+        void KingColoring(FieldType type, byte currentPiecePos)
         {
-            //StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-            //StepAndValue SAVAB = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-            //AI.AlphaBeta(BoardInformations.CurrentPosition, 5, int.MinValue, int.MaxValue, false, SAVAB);
-            //var best = SAVAB.Children.First(y => y.EvaluatedValue == SAVAB.Children.Min(x => x.EvaluatedValue));
-            //var newBoard = new FieldType[144];
-            //Array.Copy(BoardInformations.CurrentPosition, newBoard, 144);
-            //newBoard[best.From] = FieldType.Empty;
-            //newBoard[best.Where] = best.What;
-            //BoardInformations.CurrentPosition = newBoard;
-            //SetBoard(BoardInformations.CurrentPosition);
+            bool _isWhite = BoardInformations.WhitePieces.Contains(type);
+            ClearBoard(false);
+            var steps = PossibleSteps.WithKing(BoardInformations.CurrentPosition, currentPiecePos, _isWhite);
+            if (steps != null)
+            {
+                //Filter
+                var otherKingPos = PossibleSteps.WhereIsTheKing(BoardInformations.CurrentPosition, !_isWhite);
+                var coloredField = steps.Select(x => Array.IndexOf(BoardInformations.InsideBoard, (byte)x));
+                var opponentPosibbleSteps = PossibleSteps.AllPiece(BoardInformations.CurrentPosition, !_isWhite);
+                var b = coloredField.Where(x => !AI.IsCheck(TemporatyBoard(BoardInformations.CurrentPosition, currentPiecePos, BoardInformations.InsideBoard[(byte)x]), _isWhite));
+                if (b.Count() > 0)
+                    foreach (Label child in fields.Children)
+                        if (b.Contains(this.isWhite ? int.Parse(child.Name.Substring(1)) : 63 - int.Parse(child.Name.Substring(1))))
+                            child.Background = new SolidColorBrush(Colors.Yellow);
+            }
+        }
+
+        FieldType[] TemporatyBoard(FieldType[] currentBoard, byte currentFigPos, byte newFigPos)
+        {
+            var copyBoard = new FieldType[144];
+            Array.Copy(currentBoard, copyBoard, 144);
+            copyBoard[newFigPos] = copyBoard[currentFigPos];
+            copyBoard[currentFigPos] = FieldType.Empty;
+            return copyBoard;
+        }
+
+        void Coloring(FieldType type, byte currentPiecePos)
+        {
+            var _isWhite = BoardInformations.WhitePieces.Contains(type);
+            ClearBoard(false);
+            var steps =
+                type == FieldType.BlackRook || type == FieldType.WhiteRook || type == FieldType.BlackBishop || type == FieldType.WhiteBishop || type == FieldType.WhiteQueen || type == FieldType.BlackQueen
+                ?
+                PossibleSteps.WithPiece(BoardInformations.CurrentPosition, currentPiecePos, WhichPieceSteps(type), _isWhite)
+                :
+                type == FieldType.BlackKnight || type == FieldType.WhiteKnight
+                ?
+                PossibleSteps.WithKnight(BoardInformations.CurrentPosition, currentPiecePos, _isWhite)
+                :
+                type == FieldType.BlackPawn || type == FieldType.WhitePawn
+                ?
+                PossibleSteps.WithPawn(BoardInformations.CurrentPosition, currentPiecePos, _isWhite)
+                :
+                null;
+            if (steps != null)
+            {
+                var coloredField = steps.Select(x => BoardInformations.InsideBoard.ToList().IndexOf(x));
+                if (coloredField.Count() > 0)
+                    foreach (Label child in fields.Children)
+                        if (coloredField.Contains(isWhite ? int.Parse(child.Name.Substring(1)) : 63 - int.Parse(child.Name.Substring(1)))) //global isWhite, becouse it is the board orientation
+                        {
+                            var tempBoard = TemporatyBoard(BoardInformations.CurrentPosition, currentPiecePos, BoardInformations.InsideBoard[isWhite ? byte.Parse(child.Name.Substring(1)) : 63 - byte.Parse(child.Name.Substring(1))]);
+                            if (!AI.IsCheck(tempBoard, _isWhite))
+                                child.Background = new SolidColorBrush(Colors.Yellow);
+                        }
+            }
+        }
+
+        int[] WhichPieceSteps(FieldType type)
+        {
+            switch (type)
+            {
+                case FieldType.BlackRook:
+                case FieldType.WhiteRook:
+                    return PossibleSteps.RookSteps;
+                case FieldType.BlackBishop:
+                case FieldType.WhiteBishop:
+                    return PossibleSteps.BishopSteps;
+                case FieldType.WhiteQueen:
+                case FieldType.BlackQueen:
+                    return PossibleSteps.QueenSteps;
+                default:
+                    throw new Exception();
+            }
+        }
+
+        private void FieldMouseMove(object sender, MouseEventArgs e)
+        {
+            var currentLabel = ((Label)sender);
+            var fieldNumber = int.Parse(currentLabel.Name.Substring(1));
+            if (!isWhite)
+                fieldNumber = 63 - fieldNumber;
+            var position = BoardInformations.InsideBoard[fieldNumber];
+            if (isWhite)
+            {
+                if (!BoardInformations.WhitePieces.Contains(BoardInformations.CurrentPosition[position]))
+                    return;
+                else
+                {
+                    currentLabel.Cursor = Cursors.Hand;
+                    currentLabel.BorderBrush = new SolidColorBrush(Colors.LightBlue);
+                    currentLabel.BorderThickness = new Thickness(2);
+                }
+            }
+            else
+            {
+                if (!BoardInformations.BlackPieces.Contains(BoardInformations.CurrentPosition[position]))
+                    return;
+                else
+                {
+                    currentLabel.Cursor = Cursors.Hand;
+                    currentLabel.BorderBrush = new SolidColorBrush(Colors.Blue);
+                    currentLabel.BorderThickness = new Thickness(2);
+                }
+            }
+
+        }
+
+        private void FieldMouseLeave(object sender, MouseEventArgs e)
+        {
+            var currentLabel = ((Label)sender);
+            currentLabel.Cursor = null;
+            currentLabel.BorderBrush = null;
+            currentLabel.BorderThickness = new Thickness(0);
         }
     }
 }

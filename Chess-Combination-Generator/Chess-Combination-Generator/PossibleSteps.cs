@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -326,6 +327,7 @@ namespace Chess_Combination_Generator
                     if (!AllPiece(newBoard, !isWhite).Contains(kingPos))
                         newSteps.Add(step);
                 }
+                //   if (newSteps.Count() > 0)
                 result.Add(piece.Key, new PiecesAndSteps(board[piece.Key.Field], newSteps.ToArray()));
             }
             return result;

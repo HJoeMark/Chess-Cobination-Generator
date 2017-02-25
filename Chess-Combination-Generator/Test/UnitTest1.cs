@@ -55,5 +55,73 @@ namespace Test
 
             Assert.AreEqual(true, result, $"");
         }
+
+        [TestMethod]
+        public void AI_IsStalemate_Test()
+        {
+            var result = true;
+            var isWhite = false;
+            var board = new FieldType[144];
+            for (byte i = 0; i < BoardInformations.InsideBoard.Length; i++)
+                board[BoardInformations.InsideBoard[i]] = FieldType.Empty;
+            board[50] = FieldType.BlackKing;
+            board[26] = FieldType.WhiteKing;
+            board[45] = FieldType.BlackRook;
+            board[33] = FieldType.BlackRook;
+            board[27] = FieldType.WhiteRook;
+
+            //for speed test
+            for (int i = 0; i < 1000; i++) //important, becouse the time is too small
+                result = AI.IsStalemate(board, isWhite);
+
+            Assert.AreEqual(false, result, $"");
+        }
+
+        [TestMethod]
+        public void AI_IsCheck_Test()
+        {
+            var result = true;
+            var isWhite = false;
+            var board = new FieldType[144];
+            for (byte i = 0; i < BoardInformations.InsideBoard.Length; i++)
+                board[BoardInformations.InsideBoard[i]] = FieldType.Empty;
+            board[50] = FieldType.BlackKing;
+            board[26] = FieldType.WhiteKing;
+            board[45] = FieldType.BlackRook;
+            board[33] = FieldType.BlackRook;
+            board[27] = FieldType.WhiteRook;
+
+            //for speed test
+            for (int i = 0; i < 1000; i++) //important, becouse the time is too small
+                result = AI.IsCheck(board, isWhite);
+
+            Assert.AreEqual(false, result, $"");
+        }
+
+        [TestMethod]
+        public void PossibleSteps_WhereIsTheKing_Test()
+        {
+            var result = true;
+            var isWhite = false;
+            var board = new FieldType[144];
+            for (byte i = 0; i < BoardInformations.InsideBoard.Length; i++)
+                board[BoardInformations.InsideBoard[i]] = FieldType.Empty;
+            board[50] = FieldType.BlackKing;
+            board[26] = FieldType.WhiteKing;
+            board[45] = FieldType.BlackRook;
+            board[33] = FieldType.BlackRook;
+            board[27] = FieldType.WhiteRook;
+
+            //for speed test
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            for (int i = 0; i < 10000000; i++) //important, becouse the time is too small
+                 PossibleSteps.WhereIsTheKing(board, isWhite);
+            sw.Stop();
+            var a = sw.Elapsed.TotalMilliseconds;
+          
+            Assert.AreEqual(false, false, $"");
+        }
+
     }
 }

@@ -95,10 +95,5 @@ namespace Chess_Combination_Generator.UI
             }
             MessageBox.Show("Complete", "Image saving", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
-        private void moveAI_btn_Click(object sender, RoutedEventArgs e)
-        {
-            this.board.Step();
-        }
     }
 }

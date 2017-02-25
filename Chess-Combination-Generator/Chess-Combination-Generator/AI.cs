@@ -150,8 +150,7 @@ namespace Chess_Combination_Generator
                 return v;
             }
         }
-
-
+        
         static List<StepAndValue> AllNode(FieldType[] board, bool isWhite = true)
         {
             var result = new List<StepAndValue>();
