@@ -38,6 +38,9 @@ namespace Chess_Combination_Generator
         {
             BoardInformations.BasicPosition();
             generatorUI.pbar = generationProcess_pbar;
+
+            //TODO: need an init mechanism
+            Memory.Root = null;
         }
     }
 }

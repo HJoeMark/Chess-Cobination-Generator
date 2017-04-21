@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,9 +23,11 @@ namespace Chess_Combination_Generator.UI
     /// </summary>
     public partial class BoardUI : UserControl
     {
-        bool isWhite;
+        public bool IsWhite;
         bool isClickedOnce;
         byte prePos;
+        FieldType[] currentPosition;
+
 
         public BoardUI()
         {
@@ -37,14 +40,16 @@ namespace Chess_Combination_Generator.UI
             //LOAD RESOURCES
             this.Resources["White"] = Settings.WhiteField;
             this.Resources["Black"] = Settings.BlackField;
-            isWhite = true;
+            IsWhite = true;
         }
 
         public void SetBoard(FieldType[] board, byte[] possibleSteps = null, bool _isWhite = true)
         {
             ClearBoard();
-            this.isWhite = _isWhite;
-            this.isClickedOnce = false;
+            IsWhite = _isWhite;
+            isClickedOnce = false;
+            currentPosition = board;
+
             //RESOURCES
             //https://en.wikipedia.org/wiki/Chess_symbols_in_Unicode
             var index = _isWhite ? -1 : 64;
@@ -147,6 +152,11 @@ namespace Chess_Combination_Generator.UI
             }
         }
 
+        public FieldType[] GetBoard()
+        {
+            return currentPosition;
+        }
+
         private void ClearBoard(bool widthPieces = true)
         {
             var index = -1;
@@ -168,22 +178,22 @@ namespace Chess_Combination_Generator.UI
         {
             var currentLabel = ((Label)sender);
             var fieldNumber = int.Parse(currentLabel.Name.Substring(1));
-            if (!isWhite)
+            if (!IsWhite)
                 fieldNumber = 63 - fieldNumber;
-            var position = BoardInformations.InsideBoard[fieldNumber];
-
+            var position = BoardInformations.InsideBoard.ElementAt(fieldNumber);
+            BoardNode selectedNode;
 
             if (!isClickedOnce)
             {
-                if (isWhite)
+                if (IsWhite)
                 {
-                    if (!BoardInformations.WhitePieces.Contains(BoardInformations.CurrentPosition[position]))
+                    if (!BoardInformations.WhitePieces.Contains(currentPosition[position]))
                         return;
                 }
-                else if (!BoardInformations.BlackPieces.Contains(BoardInformations.CurrentPosition[position]))
+                else if (!BoardInformations.BlackPieces.Contains(currentPosition[position]))
                     return;
 
-                var pieceType = BoardInformations.CurrentPosition[position];
+                var pieceType = currentPosition[position];
                 if (pieceType != FieldType.Empty)
                 {
                     switch (pieceType)
@@ -207,14 +217,58 @@ namespace Chess_Combination_Generator.UI
             {
                 if (((SolidColorBrush)currentLabel.Background).Color == Brushes.Yellow.Color)
                 {
-                    BoardInformations.CurrentPosition = TemporatyBoard(BoardInformations.CurrentPosition, prePos, position);
-                    SetBoard(BoardInformations.CurrentPosition, null, isWhite);
-                    if (AI.IsStalemate(BoardInformations.CurrentPosition, !isWhite) && AI.IsCheck(BoardInformations.CurrentPosition, !isWhite))
+                    currentPosition = TemporatyBoard(currentPosition, prePos, position);
+                    SetBoard(currentPosition, null, IsWhite);
+                    if (AI.IsStalemate(currentPosition, !IsWhite) && AI.IsCheck(currentPosition, !IsWhite))
                         MessageBox.Show("Congrats!! It is checkmate :)");
                     else
                     {
-                        //Opponent move
+                        //Opponent move    
 
+                        Stopwatch sw = new Stopwatch();
+
+                        sw.Start();
+                        AI.ListOfPossibleSteps = new Dictionary<BoardNode, int>();
+                        AI.StartDepth = 3;
+
+
+                        if (Memory.Root == null)
+                        {
+                            Memory.Root = new BoardNode();
+                            Memory.Root.Board = currentPosition;
+                        }
+                        else
+                        {
+                            //Delete memory                          
+                            selectedNode = Memory.Root.Nodes.FirstOrDefault(x => x.Board.SequenceEqual(currentPosition));
+                            if (selectedNode != null)
+                            {
+                                var index = Memory.Root.Nodes.ToList<BoardNode>().IndexOf(selectedNode);
+                                Memory.Root = Memory.Root.Nodes.ElementAt(index);
+                            }
+                            else
+                                throw new Exception("Can't delete the memory");
+                        }
+
+
+                        AI.AlphaBeta2(Memory.Root, 3, int.MinValue, int.MaxValue, !IsWhite);
+                        sw.Stop();
+                        MessageBox.Show($"{sw.Elapsed.TotalMinutes} minutes. {Memory.Root.Nodes.Count}");
+
+                        var step = IsWhite ? AI.ListOfPossibleSteps.First(y => y.Value == AI.ListOfPossibleSteps.Min(x => x.Value)).Key : AI.ListOfPossibleSteps.First(y => y.Value == AI.ListOfPossibleSteps.Max(x => x.Value)).Key;
+
+                        currentPosition = step.Board;
+                        SetBoard(currentPosition, null, IsWhite);
+
+                        //Delete Memory
+                        selectedNode = Memory.Root.Nodes.FirstOrDefault(x => x.Board.SequenceEqual(step.Board) && x.Nodes == step.Nodes);
+                        if (selectedNode != null)
+                        {
+                            var index = Memory.Root.Nodes.ToList<BoardNode>().IndexOf(selectedNode);
+                            Memory.Root = Memory.Root.Nodes.ElementAt(index);
+                        }
+                        else
+                            throw new Exception("Can't delete the memory");
                     }
                 }
                 else
@@ -228,17 +282,17 @@ namespace Chess_Combination_Generator.UI
         {
             bool _isWhite = BoardInformations.WhitePieces.Contains(type);
             ClearBoard(false);
-            var steps = PossibleSteps.WithKing(BoardInformations.CurrentPosition, currentPiecePos, _isWhite);
+            var steps = PossibleSteps.WithKing(currentPosition, currentPiecePos, _isWhite);
             if (steps != null)
             {
                 //Filter
-                var otherKingPos = PossibleSteps.WhereIsTheKing(BoardInformations.CurrentPosition, !_isWhite);
-                var coloredField = steps.Select(x => Array.IndexOf(BoardInformations.InsideBoard, (byte)x));
-                var opponentPosibbleSteps = PossibleSteps.AllPiece(BoardInformations.CurrentPosition, !_isWhite);
-                var b = coloredField.Where(x => !AI.IsCheck(TemporatyBoard(BoardInformations.CurrentPosition, currentPiecePos, BoardInformations.InsideBoard[(byte)x]), _isWhite));
+                var otherKingPos = PossibleSteps.WhereIsTheKing(currentPosition, !_isWhite);
+                var coloredField = steps.Select(x => Array.IndexOf(BoardInformations.InsideBoard.ToArray(), (byte)x));
+                var opponentPosibbleSteps = PossibleSteps.AllPiece(currentPosition, !_isWhite);
+                var b = coloredField.Where(x => !AI.IsCheck(TemporatyBoard(currentPosition, currentPiecePos, BoardInformations.InsideBoard.ElementAt((byte)x)), _isWhite));
                 if (b.Count() > 0)
                     foreach (Label child in fields.Children)
-                        if (b.Contains(this.isWhite ? int.Parse(child.Name.Substring(1)) : 63 - int.Parse(child.Name.Substring(1))))
+                        if (b.Contains(this.IsWhite ? int.Parse(child.Name.Substring(1)) : 63 - int.Parse(child.Name.Substring(1))))
                             child.Background = new SolidColorBrush(Colors.Yellow);
             }
         }
@@ -259,15 +313,15 @@ namespace Chess_Combination_Generator.UI
             var steps =
                 type == FieldType.BlackRook || type == FieldType.WhiteRook || type == FieldType.BlackBishop || type == FieldType.WhiteBishop || type == FieldType.WhiteQueen || type == FieldType.BlackQueen
                 ?
-                PossibleSteps.WithPiece(BoardInformations.CurrentPosition, currentPiecePos, WhichPieceSteps(type), _isWhite)
+                PossibleSteps.WithPiece(currentPosition, currentPiecePos, WhichPieceSteps(type), _isWhite)
                 :
                 type == FieldType.BlackKnight || type == FieldType.WhiteKnight
                 ?
-                PossibleSteps.WithKnight(BoardInformations.CurrentPosition, currentPiecePos, _isWhite)
+                PossibleSteps.WithKnight(currentPosition, currentPiecePos, _isWhite)
                 :
                 type == FieldType.BlackPawn || type == FieldType.WhitePawn
                 ?
-                PossibleSteps.WithPawn(BoardInformations.CurrentPosition, currentPiecePos, _isWhite)
+                PossibleSteps.WithPawn(currentPosition, currentPiecePos, _isWhite)
                 :
                 null;
             if (steps != null)
@@ -275,16 +329,16 @@ namespace Chess_Combination_Generator.UI
                 var coloredField = steps.Select(x => BoardInformations.InsideBoard.ToList().IndexOf(x));
                 if (coloredField.Count() > 0)
                     foreach (Label child in fields.Children)
-                        if (coloredField.Contains(isWhite ? int.Parse(child.Name.Substring(1)) : 63 - int.Parse(child.Name.Substring(1)))) //global isWhite, becouse it is the board orientation
+                        if (coloredField.Contains(IsWhite ? int.Parse(child.Name.Substring(1)) : 63 - int.Parse(child.Name.Substring(1)))) //global isWhite, becouse it is the board orientation
                         {
-                            var tempBoard = TemporatyBoard(BoardInformations.CurrentPosition, currentPiecePos, BoardInformations.InsideBoard[isWhite ? byte.Parse(child.Name.Substring(1)) : 63 - byte.Parse(child.Name.Substring(1))]);
+                            var tempBoard = TemporatyBoard(currentPosition, currentPiecePos, BoardInformations.InsideBoard.ElementAt(IsWhite ? byte.Parse(child.Name.Substring(1)) : 63 - byte.Parse(child.Name.Substring(1))));
                             if (!AI.IsCheck(tempBoard, _isWhite))
                                 child.Background = new SolidColorBrush(Colors.Yellow);
                         }
             }
         }
 
-        int[] WhichPieceSteps(FieldType type)
+        HashSet<int> WhichPieceSteps(FieldType type)
         {
             switch (type)
             {
@@ -304,25 +358,28 @@ namespace Chess_Combination_Generator.UI
 
         private void FieldMouseMove(object sender, MouseEventArgs e)
         {
+            if (currentPosition == null)
+                return;
+
             var currentLabel = ((Label)sender);
             var fieldNumber = int.Parse(currentLabel.Name.Substring(1));
-            if (!isWhite)
+            if (!IsWhite)
                 fieldNumber = 63 - fieldNumber;
-            var position = BoardInformations.InsideBoard[fieldNumber];
-            if (isWhite)
+            var position = BoardInformations.InsideBoard.ElementAt(fieldNumber);
+            if (IsWhite)
             {
-                if (!BoardInformations.WhitePieces.Contains(BoardInformations.CurrentPosition[position]))
+                if (!BoardInformations.WhitePieces.Contains(currentPosition[position]))
                     return;
                 else
                 {
                     currentLabel.Cursor = Cursors.Hand;
-                    currentLabel.BorderBrush = new SolidColorBrush(Colors.LightBlue);
+                    currentLabel.BorderBrush = new SolidColorBrush(Colors.Blue);
                     currentLabel.BorderThickness = new Thickness(2);
                 }
             }
             else
             {
-                if (!BoardInformations.BlackPieces.Contains(BoardInformations.CurrentPosition[position]))
+                if (!BoardInformations.BlackPieces.Contains(currentPosition[position]))
                     return;
                 else
                 {

@@ -15,20 +15,20 @@ namespace Chess_Combination_Generator
         {
             Random rnd = new Random();
             var index = rnd.Next(0, 63);
-            board[BoardInformations.InsideBoard[index]] = FieldType.WhiteKing;
+            board[BoardInformations.InsideBoard.ElementAt(index)] = FieldType.WhiteKing;
 
             var isComplete = false;
             var index2 = rnd.Next(0, 63);
             while (!isComplete)
             {
-                if (index2 != index && !PossibleSteps.IsOtherKingNear(BoardInformations.InsideBoard[index], BoardInformations.InsideBoard[index2]))
+                if (index2 != index && !PossibleSteps.IsOtherKingNear(BoardInformations.InsideBoard.ElementAt(index), BoardInformations.InsideBoard.ElementAt(index2)))
                     isComplete = true;
                 else
                     index2 = rnd.Next(0, 63);
             }
-            board[BoardInformations.InsideBoard[index2]] = FieldType.BlackKing;
-            Pieces.Add(BoardInformations.InsideBoard[index]);
-            Pieces.Add(BoardInformations.InsideBoard[index2]);
+            board[BoardInformations.InsideBoard.ElementAt(index2)] = FieldType.BlackKing;
+            Pieces.Add(BoardInformations.InsideBoard.ElementAt(index));
+            Pieces.Add(BoardInformations.InsideBoard.ElementAt(index2));
         }
 
         static void Rooks(FieldType[] board, int number, bool isWhite = true)
@@ -41,10 +41,10 @@ namespace Chess_Combination_Generator
             var index = rnd.Next(0, 63);
             while (!isComplete)
             {
-                if (!Pieces.Contains(BoardInformations.InsideBoard[index]))
+                if (!Pieces.Contains(BoardInformations.InsideBoard.ElementAt(index)))
                 {
-                    board[BoardInformations.InsideBoard[index]] = isWhite ? FieldType.WhiteRook : FieldType.BlackRook;
-                    Pieces.Add(BoardInformations.InsideBoard[index]);
+                    board[BoardInformations.InsideBoard.ElementAt(index)] = isWhite ? FieldType.WhiteRook : FieldType.BlackRook;
+                    Pieces.Add(BoardInformations.InsideBoard.ElementAt(index));
                     numberOfRook++;
                     if (numberOfRook == number)
                         isComplete = true;
@@ -64,10 +64,10 @@ namespace Chess_Combination_Generator
             var index = rnd.Next(0, 63);
             while (!isComplete)
             {
-                if (!Pieces.Contains(BoardInformations.InsideBoard[index]))
+                if (!Pieces.Contains(BoardInformations.InsideBoard.ElementAt(index)))
                 {
-                    board[BoardInformations.InsideBoard[index]] = isWhite ? FieldType.WhiteKnight : FieldType.BlackKnight;
-                    Pieces.Add(BoardInformations.InsideBoard[index]);
+                    board[BoardInformations.InsideBoard.ElementAt(index)] = isWhite ? FieldType.WhiteKnight : FieldType.BlackKnight;
+                    Pieces.Add(BoardInformations.InsideBoard.ElementAt(index));
                     numberOfKnight++;
                     if (numberOfKnight == number)
                         isComplete = true;
@@ -87,10 +87,10 @@ namespace Chess_Combination_Generator
             var index = rnd.Next(0, 63);
             while (!isComplete)
             {
-                if (!Pieces.Contains(BoardInformations.InsideBoard[index]))
+                if (!Pieces.Contains(BoardInformations.InsideBoard.ElementAt(index)))
                 {
-                    board[BoardInformations.InsideBoard[index]] = isWhite ? FieldType.WhiteBishop : FieldType.BlackBishop;
-                    Pieces.Add(BoardInformations.InsideBoard[index]);
+                    board[BoardInformations.InsideBoard.ElementAt(index)] = isWhite ? FieldType.WhiteBishop : FieldType.BlackBishop;
+                    Pieces.Add(BoardInformations.InsideBoard.ElementAt(index));
                     numberOfBishop++;
                     if (numberOfBishop == number)
                         isComplete = true;
@@ -110,10 +110,10 @@ namespace Chess_Combination_Generator
             var index = rnd.Next(0, 63);
             while (!isComplete)
             {
-                if (!Pieces.Contains(BoardInformations.InsideBoard[index]))
+                if (!Pieces.Contains(BoardInformations.InsideBoard.ElementAt(index)))
                 {
-                    board[BoardInformations.InsideBoard[index]] = isWhite ? FieldType.WhiteQueen : FieldType.BlackQueen;
-                    Pieces.Add(BoardInformations.InsideBoard[index]);
+                    board[BoardInformations.InsideBoard.ElementAt(index)] = isWhite ? FieldType.WhiteQueen : FieldType.BlackQueen;
+                    Pieces.Add(BoardInformations.InsideBoard.ElementAt(index));
                     numberOfQueen++;
                     if (numberOfQueen == number)
                         isComplete = true;
@@ -133,10 +133,10 @@ namespace Chess_Combination_Generator
             var index = rnd.Next(0, 63);
             while (!isComplete)
             {
-                if (!BoardInformations.RowOneEight.Contains(BoardInformations.InsideBoard[index]) && !Pieces.Contains(BoardInformations.InsideBoard[index]))
+                if (!BoardInformations.RowOneEight.Contains(BoardInformations.InsideBoard.ElementAt(index)) && !Pieces.Contains(BoardInformations.InsideBoard.ElementAt(index)))
                 {
-                    board[BoardInformations.InsideBoard[index]] = isWhite ? FieldType.WhitePawn : FieldType.BlackPawn;
-                    Pieces.Add(BoardInformations.InsideBoard[index]);
+                    board[BoardInformations.InsideBoard.ElementAt(index)] = isWhite ? FieldType.WhitePawn : FieldType.BlackPawn;
+                    Pieces.Add(BoardInformations.InsideBoard.ElementAt(index));
                     numberOfPawn++;
                     if (numberOfPawn == number)
                         isComplete = true;
@@ -181,11 +181,14 @@ namespace Chess_Combination_Generator
             });
             Pieces = null;
 
-            //StepAndValue SAV = new StepAndValue(0, 0, FieldType.Frame, 0, new List<StepAndValue>());
-            var value = AI.AlphaBeta(board, level, int.MinValue, int.MaxValue, isWhite);//, SAV);
+            //TODO: TEST
+            //AI.ListOfPossibleSteps = new Dictionary<StepAndValue, int>();
+            //AI.StartDepth = level;
+
+            var value = AI.AlphaBeta(board, level, int.MinValue, int.MaxValue, isWhite);
             var searchedValue = isWhite ? int.MaxValue : int.MinValue;
 
-            if ((!checkIsOk && (AI.IsCheck(board) || AI.IsCheck(board, false)) || value != searchedValue))//SAV.Children.First(y => y.EvaluatedValue == SAV.Children.Min(x => x.EvaluatedValue)).EvaluatedValue != int.MinValue))
+            if ((!checkIsOk && (AI.IsCheck(board) || AI.IsCheck(board, false)) || value != searchedValue))
                 return new ReturnValues() { Fen = "", IsCorrect = false };
             else
                 return new ReturnValues() { Fen = BoardInformations.GetFEN(board, isWhite), IsCorrect = true };

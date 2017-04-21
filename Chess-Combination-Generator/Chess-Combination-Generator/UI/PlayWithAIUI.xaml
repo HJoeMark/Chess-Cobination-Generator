@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Chess_Combination_Generator.UI.PlayWithAIUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chess_Combination_Generator.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Viewbox x:Name="container_grid"  >
+            <Canvas Height="500" Width="500">
+                <local:BoardUI x:Name="board" Height="500" Width="500"/>
+            </Canvas>
+        </Viewbox>
+        <StackPanel Grid.Column="1">
+            <Button x:Name="changeSide_btn" Content="Change side" Click="changeSide_btn_Click"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

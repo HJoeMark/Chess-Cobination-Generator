@@ -28,7 +28,7 @@ namespace Chess_Combination_Generator
     {
         public static FieldType[] CurrentPosition;
 
-        public static byte[] InsideBoard = new byte[] {
+        public static HashSet<byte> InsideBoard = new HashSet<byte>  {
             26,27,28,29,30,31,32,33,
             38,39,40,41,42,43,44,45,
             50,51,52,53,54,55,56,57,
@@ -54,7 +54,7 @@ namespace Chess_Combination_Generator
         //    132,133,134,135,136,137,138,139,140,141,142,143
         //};
 
-        public static byte[] WhiteFields = new byte[] {
+        public static HashSet<byte> WhiteFields = new HashSet<byte> {
             26,28,30,32,
             39,41,43,45,
             50,52,54,56,
@@ -65,13 +65,13 @@ namespace Chess_Combination_Generator
             111,113,115,117
         };
 
-        public static int[] WhitePawnBasicState = new int[] { 98, 99, 100, 101, 102, 103, 104, 105 };
-        public static int[] BlackPawnBasicState = new int[] { 38, 39, 40, 41, 42, 43, 44, 45 };
+        public static HashSet<int> WhitePawnBasicState = new HashSet<int> { 98, 99, 100, 101, 102, 103, 104, 105 };
+        public static HashSet<int> BlackPawnBasicState = new HashSet<int> { 38, 39, 40, 41, 42, 43, 44, 45 };
 
         public static int[] RowOneEight = new int[] { 26, 27, 28, 29, 30, 31, 32, 33, 110, 111, 112, 113, 114, 115, 116, 117 };
 
-        public static FieldType[] WhitePieces = new FieldType[] { FieldType.WhiteKing, FieldType.WhiteQueen, FieldType.WhiteRook, FieldType.WhiteKnight, FieldType.WhiteBishop, FieldType.WhitePawn };
-        public static FieldType[] BlackPieces = new FieldType[] { FieldType.BlackKing, FieldType.BlackQueen, FieldType.BlackRook, FieldType.BlackKnight, FieldType.BlackBishop, FieldType.BlackPawn };
+        public static HashSet<FieldType> WhitePieces = new HashSet<FieldType> { FieldType.WhiteKing, FieldType.WhiteQueen, FieldType.WhiteRook, FieldType.WhiteKnight, FieldType.WhiteBishop, FieldType.WhitePawn };
+        public static HashSet<FieldType> BlackPieces = new HashSet<FieldType> { FieldType.BlackKing, FieldType.BlackQueen, FieldType.BlackRook, FieldType.BlackKnight, FieldType.BlackBishop, FieldType.BlackPawn };
 
         public static char[] Columns = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
 
@@ -241,9 +241,9 @@ namespace Chess_Combination_Generator
         public static void BasicPosition()
         {
             BoardInformations.CurrentPosition = new FieldType[144];
-            for (byte i = 0; i < BoardInformations.InsideBoard.Length; i++)
+            for (byte i = 0; i < BoardInformations.InsideBoard.Count; i++)
             {
-                BoardInformations.CurrentPosition[BoardInformations.InsideBoard[i]] = FieldType.Empty;
+                BoardInformations.CurrentPosition[BoardInformations.InsideBoard.ElementAt(i)] = FieldType.Empty;
             }
 
             //BoardInformations.WhiteKingPosition = 26;
@@ -276,6 +276,42 @@ namespace Chess_Combination_Generator
                 };
             }
         }
-        
+
+        public static FieldType[] DefaultBoard
+        {
+            get
+            {
+                return new FieldType[] {
+                    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.BlackRook,FieldType.BlackKnight,FieldType.BlackBishop,FieldType.BlackQueen,FieldType.BlackKing,FieldType.BlackBishop,FieldType.BlackKnight,FieldType.BlackRook,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.BlackPawn,FieldType.BlackPawn,FieldType.BlackPawn,FieldType.BlackPawn,FieldType.BlackPawn,FieldType.BlackPawn,FieldType.BlackPawn,FieldType.BlackPawn,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.WhitePawn,FieldType.WhitePawn,FieldType.WhitePawn,FieldType.WhitePawn,FieldType.WhitePawn,FieldType.WhitePawn,FieldType.WhitePawn,FieldType.WhitePawn,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.WhiteRook,FieldType.WhiteKnight,FieldType.WhiteBishop,FieldType.WhiteQueen,FieldType.WhiteKing,FieldType.WhiteBishop,FieldType.WhiteKnight,FieldType.WhiteRook,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,
+                    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame
+                };
+
+                //return new FieldType[] {
+                //    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,
+                //    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,                
+                //    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                //    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                //    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                //    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                //    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                //    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                //    FieldType.Frame,FieldType.Frame,FieldType.WhitePawn,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,
+                //    FieldType.Frame,FieldType.Frame,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Empty,FieldType.Frame,FieldType.Frame,               
+                //    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,
+                //    FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame,FieldType.Frame
+                //};
+            }
+        }
+
     }
 }

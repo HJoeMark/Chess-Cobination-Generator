@@ -28,6 +28,7 @@ namespace Chess_Combination_Generator.UI
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
             this.Loaded += Viewer_Loaded;
+            Memory.Root = null;
         }
 
         private void Viewer_Loaded(object sender, RoutedEventArgs e)
@@ -53,6 +54,7 @@ namespace Chess_Combination_Generator.UI
         {
             BoardInformations.SetBoard(BoardInformations.CurrentPosition, fens_lbox.SelectedItem.ToString());
             board.SetBoard(BoardInformations.CurrentPosition, null, fens_lbox.SelectedItem.ToString().Contains('w') ? true : false);
+            Memory.Root = null;
         }
 
         private void fens_lbox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -95,5 +97,6 @@ namespace Chess_Combination_Generator.UI
             }
             MessageBox.Show("Complete", "Image saving", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
     }
 }

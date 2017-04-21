@@ -62,6 +62,7 @@
     <Compile Include="BoardInformations.cs" />
     <Compile Include="Evaluator.cs" />
     <Compile Include="Generator.cs" />
+    <Compile Include="Memory.cs" />
     <Compile Include="Model\GenerationModel.cs" />
     <Compile Include="Model\SettingsModel.cs" />
     <Compile Include="PossibleSteps.cs" />
@@ -71,6 +72,9 @@
     </Compile>
     <Compile Include="UI\GeneratorUI.xaml.cs">
       <DependentUpon>GeneratorUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PlayWithAIUI.xaml.cs">
+      <DependentUpon>PlayWithAIUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SettingsUI.xaml.cs">
       <DependentUpon>SettingsUI.xaml</DependentUpon>
@@ -95,6 +99,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\GeneratorUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\PlayWithAIUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

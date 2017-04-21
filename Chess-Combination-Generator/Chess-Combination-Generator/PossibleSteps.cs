@@ -9,35 +9,7 @@ namespace Chess_Combination_Generator
 {
     //TODO: Steps functions may be combined
     public static class PossibleSteps
-    {
-        //static byte[] WithKing(FieldType[] board, byte? wKingPos, byte? bKingPos, bool isWhite = true)
-        //{
-        //    List<byte> result = new List<byte>();
-        //    byte newPos;
-        //    if (isWhite) //WHITE
-        //    {
-        //        //UP -13,-12,-11
-        //        //LEFT -1
-        //        //RIGHT +1
-        //        //DOWN +11,+12,+13
-        //        foreach (var item in KingSteps)
-        //        {
-        //            newPos = (byte)(wKingPos - item);
-        //            if (!BoardInformations.Frame.Contains(newPos) && (board[newPos] == FieldType.Empty || BoardInformations.BlackPieces.Contains(board[newPos])))//(byte)board[newPos] > 7))
-        //                result.Add(newPos);
-        //        }
-        //    }
-        //    else //BLACK
-        //        foreach (var item in KingSteps)
-        //        {
-        //            newPos = (byte)(bKingPos - item);
-        //            if (!BoardInformations.Frame.Contains(newPos) && (board[newPos] == FieldType.Empty || BoardInformations.WhitePieces.Contains(board[newPos])))//((byte)board[newPos] > 1 && (byte)board[newPos] < 8)) )
-        //                result.Add(newPos);
-        //        }
-
-        //    return result.ToArray();
-        //}
-
+    {      
         #region With Position
 
         public static byte[] WithKing(FieldType[] board, byte kingPos, bool isWhite = true)
@@ -50,7 +22,7 @@ namespace Chess_Combination_Generator
                 foreach (var item in KingSteps)
                 {
                     newPos = (byte)(kingPos - item);
-                    if (/*!BoardInformations.Frame.Contains(newPos) && */(board[newPos] == FieldType.Empty || BoardInformations.BlackPieces.Contains(board[newPos])))// (byte)board[newPos] > 8))
+                    if ((board[newPos] == FieldType.Empty || BoardInformations.BlackPieces.Contains(board[newPos])))
                         result.Add(newPos);
                 }
             }
@@ -58,7 +30,7 @@ namespace Chess_Combination_Generator
                 foreach (var item in KingSteps)
                 {
                     newPos = (byte)(kingPos - item);
-                    if (/*!BoardInformations.Frame.Contains(newPos) &&*/ (board[newPos] == FieldType.Empty || BoardInformations.WhitePieces.Contains(board[newPos])))// ((byte)board[newPos] > 2 && (byte)board[newPos] < 8)))
+                    if ((board[newPos] == FieldType.Empty || BoardInformations.WhitePieces.Contains(board[newPos])))
                         result.Add(newPos);
                 }
 
@@ -89,7 +61,7 @@ namespace Chess_Combination_Generator
             return result.ToArray();
         }
 
-        public static byte[] WithPiece(FieldType[] board, byte piecePos, int[] steps, bool isWhite = true)
+        public static byte[] WithPiece(FieldType[] board, byte piecePos, HashSet<int> steps, bool isWhite = true)
         {
             List<byte> result = new List<byte>();
             int newPos;
@@ -106,7 +78,6 @@ namespace Chess_Combination_Generator
                             result.Add((byte)newPos);
                             continue;
                         }
-                        //if ((byte)board[newPos] > 7)
                         if (BoardInformations.BlackPieces.Contains(board[newPos]))
                         {
                             result.Add((byte)newPos);
@@ -129,7 +100,6 @@ namespace Chess_Combination_Generator
                             result.Add((byte)newPos);
                             continue;
                         }
-                        //if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
                         if (BoardInformations.WhitePieces.Contains(board[newPos]))
                         {
                             result.Add((byte)newPos);
@@ -154,16 +124,14 @@ namespace Chess_Combination_Generator
                 if (board[newPos] == FieldType.Empty)
                 {
                     result.Add(newPos);
-                    newPos = (byte)(pawnPos - 12);
+                    newPos -= 12;
                     if (BoardInformations.WhitePawnBasicState.Contains(pawnPos) && board[newPos] == FieldType.Empty)
                         result.Add(newPos);
                 }
                 newPos = (byte)(pawnPos - 13);
-                //if (((byte)board[newPos] > 7))
                 if (BoardInformations.BlackPieces.Contains(board[newPos]))
                     result.Add(newPos);
                 newPos = (byte)(pawnPos - 11);
-                //if (((byte)board[newPos] > 7))
                 if (BoardInformations.BlackPieces.Contains(board[newPos]))
                     result.Add(newPos);
             }
@@ -173,16 +141,14 @@ namespace Chess_Combination_Generator
                 if (board[newPos] == FieldType.Empty)
                 {
                     result.Add(newPos);
-                    newPos = (byte)(pawnPos + 12);
+                    newPos += 12;
                     if (BoardInformations.BlackPawnBasicState.Contains(pawnPos) && board[newPos] == FieldType.Empty)
                         result.Add(newPos);
                 }
                 newPos = (byte)(pawnPos + 13);
-                //if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
                 if (BoardInformations.WhitePieces.Contains(board[newPos]))
                     result.Add(newPos);
                 newPos = (byte)(pawnPos + 11);
-                //if (((byte)board[newPos] > 1 && (byte)board[newPos] < 8))
                 if (BoardInformations.WhitePieces.Contains(board[newPos]))
                     result.Add(newPos);
             }
@@ -341,11 +307,11 @@ namespace Chess_Combination_Generator
             return false;
         }
 
-        public static int[] KingSteps = new int[] { -13, -12, -11, -1, 1, 11, 12, 13 };
-        public static int[] RookSteps = new int[] { -12, -1, 1, 12 };
-        public static int[] KnightSteps = new int[] { -25, -23, -14, -10, 10, 14, 23, 25 };
-        public static int[] BishopSteps = new int[] { -13, -11, 11, 13 };
-        public static int[] QueenSteps = new int[] { -13, -12, -11, -1, 1, 12, 11, 13 };
+        public static HashSet<int> KingSteps = new HashSet<int> { -13, -12, -11, -1, 1, 11, 12, 13 };
+        public static HashSet<int> RookSteps = new HashSet<int> { -12, -1, 1, 12 };
+        public static HashSet<int> KnightSteps = new HashSet<int> { -25, -23, -14, -10, 10, 14, 23, 25 };
+        public static HashSet<int> BishopSteps = new HashSet<int> { -13, -11, 11, 13 };
+        public static HashSet<int> QueenSteps = new HashSet<int> { -13, -12, -11, -1, 1, 12, 11, 13 };
 
         public static byte WhereIsTheKing(FieldType[] board, bool isWhite = true)
         {
