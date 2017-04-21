@@ -301,7 +301,10 @@ namespace Chess_Combination_Generator.UI
         {
             var copyBoard = new FieldType[144];
             Array.Copy(currentBoard, copyBoard, 144);
-            copyBoard[newFigPos] = copyBoard[currentFigPos];
+            //TODO: always queen
+            copyBoard[newFigPos] =
+                copyBoard[currentFigPos] == FieldType.BlackPawn && BoardInformations.WhitePawnBasicState.Contains(currentFigPos) ? FieldType.BlackQueen :
+                copyBoard[currentFigPos] == FieldType.WhitePawn && BoardInformations.BlackPawnBasicState.Contains(currentFigPos) ? FieldType.WhiteQueen : copyBoard[currentFigPos];
             copyBoard[currentFigPos] = FieldType.Empty;
             return copyBoard;
         }
