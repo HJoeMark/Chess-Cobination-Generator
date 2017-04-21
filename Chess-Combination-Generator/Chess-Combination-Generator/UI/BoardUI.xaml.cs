@@ -253,7 +253,7 @@ namespace Chess_Combination_Generator.UI
 
                         AI.AlphaBeta2(Memory.Root, 3, int.MinValue, int.MaxValue, !IsWhite);
                         sw.Stop();
-                        MessageBox.Show($"{sw.Elapsed.TotalMinutes} minutes. {Memory.Root.Nodes.Count}");
+                        //MessageBox.Show($"{sw.Elapsed.TotalMinutes} minutes. {Memory.Root.Nodes.Count}");
 
                         var step = IsWhite ? AI.ListOfPossibleSteps.First(y => y.Value == AI.ListOfPossibleSteps.Min(x => x.Value)).Key : AI.ListOfPossibleSteps.First(y => y.Value == AI.ListOfPossibleSteps.Max(x => x.Value)).Key;
 
