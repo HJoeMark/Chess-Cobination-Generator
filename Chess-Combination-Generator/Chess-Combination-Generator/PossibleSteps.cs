@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Chess_Combination_Generator
-{
-    //TODO: Steps functions may be combined
+{ 
     public static class PossibleSteps
     {      
         #region With Position

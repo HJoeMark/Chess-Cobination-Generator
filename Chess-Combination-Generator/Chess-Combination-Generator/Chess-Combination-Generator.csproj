@@ -64,9 +64,7 @@
     <Compile Include="Generator.cs" />
     <Compile Include="Memory.cs" />
     <Compile Include="Model\GenerationModel.cs" />
-    <Compile Include="Model\SettingsModel.cs" />
     <Compile Include="PossibleSteps.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="UI\BoardUI.xaml.cs">
       <DependentUpon>BoardUI.xaml</DependentUpon>
     </Compile>
@@ -75,9 +73,6 @@
     </Compile>
     <Compile Include="UI\PlayWithAIUI.xaml.cs">
       <DependentUpon>PlayWithAIUI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SettingsUI.xaml.cs">
-      <DependentUpon>SettingsUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ViewerUI.xaml.cs">
       <DependentUpon>ViewerUI.xaml</DependentUpon>
@@ -103,10 +98,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\PlayWithAIUI.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\SettingsUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,6 +156,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Documentation\Program\ViewerUI.PNG" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\BoardIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

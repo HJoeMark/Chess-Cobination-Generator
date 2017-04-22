@@ -148,7 +148,7 @@ namespace Chess_Combination_Generator
             }
             result += empty > 0 ? (empty + "") : "";
             //I think the last two member are not important
-            return result + (isWhite ? " w" : " b") + " 0" + " 0";
+            return result + (isWhite ? " w" : " b"); //+ " 0" + " 0";
         }
 
         public static void SetBoard(FieldType[] board, string fen)

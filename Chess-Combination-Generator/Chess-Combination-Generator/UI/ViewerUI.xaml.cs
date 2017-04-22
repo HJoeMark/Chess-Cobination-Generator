@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -37,11 +38,29 @@ namespace Chess_Combination_Generator.UI
             {
                 List<string> fens = new List<string>();
                 if (Directory.Exists("Fens"))
+                {
                     foreach (var file in Directory.GetFiles("Fens"))
                         if (System.IO.Path.GetExtension(file) == ".txt")
                             foreach (string line in File.ReadLines(file))
                                 fens.Add(line);
 
+                    //merges db
+                    if (Directory.GetFiles("Fens").Count() > 1)
+                    {
+                        //Delete old files
+                        foreach (var file in Directory.GetFiles("Fens"))
+                            File.Delete(file);
+
+                        //Create new file
+                        var fensList = fens.Distinct().ToList();
+                        using (StreamWriter file = new System.IO.StreamWriter("Fens/fens" + DateTime.Now.Ticks + ".txt"))
+                        {
+                            foreach (string line in fensList)
+                                file.WriteLine(line);
+                        }
+                    }
+                    fens_lbox.SelectedIndex = 0;
+                }
                 fens_lbox.ItemsSource = fens.Distinct().ToList();
             }
             catch (Exception ex)
@@ -91,12 +110,22 @@ namespace Chess_Combination_Generator.UI
             PngBitmapEncoder png = new PngBitmapEncoder();
             png.Frames.Add(BitmapFrame.Create(rtb));
 
-            using (Stream fileStream = new FileStream("c_" + DateTime.Now.Ticks + ".png", FileMode.Create))
+            if (!Directory.Exists("Images"))
+                Directory.CreateDirectory("Images");
+
+            using (Stream fileStream = new FileStream($@"Images\c_{DateTime.Now.Ticks}.png", FileMode.Create))
             {
                 png.Save(fileStream);
             }
             MessageBox.Show("Complete", "Image saving", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        private void openImagesFolder_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (Directory.Exists("Images"))
+                Process.Start("Images");
+            else
+                MessageBox.Show("You haven't got any images yet.", "Images not found", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }

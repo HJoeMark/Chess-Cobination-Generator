@@ -28,6 +28,9 @@ namespace Chess_Combination_Generator.UI
         byte prePos;
         FieldType[] currentPosition;
 
+        private SolidColorBrush whiteField = new SolidColorBrush(Colors.White);
+        private SolidColorBrush blackField = new SolidColorBrush(Colors.Gray);
+
 
         public BoardUI()
         {
@@ -37,9 +40,7 @@ namespace Chess_Combination_Generator.UI
 
         private void Board_Loaded(object sender, RoutedEventArgs e)
         {
-            //LOAD RESOURCES
-            this.Resources["White"] = Settings.WhiteField;
-            this.Resources["Black"] = Settings.BlackField;
+            //init
             IsWhite = true;
         }
 
@@ -167,10 +168,10 @@ namespace Chess_Combination_Generator.UI
                 if (widthPieces)
                     ((Label)field).Content = "";
                 if (BoardInformations.WhiteFields.Contains(item))
-                    ((Label)field).Background = Settings.WhiteField;
+                    ((Label)field).Background = whiteField;
 
                 else
-                    ((Label)field).Background = Settings.BlackField;
+                    ((Label)field).Background = blackField;
             }
         }
 
