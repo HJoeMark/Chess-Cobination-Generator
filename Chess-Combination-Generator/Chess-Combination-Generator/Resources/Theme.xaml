@@ -1,0 +1,65 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Chess_Combination_Generator.Resources"
+                    xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows">
+
+    <!--<Style TargetType="ListBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
+    <Style TargetType="ListBoxItem">
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="#f2f2f2" />
+        <Setter Property="BorderBrush" Value="#dcdcdc"/>
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="Foreground" Value="#8f8f8f"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Background="#e36781">
+
+                        </Grid>
+
+                        <ContentPresenter
+                              x:Name="contentPresenter"
+                              Grid.Column="1"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              Margin="{TemplateBinding Padding}"/>
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="Button" x:Key="random_btn_style">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="0" Background="#f2f2f2">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Fill="#8f8f8f"  Margin="5" Stretch="Uniform" Data="F1 M 0,17.52L 0,14.16L 2.54996,14.16C 3.40997,14.16 4.25,13.8937 5.06998,13.3612C 5.88995,12.8287 6.53125,12.285 6.99371,11.73C 7.45621,11.175 8.11746,10.3174 8.97748,9.15747C 9.96246,7.80746 10.7712,6.77872 11.4037,6.07123C 12.0363,5.36371 12.9738,4.65622 14.2162,3.94873C 15.4587,3.24121 16.775,2.88745 18.165,2.88745L 18.96,2.88745L 18.96,-3.05176e-005L 24,4.31995L 18.96,8.72247L 18.96,6.23999L 18.165,6.23999C 17.305,6.23999 16.4562,6.50494 15.6187,7.03497C 14.7813,7.56494 14.1287,8.10748 13.6613,8.66248C 13.1937,9.21747 12.53,10.075 11.67,11.235C 10.905,12.25 10.3075,13.0187 9.87747,13.5412C 9.44745,14.0637 8.82999,14.6875 8.02496,15.4125C 7.21997,16.1375 6.37247,16.67 5.48248,17.0099C 4.59247,17.35 3.61499,17.52 2.54996,17.52L 0,17.52 Z M 0,6.47998L 0,3.11996L 2.54996,3.11996C 4.72498,3.11996 6.74246,3.97247 8.60248,5.67749C 7.71246,6.82745 7.21997,7.48248 7.125,7.64246C 7,7.83746 6.80496,8.09497 6.53998,8.41498C 5.28998,7.12497 3.95999,6.47998 2.54996,6.47998L 0,6.47998 Z M 11.8575,14.985C 12.5925,14.045 13.17,13.2875 13.59,12.7125C 13.59,12.6775 13.6375,12.6037 13.7325,12.4912C 13.8275,12.3787 13.89,12.29 13.92,12.225C 15.325,13.675 16.74,14.4 18.165,14.4L 18.96,14.4L 18.96,11.9399L 24,16.3199L 18.96,20.64L 18.96,17.7599L 18.165,17.7599C 15.88,17.775 13.7775,16.85 11.8575,14.985 Z "/>
+                            <Label Content="Random" Foreground="#8f8f8f" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" />
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+</ResourceDictionary>

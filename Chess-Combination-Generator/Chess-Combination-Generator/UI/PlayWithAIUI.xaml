@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:Chess_Combination_Generator.UI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <Grid Background="#bcbfba">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Viewbox x:Name="container_grid"  >
+        <Viewbox x:Name="container_grid" Margin="5">
             <Canvas Height="500" Width="500">
                 <local:BoardUI x:Name="board" Height="500" Width="500"/>
             </Canvas>

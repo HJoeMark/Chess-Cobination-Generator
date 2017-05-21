@@ -70,7 +70,8 @@ namespace Chess_Combination_Generator.UI
                 bw.CancelAsync();
                 bw.Dispose();
                 bw = null;
-                generate_btn_lab.Content = "Start Generate";
+                // generate_btn_lab.Content = "Start Generate";
+                generate_btn.Content = "Start";
                 Save();
             }
             else
@@ -81,7 +82,9 @@ namespace Chess_Combination_Generator.UI
                 isStart = true;
                 bw = new BackgroundWorker();
                 bw.WorkerSupportsCancellation = true;
-                generate_btn_lab.Content = "Stop Generate";
+                //   generate_btn_lab.Content = "Stop Generate";
+                generate_btn.Content = "Stop";
+
                 bw.DoWork += (sender, args) =>
                 {
                     fenList = new List<string>();
@@ -118,7 +121,8 @@ namespace Chess_Combination_Generator.UI
                 {
                     if (args.Error != null)
                         MessageBox.Show(args.Error.ToString());
-                    generate_btn_lab.Content = "Start Generate";
+                    //generate_btn_lab.Content = "Start Generate";
+                    generate_btn.Content = "Start";
                     isStart = false;
 
                 };
