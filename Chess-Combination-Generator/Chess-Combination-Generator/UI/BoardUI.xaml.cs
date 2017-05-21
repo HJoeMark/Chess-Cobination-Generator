@@ -35,13 +35,6 @@ namespace Chess_Combination_Generator.UI
         public BoardUI()
         {
             InitializeComponent();
-            this.Loaded += Board_Loaded;
-        }
-
-        private void Board_Loaded(object sender, RoutedEventArgs e)
-        {
-            //init
-            IsWhite = true;
         }
 
         public void SetBoard(FieldType[] board, byte[] possibleSteps = null, bool _isWhite = true)

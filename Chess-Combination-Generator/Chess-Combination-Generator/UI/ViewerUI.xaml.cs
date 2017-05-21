@@ -69,24 +69,24 @@ namespace Chess_Combination_Generator.UI
             }
         }
 
-        private void fens_lbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Fens_lbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BoardInformations.SetBoard(BoardInformations.CurrentPosition, fens_lbox.SelectedItem.ToString());
             board.SetBoard(BoardInformations.CurrentPosition, null, fens_lbox.SelectedItem.ToString().Contains('w') ? true : false);
             Memory.Root = null;
         }
 
-        private void fens_lbox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void Fens_lbox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             fens_lbox.ContextMenu.Visibility = Visibility.Visible;
         }
 
-        private void copy_menuItem_Click(object sender, RoutedEventArgs e)
+        private void Copy_menuItem_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(fens_lbox.SelectedItem.ToString());
         }
 
-        private void random_btn_Click(object sender, RoutedEventArgs e)
+        private void Random_btn_Click(object sender, RoutedEventArgs e)
         {
             Random rnd = new Random();
             var index = rnd.Next(0, fens_lbox.Items.Count - 1);
@@ -94,7 +94,7 @@ namespace Chess_Combination_Generator.UI
             fens_lbox.ScrollIntoView(fens_lbox.SelectedItem);
         }
 
-        private void saveToImage_btn_Click(object sender, RoutedEventArgs e)
+        private void SaveToImage_btn_Click(object sender, RoutedEventArgs e)
         {
             UserControl control = this.board;
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)control.ActualWidth * 2, (int)control.ActualHeight * 2, 192, 192, PixelFormats.Pbgra32);
@@ -120,7 +120,7 @@ namespace Chess_Combination_Generator.UI
             MessageBox.Show("Complete", "Image saving", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void openImagesFolder_btn_Click(object sender, RoutedEventArgs e)
+        private void OpenImagesFolder_btn_Click(object sender, RoutedEventArgs e)
         {
             if (Directory.Exists("Images"))
                 Process.Start("Images");
